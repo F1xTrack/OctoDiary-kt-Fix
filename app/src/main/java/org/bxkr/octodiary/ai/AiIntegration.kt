@@ -60,13 +60,7 @@ class OpenAiLikeProvider : AiProvider {
         "gpt-4o" to "Лучший баланс точности и скорости, решает задачи по фото.",
         "gpt-4o-mini" to "Самый дешевый, быстро анализирует фото простых заданий.",
         "gpt-4-turbo" to "Высокая надежность в сложных темах, читает формулы и схемы.",
-        "anthropic/claude-3.5-sonnet" to "Очень точный в расчетах и заданиях, читает графики, средний бюджет.",
-        "anthropic/claude-3-opus" to "Высший класс для сложной логики, детальный анализ схем и чертежей.",
-        "google/gemini-2.0-flash-exp" to "Сильная логика, понимает фото и огромные объемы учебного материала.",
-        "google/gemini-flash-1.5" to "Дешевый и очень быстрый, анализирует изображения для быстрых ответов.",
-        "x-ai/grok-2-vision-1212" to "Мультимодальный, решает задачи с учетом данных в реальном времени.",
-        "meta-llama/llama-3.2-90b-vision-instruct" to "Одна из лучших бесплатных моделей, умеет работать с изображениями.",
-        "qwen/qwen-2-vl-72b-instruct" to "Мощный помощник, отлично работает с анализом текста и графиков."
+        "gpt-3.5-turbo" to "Быстрая и дешевая модель для простых задач."
     )
 }
 
@@ -79,17 +73,26 @@ class GeminiProvider : AiProvider {
     }
 
     override suspend fun solve(context: Context, taskText: String, model: String): String {
-        return withContext(Dispatchers.Default) {
-            delay(200)
-            "Автопилот решения пока не подключён. Провайдер: Gemini, модель: $model."
+        return try {
+            val response = OpenAiClient.complete(context, model, taskText)
+            // Try parse JSON response
+            try {
+                val json = com.google.gson.Gson().fromJson(response, Map::class.java)
+                val answer = json["final_answer"] as? String ?: response
+                val notes = json["notes"] as? String ?: ""
+                if (notes.isNotBlank()) "$answer\n\nШаги решения:\n$notes" else answer
+            } catch (_: Throwable) {
+                response
+            }
+        } catch (e: Exception) {
+            "Ошибка при вызове API: ${e.message}"
         }
     }
 
     override fun defaultModels() = listOf(
-        "gemini-2.5-pro" to "Самая мощная модель для сложных задач, кодинга и логики.",
-        "gemini-flash-latest" to "Гибридная модель с 1M токенов контекста и thinking budgets.",
-        "gemini-1.5-pro" to "Сильная логика, понимает фото и огромные объемы учебного материала.",
-        "gemini-1.5-flash" to "Дешевый и очень быстрый, анализирует изображения для быстрых ответов."
+        "gemini-1.5-pro" to "Самая мощная модель для сложных задач, кодинга и логики.",
+        "gemini-1.5-flash" to "Дешевый и очень быстрый, анализирует изображения для быстрых ответов.",
+        "gemini-1.0-pro" to "Базовая модель для простых задач."
     )
 }
 
@@ -117,7 +120,14 @@ class MistralProvider : AiProvider {
 object AiManager {
     fun getProvider(context: Context): AiProvider {
         val enabled = context.mainPrefs.get<String>("ai_provider") ?: "disabled"
-        return if (enabled == "disabled") DisabledProvider() else OpenAiLikeProvider()
+        return when (enabled) {
+            "disabled" -> DisabledProvider()
+            "openai" -> OpenAiLikeProvider()
+            "gemini" -> GeminiProvider()
+            "openrouter" -> OpenAiLikeProvider()
+            "custom" -> OpenAiLikeProvider()
+            else -> DisabledProvider()
+        }
     }
 
     fun getSelectedModel(context: Context, provider: AiProvider): String {

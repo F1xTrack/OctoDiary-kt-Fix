@@ -78,12 +78,12 @@ object OpenAiClient {
                 val provider = context.mainPrefs.get<String>("ai_provider") ?: "openai"
                 val model = when (provider) {
                     "openai" -> "gpt-4o-mini"
-                    "gemini" -> "gemini-flash-latest"
+                    "gemini" -> "gemini-1.5-flash"
                     "openrouter" -> "openai/gpt-4o-mini"
                     else -> "gpt-4o-mini"
                 }
                 
-                val result = complete(context, model, "Test: respond with 'OK'")
+                val result = complete(context, model, "Реши задачу: 2 + 2 = ?")
                 if (result.contains("Ошибка API")) {
                     false to result
                 } else {
@@ -116,24 +116,24 @@ object OpenAiClient {
                 model
             }
 
-            val systemPrompt = """You are an automated screen interaction assistant. Analyze the screenshot and return ONLY a JSON response with coordinates to click.
+            val systemPrompt = """You are a homework solving assistant. Solve the given homework task and return ONLY a JSON response with the following format:
 
-CRITICAL: Return ONLY valid JSON, no explanations, no markdown, no text outside JSON.
-
-Format:
-- To click: {"x": 123, "y": 456, "wait": 1500, "done": false}
-- To finish: {"done": true}
+{
+  "final_answer": "your final answer here",
+  "notes": "step-by-step solution explanation",
+  "time_seconds": 30
+}
 
 Rules:
-1. x, y are pixel coordinates to click on the screenshot
-2. wait is milliseconds to wait after click (200-15000)
-3. done=true only when task is completely finished
-4. If you cannot find anything to click, return {"done": true}
+1. final_answer: The correct answer to the homework task
+2. notes: Detailed step-by-step solution (optional but recommended)
+3. time_seconds: Estimated time to solve (5-120 seconds)
+4. Return ONLY valid JSON, no explanations, no markdown, no text outside JSON
+5. If you cannot solve the task, return {"final_answer": "Не могу решить это задание", "notes": "", "time_seconds": 10}
 
 Examples:
-{"x": 250, "y": 300, "wait": 1000, "done": false}
-{"x": 100, "y": 200, "wait": 2000, "done": false}
-{"done": true}
+{"final_answer": "42", "notes": "1) Формула: x = 2y + 10\n2) Подстановка: x = 2*16 + 10\n3) Ответ: 42", "time_seconds": 45}
+{"final_answer": "Москва", "notes": "Столица России", "time_seconds": 15}
 
 Task: $prompt""".trimMargin()
             
