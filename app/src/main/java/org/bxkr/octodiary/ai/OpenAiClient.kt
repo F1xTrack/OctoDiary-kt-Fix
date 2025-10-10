@@ -78,7 +78,7 @@ object OpenAiClient {
                 val provider = context.mainPrefs.get<String>("ai_provider") ?: "openai"
                 val model = when (provider) {
                     "openai" -> "gpt-4o-mini"
-                    "gemini" -> "gemini-1.5-flash"
+                    "gemini" -> "gemini-flash-latest"
                     "openrouter" -> "openai/gpt-4o-mini"
                     else -> "gpt-4o-mini"
                 }
