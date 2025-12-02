@@ -1,9 +1,6 @@
 # OctoDiary
 
-Android-клиент [МЭШ](https://school.mos.ru/)
-и [Моей школы МО](https://authedu.mosreg.ru/).  
-Использует Jetpack Compose.  
-Android 8.0+
+OctoDiary — это многокомпонентная система, разработанная для удобного доступа к информации из МЭШ и Моей школы МО. Проект включает в себя основное Android-приложение, встроенный контент-сервер на Node.js/TypeScript и React-компонент для NFC-анимации.
 
 &nbsp;
 
@@ -15,55 +12,50 @@ Android 8.0+
 <img src=https://github.com/OctoDiary/OctoDiary-kt/assets/66333241/0929a1e5-814a-4013-bb72-c8cd97b4d474 width=150>
 
 </div>
-&nbsp; 
+&nbsp;
+
+## Общая архитектура
+
+Проект представляет собой многокомпонентную систему: основное Android-приложение, встроенный контент-сервер (Node.js/TypeScript) и React-компонент для NFC-анимации.
+*   **Сборка Android-части:** Gradle.
+*   **Сборка серверной части и NFC-компонента:** NPM.
+
+## Модули проекта
+
+### Android-приложение (`app`)
+*   **Назначение:** Клиент для МЭШ и Моей школы МО, предоставляющий доступ к дневнику, оценкам, домашним заданиям. Приложение взаимодействует с API, отображает контент, поддерживает виджеты и позволяет работать с оффлайн-данными.
+*   **Технологии:** Kotlin, Jetpack Compose (Material3, Navigation), Room (локальная БД), Retrofit2 (сеть), OkHttp, WorkManager, Coroutines, ONNX Runtime (локальные AI-модели), ML Kit (распознавание текста), Glide (изображения), Markwon (Markdown), Vico charts, Telephoto Zoomable, DotsIndicator, iText7 (PDF), ZXing (QR-коды), биометрия.
+*   **Процесс запуска:** Приложение инициализируется через [`OctoDiaryApp`](app/src/main/java/org/bxkr/octodiary/OctoDiaryApp.kt), который запускает `DataService`. Основной пользовательский интерфейс и фоновые службы управляются [`MainActivity`](app/src/main/java/org/bxkr/octodiary/MainActivity.kt), которая также отвечает за навигацию.
+*   **Навигация:** Определена в [`Screens.kt`](app/src/main/java/org/bxkr/octodiary/Screens.kt), где `Screen` используется для уникальных экранов, а `NavSection` — для элементов нижней навигации.
+*   **Данные:** [`DataService`](app/src/main/java/org/bxkr/octodiary/DataService.kt) является синглтоном, отвечающим за загрузку, кэширование данных, управление токенами и реализацию бизнес-логики. Локальное хранилище данных осуществляется через обертки над `SharedPreferences`.
+*   **Демо-режим:** Доступен для быстрого ознакомления без авторизации. Включается через Debug-меню.
+
+### Контент-сервер (`content-server`)
+*   **Назначение:** **MCP-сервер для ИИ в чате в приложении.** Также может использоваться для предоставления локального API или для отображения сложного веб-контента внутри `WebView` в приложении.
+*   **Технологии:** Node.js, TypeScript, NPM.
+
+### NFC Анимация (`nfc anim`)
+*   **Назначение:** Визуализация процесса NFC-взаимодействия, встраиваемая в Android-приложение через WebView.
+*   **Технологии:** React, TypeScript, shadcn/ui, CSS.
 
 ## Сборка
 
-```./gradlew assembleDebug```
-
-## Возможности
-
-- **Расписание с карточкой урока**: раскрываемая карточка урока с темой, временем, ФИО учителя, номером кабинета, названием здания/школы, адресом организации и оценками, полученными за урок. Переход к домашним заданиям одной кнопкой.
-- **Домашние задания**: экран списка по дням и предметам; при нажатии открывается **экран детали ДЗ** с чекбоксом выполнения и материалами ЦДЗ (запуск через веб/встроенный WebView в зависимости от типа).
-- **Виджет (Glance)**: статус обучения на домашнем экране.
-- **Уведомления об оценках**: фоновая проверка, канал уведомлений.
-- **Темы Material 3**: динамические цвета Material You (Android 12+) и набор статических акцентных тем. 
-- **Стартовый экран**: выбор экрана, который открывается при запуске (Дневник/Домашки/Дашборд/Оценки/Профиль).
-
-## Архитектура и стек
-
-- **UI**: Jetpack Compose (Material3, Navigation), Vico charts, Telephoto Zoomable, DotsIndicator.
-- **Сеть**: Retrofit2 + конвертеры Gson/Scalars. Конфигурация в `app/src/main/java/org/bxkr/octodiary/network/NetworkService.kt`.
-- **Данные**: синглтон `DataService` — загрузка/кэш, токены, бизнес-логика. Локальное хранилище через `SharedPreferences`-обёртки (`AuthPrefs`, `MainPrefs`, `CachePrefs`, `NotificationPrefs`).
-- **Виджет/уведомления**: Glance `StatusWidgetReceiver`, `UpdateReceiver` для фона.
-- **Конфиги**: Gradle 8.10.2, AGP 8.8.2, Kotlin 1.8.10, Compose BOM 2024.08.00.
-
-## Настройки
-
-- **Оформление → Обои — динамические цвета**: включает/выключает Material You (Android 12+). При отключении возвращается последний выбранный статический акцент.
-- **Общие → Экран при открытии**: выбирает раздел, который будет стартовым при запуске приложения.
-
-## Демо-режим
-
-- Доступен для быстрого ознакомления без авторизации. Включение: Debug-меню → Preference editor → `demo = true`. В демо отключается фоновая проверка уведомлений, данные подгружаются из встроенных ресурсов.
-
-## Навигация
-
-- Основные разделы определены в `Screens.kt` (`NavSection`).
-- Экран деталей ДЗ: маршрут `homework/{entryStudentId}`.
-
-## Требования к окружению
-
-- JDK 17+, Android SDK. 
-- Git установлен в PATH (используется на сборке для имени артефакта); при отсутствии возможна ошибка именования — установите Git либо добавьте fallback в Gradle-скрипт.
+*   **Команда:** Для сборки отладочной версии Android-приложения используйте:
+    ```bash
+    ./gradlew assembleDebug
+    ```
+*   **Требования:**
+    *   JDK 17+
+    *   Android SDK
+    *   Git должен быть установлен и добавлен в PATH (используется для именования артефактов).
 
 ## Точки входа в код
 
-- `MainActivity.kt` — навигация, темы, диалоги.
-- `screens/navsections/daybook/` — расписание (`ScheduleScreen`, `DayItem`, `EventItem`), карточка урока при раскрытии события.
-- `screens/navsections/homeworks/` — список ДЗ и экран `HomeworkDetailScreen`.
-- `DataService.kt` — загрузка данных, кэш и бизнес-операции.
-- `NetworkService.kt` — конструкторы API Retrofit.
+*   [`MainActivity.kt`](app/src/main/java/org/bxkr/octodiary/MainActivity.kt) — основная активность, навигация, темы, диалоги.
+*   [`screens/navsections/daybook/`](app/src/main/java/org/bxkr/octodiary/screens/navsections/daybook/) — содержит логику расписания (`ScheduleScreen`, `DayItem`, `EventItem`) и карточки уроков.
+*   [`screens/navsections/homeworks/`](app/src/main/java/org/bxkr/octodiary/screens/navsections/homeworks/) — список домашних заданий и экран `HomeworkDetailScreen`.
+*   [`DataService.kt`](app/src/main/java/org/bxkr/octodiary/DataService.kt) — загрузка данных, кэширование и бизнес-операции.
+*   [`NetworkService.kt`](app/src/main/java/org/bxkr/octodiary/network/NetworkService.kt) — конструкторы API Retrofit.
 
 ## Лицензии и торговые марки
 

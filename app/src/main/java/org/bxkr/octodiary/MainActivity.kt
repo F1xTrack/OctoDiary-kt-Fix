@@ -400,20 +400,38 @@ class MainActivity : FragmentActivity() {
             Log.d("Performance", "Optimized navigation listener removed - using derivedStateOf instead")
         }
 
-        val intentData = intent.dataString
-        intent.setData(null)
-        if (intentData != null) {
-            if (authPrefs.get<Boolean>("auth") == true) {
-                LaunchedEffect(Unit) {
-                    snackbarHostState.showSnackbar(getString(R.string.already_auth))
-                }
-            } else {
-                screenLive.value = Screen.Callback
-            }
-        }
-
         var localLoadedState by remember { mutableStateOf(false) }
         var settingsShown by remember { mutableStateOf(false) }
+
+        val intentData = intent.dataString
+        
+        if (intentData != null) {
+            val uri = Uri.parse(intentData)
+            if (uri.scheme == "octodiary" && uri.host == "debug") {
+                intent.setData(null)
+                val path = uri.path
+                LaunchedEffect(Unit) {
+                    when (path) {
+                        "/settings" -> settingsShown = true
+                        "/daybook" -> navController.value?.navigate(NavSection.Daybook.route)
+                        "/homeworks" -> navController.value?.navigate(NavSection.Homeworks.route)
+                        "/dashboard" -> navController.value?.navigate(NavSection.Dashboard.route)
+                        "/marks" -> navController.value?.navigate(NavSection.Marks.route)
+                        "/access" -> navController.value?.navigate(NavSection.Access.route)
+                        "/profile" -> navController.value?.navigate(NavSection.Profile.route)
+                    }
+                }
+            } else {
+                intent.setData(null)
+                if (authPrefs.get<Boolean>("auth") == true) {
+                    LaunchedEffect(Unit) {
+                        snackbarHostState.showSnackbar(getString(R.string.already_auth))
+                    }
+                } else {
+                    screenLive.value = Screen.Callback
+                }
+            }
+        }
         LaunchedEffect(rememberCoroutineScope()) {
             snapshotFlow { DataService.loadedEverything.value }.onEach { localLoadedState = it }
                 .launchIn(this)
