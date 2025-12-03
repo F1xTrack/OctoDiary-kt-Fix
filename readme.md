@@ -74,12 +74,12 @@ Google Play и логотип Google Play являются товарными з
 
 **Последние известные ошибки:**
 ```
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/DataService.kt:222:26 Unresolved reference 'MutableLiveData'.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/DataService.kt:222:42 Unresolved reference 'Uri'.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:115:55 Unresolved reference 'avatarTriggerLive'.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:102:37 Smart cast to 'ProfileResponse' is impossible, because 'profileResponse' is a delegated property.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:219:35 Unresolved reference 'R'.
 e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:80:57 Cannot infer type for value parameter 'uri'. Specify it explicitly.
-e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:81:22 Cannot infer type for type parameter 'T'. Specify it explicitly.
-e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:81:22 Cannot infer type for type parameter 'R'. Specify it explicitly.
-e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:81:22 Unresolved reference. None of the following candidates is applicable because of a receiver type mismatch:
-fun <T, R> T.let(block: (T) -> R): R
-e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:81:26 Cannot infer type for type parameter 'T'. Specify it explicitly.
 ```
 
 **Что сделано:**
