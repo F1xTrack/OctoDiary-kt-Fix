@@ -53,7 +53,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
-        jvmToolchain(17)
+        // jvmToolchain(17)
         compilerOptions {
             freeCompilerArgs.add("-Xannotation-default-target=param-property")
         }

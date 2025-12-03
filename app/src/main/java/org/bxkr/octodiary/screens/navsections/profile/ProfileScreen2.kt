@@ -60,7 +60,6 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.Diary
-import org.bxkr.octodiary.R
 import org.bxkr.octodiary.baseEnqueueOrNull
 import org.bxkr.octodiary.launchPickerLive
 import org.bxkr.octodiary.launchUrlLive
@@ -86,20 +85,11 @@ fun ProfileScreen2() {
         factory = ProfileScreen2ViewModelFactory(application, DataService)
     )
 
-    val profileResponseState = viewModel.profile.collectAsState()
-    val profileResponse = profileResponseState.value
-    
-    val avatarsState = viewModel.avatars.collectAsState()
-    val avatars = avatarsState.value
-    
-    val govExamsState = viewModel.govExams.collectAsState()
-    val govExams = govExamsState.value
-    
-    val subsystemState = viewModel.subsystem.collectAsState()
-    val subsystem = subsystemState.value
-    
-    val currentProfileIndexState = viewModel.currentProfileIndex.collectAsState()
-    val currentProfileIndex = currentProfileIndexState.value
+    val profileResponse by viewModel.profile.collectAsState()
+    val avatars by viewModel.avatars.collectAsState()
+    val govExams by viewModel.govExams.collectAsState()
+    val subsystem by viewModel.subsystem.collectAsState()
+    val currentProfileIndex by viewModel.currentProfileIndex.collectAsState()
 
     val child = profileResponse?.children?.get(currentProfileIndex ?: 0)
     Column(
@@ -127,11 +117,11 @@ private fun ShortProfileInfo(child: Children, profileResponse: ProfileResponse, 
                     var loading by remember { mutableStateOf(false) }
                     AlertDialog(
                         {
-                            modalDialogStateLive.postValue(false)
+                            modalDialogStateLive.value = true
                         },
                         confirmButton = {
                             TextButton(
-                                { modalDialogStateLive.postValue(false) },
+                                { modalDialogStateLive.value = false },
                                 enabled = !loading
                             ) {
                                 Text(stringResource(R.string.cancel))
@@ -189,7 +179,7 @@ private fun ShortProfileInfo(child: Children, profileResponse: ProfileResponse, 
                         }
                     )
                 }
-                modalDialogStateLive.postValue(true)
+                modalDialogStateLive.value = true
             }
             avatars?.firstOrNull()?.let { avatar ->
                 GlideImage(
@@ -332,6 +322,6 @@ private fun ProfileCard(
 
 
 private fun openBottomSheet(content: @Composable () -> Unit) {
-    modalBottomSheetStateLive.postValue(true)
-    modalBottomSheetContentLive.postValue(content)
+    modalBottomSheetStateLive.value = true
+    modalBottomSheetContentLive.value = content
 }

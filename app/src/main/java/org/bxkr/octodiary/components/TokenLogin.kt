@@ -96,7 +96,7 @@ fun TokenLogin() {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                             Button(onClick = {
                                 context.logInByToken(tokenValue.trim(), issuer)
-                                modalDialogStateLive.postValue(false)
+                                modalDialogStateLive.value = false
                             }) {
                                 Text(stringResource(R.string.log_in))
                             }
@@ -117,6 +117,6 @@ fun Context.logInByToken(token: String, subsystem: Diary) {
     mainPrefs.save(
         "first_launch" to true
     )
-    screenLive.postValue(Screen.MainNav)
+    screenLive.value = Screen.MainNav
     setUpdateFor(Date())
 }

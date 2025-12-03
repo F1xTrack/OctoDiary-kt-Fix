@@ -2,3 +2,16 @@ GRAND_PLAN.md
 *.apk
 /root/*.apk
 local.properties
+/android_sdk/
+/.gradle/
+/.idea/
+/build/
+build_process_log.txt
+emulator_err.log
+emulator_out.log
+endpoint_test_results_logged_in.log
+error.log
+octodiary_logs.txt
+output.log
+run_build_with_timer.ps1
+/temp_downloads/

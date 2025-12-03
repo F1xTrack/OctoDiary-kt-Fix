@@ -45,7 +45,7 @@ fun ProfileChooser() {
                     .fillMaxWidth()
                     .clip(CardDefaults.outlinedShape)
                     .clickable {
-                        modalDialogStateLive.postValue(false)
+                        modalDialogStateLive.value = false
                         DataService.currentProfile = index
                         DataService.loadedEverything.value = false
                         DataService.loadingStarted = false
