@@ -86,13 +86,22 @@ fun ProfileScreen2() {
         factory = ProfileScreen2ViewModelFactory(application, DataService)
     )
 
-    val profileResponse by viewModel.profile.collectAsState()
-    val avatars by viewModel.avatars.collectAsState()
-    val govExams by viewModel.govExams.collectAsState()
-    val subsystem by viewModel.subsystem.collectAsState()
-    val currentProfileIndex by viewModel.currentProfileIndex.collectAsState()
+    val profileResponseState = viewModel.profile.collectAsState()
+    val profileResponse = profileResponseState.value
+    
+    val avatarsState = viewModel.avatars.collectAsState()
+    val avatars = avatarsState.value
+    
+    val govExamsState = viewModel.govExams.collectAsState()
+    val govExams = govExamsState.value
+    
+    val subsystemState = viewModel.subsystem.collectAsState()
+    val subsystem = subsystemState.value
+    
+    val currentProfileIndexState = viewModel.currentProfileIndex.collectAsState()
+    val currentProfileIndex = currentProfileIndexState.value
 
-    val child = profileResponse?.value?.children?.get(currentProfileIndex ?: 0)
+    val child = profileResponse?.children?.get(currentProfileIndex ?: 0)
     Column(
         Modifier
             .fillMaxSize()

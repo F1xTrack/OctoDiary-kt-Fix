@@ -1,37 +1,37 @@
 package org.bxkr.octodiary.viewmodels
 
 import android.app.Application
+import android.content.ContentResolver
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.provider.MediaStore
+import androidx.core.graphics.scale
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.bxkr.octodiary.DataService
-import org.bxkr.octodiary.Diary
-import org.bxkr.octodiary.data.AuthRepository
-import org.bxkr.octodiary.models.avatar.Avatar
-import org.bxkr.octodiary.models.govexams.GovExamsResponse
-import org.bxkr.octodiary.models.profile.ProfileResponse
-import org.bxkr.octodiary.modalDialogStateLive
-import org.bxkr.octodiary.modalDialogContentLive
-import org.bxkr.octodiary.screens.navsections.profile.meal.MealDialog
-import org.bxkr.octodiary.launchUrlLive
-import android.net.Uri
-import org.bxkr.octodiary.network.NetworkService
-import org.bxkr.octodiary.baseEnqueueOrNull
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.provider.MediaStore
-import java.io.ByteArrayOutputStream
-import androidx.core.graphics.scale
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import android.content.ContentResolver
+import org.bxkr.octodiary.DataService
+import org.bxkr.octodiary.Diary
+import org.bxkr.octodiary.baseEnqueueOrNull
+import org.bxkr.octodiary.data.AuthRepository
+import org.bxkr.octodiary.launchUrlLive
+import org.bxkr.octodiary.modalDialogContentLive
+import org.bxkr.octodiary.modalDialogStateLive
+import org.bxkr.octodiary.models.avatar.Avatar
+import org.bxkr.octodiary.models.govexams.GovExamsResponse
+import org.bxkr.octodiary.models.profile.ProfileResponse
+import org.bxkr.octodiary.network.NetworkService
+import org.bxkr.octodiary.screens.navsections.profile.meal.MealDialog
+import java.io.ByteArrayOutputStream
 
 // Factory for ProfileScreen2ViewModel
 class ProfileScreen2ViewModelFactory(private val application: Application, private val dataService: DataService) : ViewModelProvider.Factory {
@@ -77,7 +77,7 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
 
         // Observe pickedImageUri for avatar upload
         viewModelScope.launch {
-            dataService.pickedImageUri.observeForever { uri: Uri? ->
+            dataService.pickedImageUri.asFlow().collect { uri: Uri? ->
                 uri?.let {
                     uploadAvatar(it, getApplication<Application>().contentResolver)
                     dataService.pickedImageUri.postValue(null) // Clear after processing
