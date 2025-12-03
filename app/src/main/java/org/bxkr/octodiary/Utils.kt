@@ -267,9 +267,10 @@ inline fun <reified T> Call<T>.extendedEnqueue(
 })
 
 fun DataService.baseErrorFunction(errorBody: ResponseBody, httpCode: Int, className: String?) {
-    if (httpCode in listOf(401, 403)) {
-        tokenExpirationHandler?.invoke()
-    } else println("Error in $className: ${errorBody.string()}")
+    // AuthInterceptor теперь обрабатывает 401 и обновляет, нет необходимости вызывать tokenExpirationHandler здесь
+    // For 403, if token is valid but permission is denied, it's a different kind of error.
+    // For now, let's just log all errors not handled by AuthInterceptor.
+    println("Error in $className: ${errorBody.string()}")
 }
 
 fun DataService.baseInternalExceptionFunction(t: Throwable, className: String?) {

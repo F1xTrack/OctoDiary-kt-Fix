@@ -1,10 +1,11 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+// import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.io.ByteArrayOutputStream
 
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlinCompose)
 }
 
 // val gitLatestCommit: String = ByteArrayOutputStream().use { outputStream ->
@@ -26,7 +27,7 @@ android {
         targetSdk = 35
         versionCode = 32
         versionName = "2.1.6"
-        archivesName = "octodiary-debug"
+//        archivesName = "octodiary-debug"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -51,15 +52,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        jvmToolchain(17)
+        compilerOptions {
+            freeCompilerArgs.add("-Xannotation-default-target=param-property")
+        }
     }
     buildFeatures {
         compose = true
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     packaging {
         resources {
@@ -85,7 +89,7 @@ ksp {
 
 // Явно устанавливаем JVM target для всех Kotlin задач
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.jvmTarget = "17"
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
 }
 
 dependencies {
@@ -138,6 +142,7 @@ dependencies {
     
     // OkHttp (для AI API)
     implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
     
     // ML Kit for text recognition (OCR)
     // TODO: Add llama.cpp for local GGUF model inference

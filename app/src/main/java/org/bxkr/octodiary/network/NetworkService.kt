@@ -1,5 +1,10 @@
 package org.bxkr.octodiary.network
 
+import android.content.Context
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import org.bxkr.octodiary.DataService
+import org.bxkr.octodiary.data.AuthRepository
 import org.bxkr.octodiary.network.interfaces.DSchoolAPI
 import org.bxkr.octodiary.network.interfaces.ExternalAPI
 import org.bxkr.octodiary.network.interfaces.MainSchoolAPI
@@ -12,6 +17,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object NetworkService {
+    private lateinit var applicationContext: Context
+
+    fun init(context: Context) {
+        applicationContext = context
+        DataService.authRepository = AuthRepository(context, DataService)
+    }
     object MESAPIConfig {
         const val SCOPE = "birthday contacts openid profile snils blitz_change_password blitz_user_rights blitz_qr_auth"
         const val RESPONSE_TYPE = "code"
@@ -72,9 +83,17 @@ object NetworkService {
         const val EXTERNAL_API = "https://octodiary.den4iksop.org/"
     }
 
+    val okHttpClient by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(applicationContext))
+            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+            .build()
+    }
+
     private inline fun <reified T> baseApiConstructor(baseUrl: String): T {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
+            .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

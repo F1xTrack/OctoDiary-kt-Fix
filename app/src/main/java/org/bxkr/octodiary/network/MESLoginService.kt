@@ -130,6 +130,38 @@ object MESLoginService {
         }
     }
 
+    private fun mosToMesTokenSync(
+        context: Context,
+        mosToken: String
+    ): Boolean {
+        val schoolAuthCall =
+            NetworkService.schoolSessionApi(SchoolSessionAPI.getBaseUrl(Diary.MES)).mosTokenToMes(
+                SchoolAuthBody(
+                    UserAuthenticationForMobileRequest(
+                        mosAccessToken = mosToken
+                    )
+                )
+            )
+        return try {
+            val response = schoolAuthCall.execute()
+            if (response.isSuccessful && response.body() != null) {
+                response.body()!!.userAuthenticationForMobileResponse.meshAccessToken.also { token ->
+                    context.authPrefs.save(
+                        "auth" to true,
+                        "subsystem" to Diary.MES.ordinal,
+                        "access_token" to token
+                    )
+                    DataService.token = token // Update DataService.token immediately
+                }
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     fun Context.refreshToken(onUpdated: () -> Unit) {
         getSharedPreferences("auth", Context.MODE_PRIVATE).apply {
             var clientId = getString("client_id", "")
@@ -181,7 +213,7 @@ object MESLoginService {
                     authPrefs.save("mos_refresh_token" to body.refreshToken)
                     mosToMesToken(this@refreshToken, body.accessToken, onSet = {
                         DataService.token = authPrefs.get<String>("access_token")!!
-                        DataService.updateUserId { // For token to start working
+                        DataService.authRepository.updateUserId { // For token to start working
                             DataService.pushUserSettings(
                                 "od_auth",
                                 AuthSettings(
@@ -197,6 +229,49 @@ object MESLoginService {
                     })
                 }
             }
+        }
+    }
+
+    fun performTokenRefreshSync(context: Context): Boolean {
+        return context.getSharedPreferences("auth", Context.MODE_PRIVATE).run {
+            val clientId = getString("client_id", "") ?: return@run false
+            val clientSecret = getString("client_secret", "") ?: return@run false
+            val refreshToken = getString("mos_refresh_token", "") ?: return@run false
+
+            val authorization = encodeToBase64("$clientId:$clientSecret".toByteArray())
+            val authHeader = "Basic $authorization"
+
+            val exchangeCall = NetworkService.mosAuthApi().tokenExchange(
+                grantType = MESAPIConfig.GRANT_TYPE_REFRESH,
+                refreshToken = refreshToken,
+                authHeader = authHeader
+            )
+
+            try {
+                val response = exchangeCall.execute()
+                if (response.isSuccessful && response.body() != null) {
+                    val body = response.body()!!
+                    edit(commit = true) {
+                        putString("mos_refresh_token", body.refreshToken)
+                    }
+                    val mesTokenUpdated = mosToMesTokenSync(context, body.accessToken)
+                    if (mesTokenUpdated) {
+                        DataService.pushUserSettings(
+                            "od_auth",
+                            AuthSettings(
+                                clientId = clientId,
+                                clientSecret = clientSecret,
+                                refreshToken = body.refreshToken,
+                                accessToken = DataService.token
+                            )
+                        ) {}
+                        return@run true
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return@run false
         }
     }
 }

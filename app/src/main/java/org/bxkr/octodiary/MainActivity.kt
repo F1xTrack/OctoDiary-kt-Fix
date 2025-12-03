@@ -112,7 +112,7 @@ import org.bxkr.octodiary.screens.LoginScreen
 import org.bxkr.octodiary.screens.NavScreen
 import org.bxkr.octodiary.utils.PerformanceMonitor
 import org.bxkr.octodiary.screens.navsections.daybook.DayChooser
-import org.bxkr.octodiary.screens.navsections.profile.avatarTriggerLive
+
 import org.bxkr.octodiary.services.McpServerService
 import org.bxkr.octodiary.ui.theme.CustomColorScheme
 import org.bxkr.octodiary.ui.theme.OctoDiaryTheme
@@ -239,30 +239,7 @@ class MainActivity : FragmentActivity() {
             )
             val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
-            val upload = {
-                DataService.secondaryApi.uploadAvatar(
-                    "Bearer ${DataService.token}",
-                    DataService.profile.children[DataService.currentProfile].contingentGuid,
-                    part
-                ).baseEnqueueOrNull {
-                    DataService.updateAvatars {
-                        modalDialogStateLive.postValue(false)
-                        avatarTriggerLive.postValue(avatarTriggerLive.value?.not() ?: true)
-                    }
-                }
-            }
-
-            DataService.run {
-                if (avatars.isNotEmpty()) {
-                    secondaryApi.deleteAvatar(
-                        "Bearer $token",
-                        profile.children[currentProfile].contingentGuid,
-                        avatars.first().id.toString()
-                    ).baseEnqueueOrNull {
-                        upload()
-                    }
-                } else upload()
-            }
+            DataService.pickedImageUri.postValue(uri)
         }
         launchPickerLive.postValue {
             picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
