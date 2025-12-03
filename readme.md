@@ -64,24 +64,148 @@ OctoDiary — это многокомпонентная система, разр
 Google Play и логотип Google Play являются товарными знаками корпорации Google LLC.
 
 ## Текущий статус (Dev Status) - В РАЗРАБОТКЕ
-
 **Ветка:** `v3-develop`
-**Фаза:** Фаза 3 - Архитектура (MVVM + Repository) и StateFlow миграция.
-
-**Статус сборки:** 🟢 **СБОРКА УСПЕШНА** (Build Successful)
-
-Последняя сборка `./gradlew assembleDebug` завершилась успешно. Все критические ошибки компиляции и конфликты зависимостей устранены.
-
-**Что сделано:**
-1.  Обновлены зависимости (Room, Kotlin, AGP, KSP).
-2.  Централизован `Retrofit` и `OkHttpClient` в `NetworkService`.
-3.  Реализован `AuthInterceptor` с логикой обновления токена.
-4.  Унифицирована обработка ошибок.
-5.  Создан `AuthRepository` и перенесена логика аутентификации из `DataService`.
-6.  Создан `ProfileScreen2ViewModel` и мигрирован `ProfileScreen2` на MVVM.
-7.  Успешно завершена миграция с `LiveData` на `StateFlow` в `ProfileScreen2ViewModel` и `ProfileScreen2`.
-8.  Исправлены все ошибки импортов, вывода типов и конфликтов в `DataService.kt`, `ProfileScreen2ViewModel.kt` и `ProfileScreen2.kt`.
-
-**Что нужно сделать (Next Steps):**
-1.  Продолжить миграцию других экранов на ViewModel и StateFlow (по мере необходимости).
-2.  Приступить к Фазе 4: Настройка Hilt для внедрения зависимостей.
+    **Фаза:** Фаза 3 - Архитектура (MVVM + Repository) и StateFlow миграция.
+    **Статус сборки:** 🔴 **СБОРКА СЛОМАНА** (Build Broken)
+        * Последняя попытка сборки завершилась ошибками компиляции после миграции LiveData на StateFlow.
+    **Последние известные ошибки:**
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:123:42 Unresolved reference 'NavHostController'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:123:62 Null cannot be a value of a non-null type 'uninferred T (of fun <T>
+  MutableStateFlow)'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:291:21 Argument type mismatch: actual type is 'Boolean?', but 'Boolean' was
+  expected.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:332:27 Property delegate must have a 'getValue(Nothing?, KProperty0<ERROR
+  CLASS: Cannot infer argument for type parameter T>)' method. None of the following functions is applicable:
+  fun <T> State<T>.getValue(thisObj: Any?, property: KProperty<*>): T
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:332:30 Cannot infer type for type parameter 'T'. Specify it explicitly.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:332:48 Cannot infer type for type parameter 'T'. Specify it explicitly.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:336:48 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:367:23 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:369:65 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:391:53 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:392:55 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:393:55 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:394:51 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:395:52 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:396:53 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:422:48 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:422:110 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:439:63 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:441:47 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:463:62 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:472:59 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:473:49 @Composable invocations can only happen from the context of a
+  @Composable function
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:476:33 @Composable invocations can only happen from the context of a
+  @Composable function
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:480:41 Cannot infer type for type parameter 'S'. Specify it explicitly.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:481:64 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:483:43 Cannot infer type for type parameter 'S'. Specify it explicitly.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:491:64 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:491:71 Cannot infer type for type parameter 'T'. Specify it explicitly.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:496:50 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:510:62 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:550:36 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:553:60 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:558:49 Unresolved reference 'hierarchy'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:558:66 Cannot infer type for value parameter 'destination'. Specify it
+  explicitly.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:558:93 Unresolved reference 'route'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:569:47 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:569:55 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:570:37 Unresolved reference 'popUpTo'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:570:59 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:570:67 Unresolved reference 'graph'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:571:41 Unresolved reference 'saveState'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:573:37 Unresolved reference 'launchSingleTop'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:574:37 Unresolved reference 'restoreState'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:593:49 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:621:67 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:629:67 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:643:32 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:654:43 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:654:50 Cannot infer type for type parameter 'T'. Specify it explicitly.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/Mark.kt:318:53 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/Mark.kt:319:29 @Composable invocations can only happen from the context of a
+  @Composable function
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/Mark.kt:340:60 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/Mark.kt:349:55 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/Mark.kt:351:43 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/Mark.kt:379:31 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/Mark.kt:380:33 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/Mark.kt:380:45 @Composable invocations can only happen from the context of a
+  @Composable function
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/ProfileChooser.kt:48:46 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/SettingsDialog.kt:313:51 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/TokenLogin.kt:99:54 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/TokenLogin.kt:120:16 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/ai/AiQuickAccessCard.kt:63:45 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/ai/AiQuickAccessCard.kt:82:38 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/ai/AiQuickAccessCard.kt:95:38 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/ai/AiQuickAccessCard.kt:108:38 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:32:35 None of the following candidates is applicable:
+  fun <T> LiveData<T>.observeAsState(): State<T?>
+  fun <R, T : R> LiveData<T>.observeAsState(initial: R): State<R>
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:50:41 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:60:33 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:68:21 Unresolved reference 'primary'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:69:21 Unresolved reference 'secondary'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:70:21 Unresolved reference 'surfaceVariant'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:72:37 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:92:33 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:98:33 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/components/settings/Appearance.kt:114:19 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/network/MySchoolLoginService.kt:76:24 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/network/MySchoolLoginService.kt:101:28 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/AiDashboardScreen.kt:49:49 Unresolved reference 'navigateUp'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/AiDashboardScreen.kt:263:42 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/AiDashboardScreen.kt:273:42 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/CallbackScreen.kt:47:32 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/LectureNotesScreen.kt:34:49 Unresolved reference 'navigateUp'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/NavScreen.kt:207:55 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/NavScreen.kt:245:70 Unresolved reference 'value'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/TextbookExtractorScreen.kt:51:49 Unresolved reference 'navigateUp'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/VocabularySmartScreen.kt:127:49 Unresolved reference 'navigateUp'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/dashboard/DashboardScreen.kt:142:59 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/dashboard/DashboardScreen.kt:181:63 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/daybook/DayChooser.kt:19:64 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/daybook/DayChooser.kt:24:38 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/daybook/EventItem.kt:211:74 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/homeworks/HomeworkDetailScreen.kt:80:49 Unresolved reference
+  'navigateUp'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/homeworks/HomeworkSubject.kt:41:59 Unresolved reference 'navigate'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/homeworks/HomeworksScreen.kt:53:40 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/homeworks/HomeworksScreen.kt:54:36 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/homeworks/HomeworksScreen.kt:56:32 @Composable invocations can only
+  happen from the context of a @Composable function
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/MarksByDate.kt:30:32 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/MarksByDate.kt:30:44 @Composable invocations can only happen from
+  the context of a @Composable function
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/MarksBySubject.kt:49:32 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/MarksBySubject.kt:49:44 @Composable invocations can only happen
+  from the context of a @Composable function
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/MarksScreen.kt:33:20 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/MarksScreen.kt:34:36 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/SubjectCard.kt:102:43 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/SubjectCard.kt:209:47 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/SubjectCard.kt:237:55 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/SubjectCard.kt:238:57 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/marks/SubjectCard.kt:239:33 @Composable invocations can only happen
+  from the context of a @Composable function
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:63:27 Conflicting import: imported name 'R'
+  is ambiguous.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:64:27 Conflicting import: imported name 'R'
+  is ambiguous.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:103:37 Smart cast to 'ProfileResponse' is
+  impossible, because 'profileResponse' is a delegated property.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:122:50 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:126:56 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:184:38 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:327:31 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:328:33 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/meal/Meal.kt:44:44 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:114:30 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:128:34 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:130:27 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:142:38 Unresolved reference 'postValue'.
+  e: file:///D:/OctoDiary-kt-Fix-2-develop/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:177:42 Unresolved reference 'postValue'.
