@@ -73,7 +73,7 @@ object MySchoolLoginService {
                 "first_launch" to true,
                 "demo" to true
             )
-            screenLive.postValue(Screen.MainNav)
+            screenLive.value = Screen.MainNav
             return
         }
         val api = NetworkService.regionalAuthApi()
@@ -98,7 +98,7 @@ object MySchoolLoginService {
                 mainPrefs.save(
                     "first_launch" to true
                 )
-                screenLive.postValue(Screen.MainNav)
+                screenLive.value = Screen.MainNav
                 setUpdateFor(Date())
             }
         }

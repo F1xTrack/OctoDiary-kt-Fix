@@ -62,3 +62,37 @@ OctoDiary — это многокомпонентная система, разр
 ## Копилефт
 
 Google Play и логотип Google Play являются товарными знаками корпорации Google LLC.
+
+## Текущий статус (Dev Status) - В РАЗРАБОТКЕ
+
+**Ветка:** `v3-develop`
+**Фаза:** Фаза 3 - Архитектура (MVVM + Repository) и StateFlow миграция.
+
+**Статус сборки:** 🔴 **СБОРКА СЛОМАНА** (Build Broken)
+
+Последняя попытка сборки завершилась ошибками компиляции, связанными с миграцией на `StateFlow` в `ProfileScreen2ViewModel` и выводом типов в Kotlin.
+
+**Последние известные ошибки:**
+```
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/DataService.kt:222:26 Unresolved reference 'MutableLiveData'.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/DataService.kt:222:42 Unresolved reference 'Uri'.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/MainActivity.kt:115:55 Unresolved reference 'avatarTriggerLive'.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:102:37 Smart cast to 'ProfileResponse' is impossible, because 'profileResponse' is a delegated property.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/screens/navsections/profile/ProfileScreen2.kt:219:35 Unresolved reference 'R'.
+e: file:///root/OctoDiary-kt-Fix/app/src/main/java/org/bxkr/octodiary/viewmodels/ProfileScreen2ViewModel.kt:80:57 Cannot infer type for value parameter 'uri'. Specify it explicitly.
+```
+
+**Что сделано:**
+1.  Обновлены зависимости (Room, Kotlin, AGP, KSP).
+2.  Централизован `Retrofit` и `OkHttpClient` в `NetworkService`.
+3.  Реализован `AuthInterceptor` с логикой обновления токена.
+4.  Унифицирована обработка ошибок.
+5.  Создан `AuthRepository` и перенесена логика аутентификации из `DataService`.
+6.  Создан `ProfileScreen2ViewModel` и начата миграция `ProfileScreen2` на MVVM.
+7.  Начата миграция с `LiveData` на `StateFlow` в `ProfileScreen2ViewModel`.
+
+**Что нужно сделать (Next Steps):**
+1.  Исправить ошибки вывода типов в `ProfileScreen2ViewModel.kt` (блок `observeForever` для `pickedImageUri`).
+2.  Убедиться, что `ProfileScreen2.kt` корректно использует `StateFlow` из ViewModel (проверить импорты и синтаксис `collectAsState`).
+3.  Устранить оставшиеся ошибки "Unresolved reference" в `MainActivity.kt`, если они есть (связанные с `avatarTriggerLive`).
+4.  Завершить сборку и проверку.

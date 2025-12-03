@@ -310,7 +310,7 @@ fun SettingsDialog(onDismissRequest: () -> Unit) {
                                             if (isTest) 1 else 0
                                         )
                                     )
-                                    launchUrlLive.postValue(link)
+                                    launchUrlLive.value = link
                                 }
                                 LaunchedEffect(interactionSource) {
                                     var isLongClick = false

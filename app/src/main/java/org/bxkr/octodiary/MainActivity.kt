@@ -76,6 +76,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.RecomposeScope
 import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.collectAsState
 import java.time.LocalTime
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -88,14 +89,12 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.scale
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.MutableStateFlow
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -112,29 +111,29 @@ import org.bxkr.octodiary.screens.LoginScreen
 import org.bxkr.octodiary.screens.NavScreen
 import org.bxkr.octodiary.utils.PerformanceMonitor
 import org.bxkr.octodiary.screens.navsections.daybook.DayChooser
-import org.bxkr.octodiary.screens.navsections.profile.avatarTriggerLive
+
 import org.bxkr.octodiary.services.McpServerService
 import org.bxkr.octodiary.ui.theme.CustomColorScheme
 import org.bxkr.octodiary.ui.theme.OctoDiaryTheme
 import java.io.ByteArrayOutputStream
 import java.io.File
 
-val modalBottomSheetStateLive = MutableLiveData(false)
-val modalBottomSheetContentLive = MutableLiveData<@Composable () -> Unit> {}
-val snackbarHostStateLive = MutableLiveData(SnackbarHostState())
-val navControllerLive = MutableLiveData<NavHostController?>(null)
-val showFilterLive = MutableLiveData(false)
-val contentDependentActionLive = MutableLiveData<@Composable () -> Unit> {}
-val contentDependentActionIconLive = MutableLiveData(Icons.Rounded.FilterAlt)
-val screenLive = MutableLiveData<Screen>()
-val modalDialogStateLive = MutableLiveData(false)
-val modalDialogContentLive = MutableLiveData<@Composable () -> Unit> {}
-val modalDialogCloseListenerLive = MutableLiveData<() -> Unit> {}
-val reloadEverythingLive = MutableLiveData {}
-val darkThemeLive = MutableLiveData<Boolean>(null)
-val colorSchemeLive = MutableLiveData(-1)
-val launchUrlLive = MutableLiveData<Uri?>(null)
-val launchPickerLive = MutableLiveData<() -> Unit>({})
+val modalBottomSheetStateLive = MutableStateFlow(false)
+val modalBottomSheetContentLive = MutableStateFlow<(@Composable () -> Unit)?>(null)
+val snackbarHostStateLive = MutableStateFlow(SnackbarHostState())
+val navControllerLive = MutableStateFlow<NavHostController?>(null)
+val showFilterLive = MutableStateFlow(false)
+val contentDependentActionLive = MutableStateFlow<(@Composable () -> Unit)?>(null)
+val contentDependentActionIconLive = MutableStateFlow(Icons.Rounded.FilterAlt)
+val screenLive = MutableStateFlow<Screen>(Screen.Login)
+val modalDialogStateLive = MutableStateFlow(false)
+val modalDialogContentLive = MutableStateFlow<(@Composable () -> Unit)?>(null)
+val modalDialogCloseListenerLive = MutableStateFlow<(() -> Unit)?>(null)
+val reloadEverythingLive = MutableStateFlow<(() -> Unit)?>(null)
+val darkThemeLive = MutableStateFlow<Boolean?>(null)
+val colorSchemeLive = MutableStateFlow(-1)
+val launchUrlLive = MutableStateFlow<Uri?>(null)
+val launchPickerLive = MutableStateFlow<(() -> Unit)?>(null)
 val LocalActivity = staticCompositionLocalOf<FragmentActivity> {
     error("No LocalActivity provided!")
 }
@@ -239,40 +238,17 @@ class MainActivity : FragmentActivity() {
             )
             val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
-            val upload = {
-                DataService.secondaryApi.uploadAvatar(
-                    "Bearer ${DataService.token}",
-                    DataService.profile.children[DataService.currentProfile].contingentGuid,
-                    part
-                ).baseEnqueueOrNull {
-                    DataService.updateAvatars {
-                        modalDialogStateLive.postValue(false)
-                        avatarTriggerLive.postValue(avatarTriggerLive.value?.not() ?: true)
-                    }
-                }
-            }
-
-            DataService.run {
-                if (avatars.isNotEmpty()) {
-                    secondaryApi.deleteAvatar(
-                        "Bearer $token",
-                        profile.children[currentProfile].contingentGuid,
-                        avatars.first().id.toString()
-                    ).baseEnqueueOrNull {
-                        upload()
-                    }
-                } else upload()
-            }
+            DataService.pickedImageUri.value = uri
         }
-        launchPickerLive.postValue {
+        launchPickerLive.value = {
             picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
         enableEdgeToEdge()
         setContent {
             colorSchemeLive.value = mainPrefs.get("theme") ?: -1
             darkThemeLive.value = mainPrefs.get("is_dark_theme") ?: isSystemInDarkTheme()
-            val colorScheme by colorSchemeLive.observeAsState(-1)
-            val darkTheme by darkThemeLive.observeAsState(isSystemInDarkTheme())
+            val colorScheme by colorSchemeLive.collectAsState(-1)
+            val darkTheme by darkThemeLive.collectAsState(isSystemInDarkTheme())
             /**
              * When `colorScheme == -1`, it uses dynamic colors **if available**.
              * If not, it uses default (yellow).
@@ -346,26 +322,26 @@ class MainActivity : FragmentActivity() {
             Screen.MainNav
         } else Screen.Login
         val pinFinished = remember { mutableStateOf(false) }
-        val currentScreen = screenLive.observeAsState()
-        val showBottomSheet by modalBottomSheetStateLive.observeAsState()
-        val bottomSheetContent by modalBottomSheetContentLive.observeAsState()
+        val currentScreen by screenLive.collectAsState()
+        val showBottomSheet by modalBottomSheetStateLive.collectAsState()
+        val bottomSheetContent by modalBottomSheetContentLive.collectAsState()
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val snackbarHostState = snackbarHostStateLive.value!!
         if (navControllerLive.value == null) {
             navControllerLive.value = rememberNavController()
         }
-        val navController = navControllerLive.observeAsState()
+        val navController by navControllerLive.collectAsState()
         val surfaceColor = MaterialTheme.colorScheme.surface
         val elevatedColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
         // Оптимизация: используем derivedStateOf для topAppBarColor вместо прямого изменения
         val navBackStackEntry by navController.value?.currentBackStackEntryAsState() ?: mutableStateOf(null)
         val currentRoute by derivedStateOf { navBackStackEntry?.destination?.route }
         val topAppBarColor by derivedStateOf { if (currentRoute == NavSection.Daybook.route) elevatedColor else surfaceColor }
-        val contentDependentAction = contentDependentActionLive.observeAsState()
-        val showDialog = modalDialogStateLive.observeAsState()
-        val dialogContent = modalDialogContentLive.observeAsState()
-        val showFilter = showFilterLive.observeAsState(false)
-        val launchUrl = launchUrlLive.observeAsState()
+        val contentDependentAction by contentDependentActionLive.collectAsState()
+        val showDialog by modalDialogStateLive.collectAsState()
+        val dialogContent by modalDialogContentLive.collectAsState()
+        val showFilter by showFilterLive.collectAsState(false)
+        val launchUrl by launchUrlLive.collectAsState()
 
         if (BuildConfig.DEBUG) {
             Log.d("Performance", "MyApp basic setup completed in ${System.currentTimeMillis() - startTime}ms")
@@ -392,7 +368,7 @@ class MainActivity : FragmentActivity() {
         if (launchUrl.value != null) {
             val tabIntent = CustomTabsIntent.Builder().build()
             tabIntent.launchUrl(LocalContext.current, launchUrl.value!!)
-            launchUrlLive.postValue(null)
+            launchUrlLive.value = null
         }
 
         // Оптимизация: убираем ненужные логи в продакшене
@@ -467,9 +443,7 @@ class MainActivity : FragmentActivity() {
                             AnimatedVisibility(currentRoute == NavSection.Profile.route) {
                                 Row(Modifier) {
                                     IconButton(onClick = {
-                                        modalDialogContentLive.value = { ProfileChooser() }
-                                        modalDialogStateLive.postValue(true)
-                                    }) {
+                                                                            modalDialogStateLive.value = true                                    }) {
                                         Icon(
                                             Icons.Rounded.Groups,
                                             stringResource(id = R.string.choose_context_profile)
@@ -486,8 +460,8 @@ class MainActivity : FragmentActivity() {
                             AnimatedVisibility(currentRoute == NavSection.Daybook.route) {
                                 Row {
                                     IconButton(onClick = {
-                                        modalDialogContentLive.value = { DayChooser() }
-                                        modalDialogStateLive.postValue(true)
+                                        modalDialogContentLive.value = { ProfileChooser() }
+                                        modalDialogStateLive.value = true
                                     }) {
                                         Icon(
                                             Icons.Rounded.CalendarMonth,
@@ -501,8 +475,7 @@ class MainActivity : FragmentActivity() {
                                     mutableStateOf(false)
                                 }
                                 Box(contentAlignment = Alignment.Center) {
-                                    val icon =
-                                        contentDependentActionIconLive.observeAsState(Icons.Rounded.FilterAlt)
+                                    val icon by contentDependentActionIconLive.collectAsState(Icons.Rounded.FilterAlt)
                                     IconButton(onClick = { expanded = !expanded }) {
                                         val actionIconAnimationStart = System.currentTimeMillis()
                                         AnimatedContent(
@@ -535,7 +508,7 @@ class MainActivity : FragmentActivity() {
                                     text = { Text(stringResource(R.string.log_in_by_token)) },
                                     onClick = {
                                         modalDialogContentLive.value = { TokenLogin() }
-                                        modalDialogStateLive.postValue(true)
+                                        modalDialogStateLive.value = true
                                     }
                                 )
                                 DropdownMenuItem(
@@ -589,9 +562,9 @@ class MainActivity : FragmentActivity() {
                             onClick = {
                                 val clickStart = System.currentTimeMillis()
                                 if (it == NavSection.Homeworks) {
-                                    showFilterLive.postValue(true)
+                                    showFilterLive.value = true
                                 } else {
-                                    showFilterLive.postValue(false)
+                                    showFilterLive.value = false
                                 }
                                 val navigationStart = System.currentTimeMillis()
                                 navController.value!!.navigate(it.route) {
@@ -633,7 +606,7 @@ class MainActivity : FragmentActivity() {
                             if (code != null && callbackType != null) {
                                 CallbackScreen(code, callbackType, subsystem)
                             } else {
-                                screenLive.postValue(Screen.Login)
+                                screenLive.value = Screen.Login
                             }
                             R.string.log_in
                         }
@@ -662,7 +635,7 @@ class MainActivity : FragmentActivity() {
                 }
                 if (showBottomSheet == true) {
                     ModalBottomSheet(
-                        onDismissRequest = { modalBottomSheetStateLive.postValue(false) },
+                        onDismissRequest = { modalBottomSheetStateLive.value = false },
                         sheetState = sheetState
                     ) {
                         bottomSheetContent?.invoke()
@@ -670,7 +643,7 @@ class MainActivity : FragmentActivity() {
                 }
                 if (showDialog.value == true) {
                     Dialog(onDismissRequest = {
-                        modalDialogStateLive.postValue(false)
+                        modalDialogStateLive.value = false
                         modalDialogCloseListenerLive.value?.invoke()
                         modalDialogCloseListenerLive.value = {}
                     }) {

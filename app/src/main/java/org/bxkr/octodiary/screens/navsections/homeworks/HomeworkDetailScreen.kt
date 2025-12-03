@@ -50,6 +50,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.bxkr.octodiary.network.NetworkService
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.bxkr.octodiary.DataService
@@ -176,7 +177,7 @@ fun HomeworkDetailScreen(entryStudentId: Long) {
                         else -> null
                     }
                     if (label != null) {
-                        val client = remember { OkHttpClient() }
+                        val client = remember { NetworkService.okHttpClient }
                         val subjectSlug = subjectSlugFromName(hw.subjectName)
                         val baseHost = if (isEge) "https://ege.sdamgia.ru" else "https://oge.sdamgia.ru"
                         val subjectHost = "https://$subjectSlug-${if (isEge) "ege" else "oge"}.sdamgia.ru"

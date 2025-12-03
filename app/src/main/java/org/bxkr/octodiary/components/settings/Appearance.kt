@@ -29,7 +29,7 @@ import org.bxkr.octodiary.ui.theme.CustomColorScheme
 @Composable
 fun Appearance() {
     val activity = LocalActivity.current
-    val darkTheme = darkThemeLive.observeAsState(isSystemInDarkTheme())
+    val darkTheme by darkThemeLive.collectAsState(isSystemInDarkTheme())
     var selectedTheme by remember { mutableStateOf(colorSchemeLive.value) }
     // Track dynamic color state based on stored theme (-1 means dynamic)
     val dynamicState = remember { mutableStateOf(activity.mainPrefs.get<Int>("theme") == -1) }

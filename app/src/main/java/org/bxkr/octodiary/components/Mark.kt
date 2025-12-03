@@ -315,7 +315,7 @@ fun RatingButton(subject: MarkListSubjectItem) {
             ?.let {
                 FilledIconButton(
                     {
-                        modalBottomSheetContentLive.postValue {
+                        modalBottomSheetContentLive.value = {
                             SubjectRatingBottomSheet(
                                 subject.subjectId,
                                 subject.subjectName
@@ -346,7 +346,7 @@ fun AverageChip(subject: MarkListSubjectItem) {
                 .let {
                     if (navController != null) {
                         it.clickable {
-                            modalBottomSheetStateLive.postValue(false)
+                            modalBottomSheetStateLive.value = false
                             scrollToSubjectIdLive.value = subject.subjectId
                             navController.navigate(route = NavSection.Marks.route)
                         }
@@ -376,6 +376,6 @@ fun AverageChip(subject: MarkListSubjectItem) {
 }
 
 fun defaultMarkClick(mark: Mark, subjectId: Long) {
-    modalBottomSheetStateLive.postValue(true)
-    modalBottomSheetContentLive.postValue { MarkSheetContent(mark, subjectId) }
+    modalBottomSheetStateLive.value = true
+    modalBottomSheetContentLive.value = { MarkSheetContent(mark, subjectId) }
 }

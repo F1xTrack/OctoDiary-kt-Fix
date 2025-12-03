@@ -18,7 +18,7 @@ import org.bxkr.octodiary.navControllerLive
 @Composable
 fun AiQuickAccessCard() {
     val context = LocalContext.current
-    val nav = navControllerLive.value
+    val nav by navControllerLive.collectAsState()
     
     // Проверяем, включён ли AI
     val aiPrefs = context.getSharedPreferences("main_prefs", android.content.Context.MODE_PRIVATE)

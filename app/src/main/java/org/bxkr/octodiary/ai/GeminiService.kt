@@ -6,13 +6,13 @@ import android.util.Base64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
+import org.bxkr.octodiary.network.NetworkService
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.util.concurrent.TimeUnit
 
 /**
  * Сервис для работы с Gemini API
@@ -22,11 +22,7 @@ object GeminiService {
     private const val API_BASE = "https://generativelanguage.googleapis.com/v1beta"
     private const val DEFAULT_MODEL = "gemini-1.5-flash"
     
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(60, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .build()
+    private val client = NetworkService.okHttpClient
     
     /**
      * Получить API ключ из SharedPreferences

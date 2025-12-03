@@ -35,9 +35,13 @@ import org.bxkr.octodiary.network.interfaces.DSchoolAPI
 import org.bxkr.octodiary.network.interfaces.MainSchoolAPI
 import org.bxkr.octodiary.network.interfaces.SchoolSessionAPI
 import org.bxkr.octodiary.network.interfaces.SecondaryAPI
+import org.bxkr.octodiary.data.AuthRepository
+import com.google.gson.reflect.TypeToken
 import org.bxkr.octodiary.utils.measurePerformance
 import java.util.Calendar
 import java.util.Date
+import android.net.Uri
+import kotlinx.coroutines.flow.MutableStateFlow
 
 object DataService {
     lateinit var subsystem: Diary
@@ -45,6 +49,7 @@ object DataService {
     lateinit var dSchoolApi: DSchoolAPI
     lateinit var secondaryApi: SecondaryAPI
     lateinit var schoolSessionApi: SchoolSessionAPI
+    lateinit var authRepository: AuthRepository
 
     lateinit var token: String
 
@@ -53,6 +58,8 @@ object DataService {
 
     lateinit var sessionUser: SessionUser
     var hasSessionUser = false
+
+
 
     lateinit var eventCalendar: List<Event>
     var hasEventCalendar = false
@@ -214,27 +221,11 @@ object DataService {
 
     var currentProfile = 0
 
-    fun updateUserId(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        dSchoolApi.profilesId(token)
-            .baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { body ->
-                if (body.size == 0) {
-                    tokenExpirationHandler?.invoke()
-                } else {
-                    userId = body
-                    hasUserId = true
-                    onUpdated()
-                }
-            }
-    }
+    val pickedImageUri = MutableStateFlow<Uri?>(null)
 
-    fun updateSessionUser(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::userId.isInitialized)
-        sessionUser = SessionUser("a")
-        hasSessionUser = true
-        onUpdated()
-    }
+
+
+
 
     fun updateEventCalendar(weeksBefore: Int = 0, weeksAfter: Int = 0, onUpdated: () -> Unit) {
         assert(this::token.isInitialized)
@@ -630,21 +621,7 @@ object DataService {
         ).baseEnqueue(errorFunction = errorListenerForMessage(errorListener)) { listener(it) }
     }
 
-    fun refreshToken(context: Context, onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
 
-        if (subsystem == Diary.MES) {
-            context.refreshToken {
-                onUpdated()
-            }
-        } else {
-            secondaryApi.refreshToken("Bearer $token")
-                .baseEnqueue(::baseErrorFunction) {
-                    token = it
-                    updateUserId { onUpdated() }
-                }
-        }
-    }
 
     fun setHomeworkDoneState(homeworkId: Long, state: Boolean, listener: () -> Unit) {
         assert(this::token.isInitialized)
@@ -762,12 +739,12 @@ object DataService {
             }
             println("$name response is loaded, $statesInit")
         }
-        if (context != null) {
-            refreshToken(context) {}
-        }
-        updateUserId {
+        // if (context != null) {
+        //     refreshToken(context) {}
+        // }
+        authRepository.updateUserId {
             onSingleItemLoad(::userId.name)
-            updateSessionUser {
+            authRepository.updateSessionUser {
                 onSingleItemLoad(::sessionUser.name)
                 updateProfile {
                     onSingleItemLoad(::profile.name)
@@ -801,8 +778,11 @@ object DataService {
 
     fun loadFromCache(get: (String) -> String) {
         fields.map { it.name }.forEachIndexed { index, it ->
-            javaClass.getDeclaredField(it)
-                .set(this, Gson().fromJson(get(it), javaClass.getDeclaredField(it).genericType))
+            javaClass.getDeclaredField(it).let { field ->
+                val type = field.genericType
+                val value = Gson().fromJson<Any?>(get(it), TypeToken.get(type).type) // Explicit Any?
+                field.set(this, value)
+            }
             states[index].set(true)
         }
     }

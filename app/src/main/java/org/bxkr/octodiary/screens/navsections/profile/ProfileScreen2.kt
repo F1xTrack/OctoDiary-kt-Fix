@@ -37,7 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,11 +51,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewmodel.compose.viewModel
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import org.bxkr.octodiary.viewmodels.ProfileScreen2ViewModel
+import org.bxkr.octodiary.viewmodels.ProfileScreen2ViewModelFactory
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.Diary
-import org.bxkr.octodiary.R
 import org.bxkr.octodiary.baseEnqueueOrNull
 import org.bxkr.octodiary.launchPickerLive
 import org.bxkr.octodiary.launchUrlLive
@@ -64,29 +68,48 @@ import org.bxkr.octodiary.modalBottomSheetStateLive
 import org.bxkr.octodiary.modalDialogContentLive
 import org.bxkr.octodiary.modalDialogStateLive
 import org.bxkr.octodiary.models.profile.Children
+import org.bxkr.octodiary.models.profile.ProfileResponse
+import org.bxkr.octodiary.models.avatar.Avatar
+import org.bxkr.octodiary.models.govexams.GovExamsResponse
+import kotlin.collections.firstOrNull
+import kotlin.collections.isNullOrEmpty
 import org.bxkr.octodiary.network.NetworkService
 import org.bxkr.octodiary.screens.navsections.profile.meal.MealDialog
 
-val avatarTriggerLive = MutableLiveData(false)
+
 
 @Composable
 fun ProfileScreen2() {
-    val child = DataService.profile.children[DataService.currentProfile]
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: ProfileScreen2ViewModel = viewModel(
+        factory = ProfileScreen2ViewModelFactory(application, DataService)
+    )
+
+    val profileResponse by viewModel.profile.collectAsState()
+    val avatars by viewModel.avatars.collectAsState()
+    val govExams by viewModel.govExams.collectAsState()
+    val subsystem by viewModel.subsystem.collectAsState()
+    val currentProfileIndex by viewModel.currentProfileIndex.collectAsState()
+
+    val child = profileResponse?.children?.get(currentProfileIndex ?: 0)
     Column(
         Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        ShortProfileInfo(child)
-        Cards()
+        if (child != null && profileResponse != null) {
+            ShortProfileInfo(child, profileResponse, avatars, viewModel)
+            Cards(govExams, subsystem, viewModel)
+        } else {
+            // Show loading or error state
+        }
     }
 }
 
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-private fun ShortProfileInfo(child: Children) {
-    val trigger = avatarTriggerLive.observeAsState()
+private fun ShortProfileInfo(child: Children, profileResponse: ProfileResponse, avatars: List<Avatar>?, viewModel: ProfileScreen2ViewModel) {
     Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.padding(end = 16.dp)) {
             val onAvatarClick = {
@@ -94,7 +117,7 @@ private fun ShortProfileInfo(child: Children) {
                     var loading by remember { mutableStateOf(false) }
                     AlertDialog(
                         {
-                            modalDialogStateLive.postValue(false)
+                            modalDialogStateLive.value = true
                         },
                         confirmButton = {
                             TextButton(
@@ -142,22 +165,11 @@ private fun ShortProfileInfo(child: Children) {
                                             },
                                             R.string.choose_from_gallery
                                         )
-                                        if (DataService.avatars.isNotEmpty()) {
+                                        if (!avatars.isNullOrEmpty()) {
                                             actionCard({
                                                 loading = true
-                                                DataService.run {
-                                                    secondaryApi.deleteAvatar(
-                                                        "Bearer $token",
-                                                        profile.children[currentProfile].contingentGuid,
-                                                        avatars.first().id.toString()
-                                                    ).baseEnqueueOrNull {
-                                                        updateAvatars {
-                                                            modalDialogStateLive.postValue(false)
-                                                            avatarTriggerLive.value =
-                                                                avatarTriggerLive.value?.not()
-                                                                    ?: true
-                                                        }
-                                                    }
+                                                avatars.firstOrNull()?.let { avatar ->
+                                                    viewModel.deleteAvatar(avatar.id.toString())
                                                 }
                                             }, R.string.delete)
                                         }
@@ -167,40 +179,34 @@ private fun ShortProfileInfo(child: Children) {
                         }
                     )
                 }
-                modalDialogStateLive.postValue(true)
+                modalDialogStateLive.value = true
             }
-            AnimatedContent(trigger.value, label = "avatar_anim") {
-                DataService.avatars.let {
-                    if (it.isNotEmpty()) {
-                        GlideImage(
-                            it.first().url.let { string -> Uri.parse(string) },
-                            stringResource(R.string.avatar),
-                            Modifier
-                                .clip(CircleShape)
-                                .clickable { onAvatarClick() }
-                                .size(64.dp),
-                            contentScale = ContentScale.Crop
-                        )
-                    } else {
-                        Box(
-                            Modifier
-                                .size(64.dp)
-                                .clip(CircleShape)
-                                .clickable { onAvatarClick() }
-                                .background(
-                                    MaterialTheme.colorScheme.surfaceContainerHigh,
-                                    CircleShape
-                                )
-                        ) {
-                            Icon(
-                                painterResource(R.drawable.ic_launcher_foreground),
-                                stringResource(R.string.app_name),
-                                Modifier.scale(1.4f),
-                                MaterialTheme.colorScheme.run { secondary }
-                            )
-                        }
-                    }
-                }
+            avatars?.firstOrNull()?.let { avatar ->
+                GlideImage(
+                    avatar.url.let { string -> Uri.parse(string) },
+                    stringResource(R.string.avatar),
+                    Modifier
+                        .clip(CircleShape)
+                        .clickable { onAvatarClick() }
+                        .size(64.dp),
+                    contentScale = ContentScale.Crop
+                )
+            } ?: Box( // Added a Box for the else branch when avatar is null or empty
+                Modifier
+                    .size(64.dp)
+                    .clip(CircleShape)
+                    .clickable { onAvatarClick() }
+                    .background(
+                        MaterialTheme.colorScheme.surfaceContainerHigh,
+                        CircleShape
+                    )
+            ) {
+                Icon(
+                    painterResource(R.drawable.ic_launcher_foreground),
+                    stringResource(R.string.app_name),
+                    Modifier.scale(1.4f),
+                    MaterialTheme.colorScheme.run { secondary }
+                )
             }
         }
         Column {
@@ -215,35 +221,27 @@ private fun ShortProfileInfo(child: Children) {
 }
 
 @Composable
-private fun Cards() {
-    val is77 = remember { DataService.subsystem == Diary.MES }
+private fun Cards(govExams: GovExamsResponse?, subsystem: Diary?, viewModel: ProfileScreen2ViewModel) {
+    val is77 = remember { subsystem == Diary.MES }
     Column(
         Modifier
             .padding(16.dp)
             .clip(MaterialTheme.shapes.large),
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        ProfileCard(R.string.personal_data, Icons.Rounded.Person) { PersonalData() }
-        ProfileCard(R.string.class_label, Icons.Rounded.Group) { ClassInfo() }
-        ProfileCard(R.string.school_and_teachers, Icons.Rounded.School) { School() }
-        if (isExamsNotEmpty()) ProfileCard(
+        ProfileCard(R.string.personal_data, Icons.Rounded.Person, bottomSheetContent = { PersonalData() })
+        ProfileCard(R.string.class_label, Icons.Rounded.Group, bottomSheetContent = { ClassInfo() })
+        ProfileCard(R.string.school_and_teachers, Icons.Rounded.School, bottomSheetContent = { School() })
+        if (!govExams?.data.isNullOrEmpty()) ProfileCard(
             R.string.exam_results,
-            Icons.Rounded.Grade
-        ) { ExamResults() }
-        if (is77) ProfileCard(R.string.wallet, Icons.Rounded.Wallet) { Wallet() }
-        ProfileCard(R.string.meal, Icons.Rounded.Restaurant, onClick = ::mealOnClick)
-        ProfileCard(R.string.documents, Icons.Rounded.Description) { Documents() }
+            Icons.Rounded.Grade, bottomSheetContent = { ExamResults() })
+        if (is77) ProfileCard(R.string.wallet, Icons.Rounded.Wallet, bottomSheetContent = { Wallet() })
+        ProfileCard(R.string.meal, Icons.Rounded.Restaurant, onClick = viewModel::mealOnClick)
+        ProfileCard(R.string.documents, Icons.Rounded.Description, bottomSheetContent = { Documents() })
     }
 }
 
-private fun mealOnClick() {
-    if (DataService.subsystem == Diary.MES) {
-        modalDialogContentLive.value = { MealDialog() }
-        modalDialogStateLive.postValue(true)
-    } else {
-        launchUrlLive.postValue(Uri.parse(NetworkService.MySchoolAPIConfig.FOOD_URI))
-    }
-}
+
 
 @Composable
 private fun ProfileCard(
@@ -321,9 +319,9 @@ private fun ProfileCard(
     }
 }
 
-private fun isExamsNotEmpty(): Boolean = DataService.govExams.data.isNotEmpty()
+
 
 private fun openBottomSheet(content: @Composable () -> Unit) {
-    modalBottomSheetStateLive.postValue(true)
-    modalBottomSheetContentLive.postValue(content)
+    modalBottomSheetStateLive.value = true
+    modalBottomSheetContentLive.value = content
 }
