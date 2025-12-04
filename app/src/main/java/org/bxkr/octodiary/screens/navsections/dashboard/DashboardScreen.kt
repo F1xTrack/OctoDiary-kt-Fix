@@ -21,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,62 +72,64 @@ fun DashboardScreen() {
                 org.bxkr.octodiary.components.ai.AiQuickAccessCard()
             }
         }
-        dashboardRatingVisits()
-        item {
-            ChangelogCard(context)
-        }
-        dashboardSchedule(context, showNumbers)
-    }
-}
-
-fun LazyListScope.dashboardSchedule(context: Context, showNumbers: Boolean) {
-    val date = if (context.isDemo) {
-        demoScheduleDate
-    } else Date()
-    item {
-        Spacer(Modifier.size(8.dp))
-    }
-    DayItem(
-        day = DataService.eventCalendar.filter { it.startAt.parseLongDate().time > date.time }
-            .minByOrNull {
-                it.startAt.parseLongDate().time - date.time
-            }?.startAt?.parseLongDate()?.formatToDay()?.let { day ->
-                DataService.eventCalendar.filter {
-                    it.startAt.parseLongDate().formatToDay() == day
+                dashboardRatingVisits()
+                item {
+                    ChangelogCard(context)
                 }
-            } ?: listOf(), showNumbers, showBreaks = false, reversed = true)
-    item {
-        val currentDay = remember { date.formatToDay() }
-        Column(
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            val todayCalendar = DataService.eventCalendar.filter {
-                it.startAt.parseLongDate().formatToDay() == currentDay
-            }
-            val nearestEvent =
-                DataService.eventCalendar.filter { it.startAt.parseLongDate().time > date.time }
-                    .minByOrNull {
-                        it.startAt.parseLongDate().time - date.time
-                    }
-            if (todayCalendar.isNotEmpty() && date < todayCalendar.maxBy { it.finishAt.parseLongDate() }.finishAt.parseLongDate()) {
-                Text(
-                    stringResource(id = R.string.schedule_today),
-                    style = MaterialTheme.typography.labelLarge
-                )
-            } else if (nearestEvent != null) {
-                Text(
-                    stringResource(
-                        id = R.string.schedule_for,
-                        nearestEvent.startAt.parseLongDate().formatToHumanDay()
-                    ),
-                    style = MaterialTheme.typography.labelLarge
-                )
+                item {
+                    DashboardScheduleComponent(context, showNumbers)
+                }
             }
         }
-    }
-}
-
-fun LazyListScope.dashboardRatingVisits() {
+        
+        @Composable
+        fun DashboardScheduleComponent(context: Context, showNumbers: Boolean) {
+            val eventCalendar by DataService.eventCalendar.collectAsState()
+            val date = if (context.isDemo) {
+                demoScheduleDate
+            } else Date()
+            Column {
+                Spacer(Modifier.size(8.dp))
+                DayItem(
+                    day = eventCalendar.filter { it.startAt.parseLongDate().time > date.time }
+                        .minByOrNull {
+                            it.startAt.parseLongDate().time - date.time
+                        }?.startAt?.parseLongDate()?.formatToDay()?.let { day ->
+                            eventCalendar.filter {
+                                it.startAt.parseLongDate().formatToDay() == day
+                            }
+                        } ?: listOf(), showNumbers, showBreaks = false, reversed = true)
+                val currentDay = remember { date.formatToDay() }
+                Column(
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    val todayCalendar = eventCalendar.filter {
+                        it.startAt.parseLongDate().formatToDay() == currentDay
+                    }
+                    val nearestEvent =
+                        eventCalendar.filter { it.startAt.parseLongDate().time > date.time }
+                            .minByOrNull {
+                                it.startAt.parseLongDate().time - date.time
+                            }
+                    if (todayCalendar.isNotEmpty() && date < todayCalendar.maxBy { it.finishAt.parseLongDate() }.finishAt.parseLongDate()) {
+                        Text(
+                            stringResource(id = R.string.schedule_today),
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    } else if (nearestEvent != null) {
+                        Text(
+                            stringResource(
+                                id = R.string.schedule_for,
+                                nearestEvent.startAt.parseLongDate().formatToHumanDay()
+                            ),
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+                }
+            }
+        }
+        
+        fun LazyListScope.dashboardRatingVisits() {
     item {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Bottom)) {
             Column {

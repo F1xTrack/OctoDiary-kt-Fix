@@ -15,3 +15,7 @@ octodiary_logs.txt
 output.log
 run_build_with_timer.ps1
 /temp_downloads/
+octodiary_deeplinks_logs.txt
+octodiary_interactive_test_logs.txt
+test_deep_links.ps1
+test_interactive_monkey.ps1

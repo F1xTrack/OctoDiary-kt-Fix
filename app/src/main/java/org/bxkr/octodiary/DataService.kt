@@ -56,13 +56,15 @@ object DataService {
     lateinit var userId: ProfilesId
     var hasUserId = false
 
-    lateinit var sessionUser: SessionUser
-    var hasSessionUser = false
+        lateinit var sessionUser: SessionUser
 
+        var hasSessionUser = false
 
+    
 
-    lateinit var eventCalendar: List<Event>
-    var hasEventCalendar = false
+        private val _eventCalendar = MutableStateFlow<List<Event>>(emptyList())
+
+        val eventCalendar: StateFlow<List<Event>> = _eventCalendar
 
     lateinit var eventsRange: List<Long>
 
@@ -146,8 +148,8 @@ object DataService {
             listOfNotNull(
                 ::hasUserId,
                 ::hasSessionUser,
-                ::hasEventCalendar,
-                ::hasEventCalendar,
+                // ::hasEventCalendar, // Удалено, так как eventCalendar теперь StateFlow
+                // ::hasEventCalendar,
                 ::hasRanking,
                 ::hasClassMembers,
                 ::hasProfile,
@@ -170,7 +172,7 @@ object DataService {
             listOfNotNull(
                 ::userId,
                 ::sessionUser,
-                ::eventCalendar,
+                // ::eventCalendar, // Удалено, так как eventCalendar теперь StateFlow
                 ::eventsRange,
                 ::ranking,
                 ::classMembers,
@@ -192,7 +194,7 @@ object DataService {
     val mapOfDemoResourceIds = mapOf(
         ::userId to R.raw.demo_user_id,
         ::sessionUser to R.raw.demo_session_user,
-        ::eventCalendar to R.raw.demo_event_calendar,
+        // ::eventCalendar to R.raw.demo_event_calendar,
         ::eventsRange to R.raw.demo_events_range,
         ::ranking to R.raw.demo_ranking,
         ::classMembers to R.raw.demo_class_members,
@@ -245,9 +247,8 @@ object DataService {
             endDate = endDate.time.formatToDay(),
             expandFields = "homework,marks"
         ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { body ->
-            eventCalendar = body.response
+            _eventCalendar.value = body.response
             eventsRange = listOf(startDate.time.time, endDate.time.time)
-            hasEventCalendar = true
             onUpdated()
         }
     }
@@ -272,6 +273,7 @@ object DataService {
             endDate = endDate.time.formatToDay(),
             expandFields = "homework,marks"
         ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { body ->
+            _eventCalendar.value = body.response // Обновляем StateFlow
             listener(body.response, listOf(startDate.time.time, endDate.time.time))
         }
     }
