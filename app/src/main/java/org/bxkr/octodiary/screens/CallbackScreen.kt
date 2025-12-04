@@ -44,7 +44,7 @@ fun CallbackScreen(code: String, type: CallbackType, subsystem: Int?) {
                     hasToken.value = true
                     LocalContext.current.setUpdateFor(Date())
                 } else {
-                    screenLive.postValue(Screen.Login)
+                    screenLive.value = Screen.Login
                 }
             }
         }

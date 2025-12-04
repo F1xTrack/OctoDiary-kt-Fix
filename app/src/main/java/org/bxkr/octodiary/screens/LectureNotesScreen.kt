@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 // import org.bxkr.octodiary.database.entity.LectureNoteEntity
 import org.bxkr.octodiary.navControllerLive
 import java.text.SimpleDateFormat
@@ -21,7 +22,7 @@ import java.util.*
 @Composable
 fun LectureNotesScreen() {
     val context = LocalContext.current
-    val nav = navControllerLive.value
+    val nav by navControllerLive.collectAsState()
     
     var notes by remember { mutableStateOf<List<Any>>(emptyList()) }
     var showRecordDialog by remember { mutableStateOf(false) }

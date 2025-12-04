@@ -25,7 +25,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.contentDependentActionIconLive
@@ -33,7 +33,7 @@ import org.bxkr.octodiary.contentDependentActionLive
 import org.bxkr.octodiary.models.homeworks.Homework
 import org.bxkr.octodiary.parseFromDay
 
-val enabledSubjectsLive = MutableLiveData<List<Long>>(emptyList())
+val enabledSubjectsLive = MutableStateFlow<List<Long>>(emptyList())
 
 @Composable
 fun HomeworksScreen() {
@@ -41,17 +41,17 @@ fun HomeworksScreen() {
         val enable = { enabled: Boolean, id: Long ->
             if (enabledSubjectsLive.value != null) {
                 if (enabled && enabledSubjectsLive.value?.contains(id) == false) {
-                    enabledSubjectsLive.postValue(enabledSubjectsLive.value!! + listOf(id))
+                    enabledSubjectsLive.value = enabledSubjectsLive.value!! + listOf(id)
                 } else if (!enabled && enabledSubjectsLive.value?.contains(id) == true) {
-                    enabledSubjectsLive.postValue(enabledSubjectsLive.value!!.filter {
+                    enabledSubjectsLive.value = enabledSubjectsLive.value!!.filter {
                         it != id
-                    })
+                    }
                 }
             }
         }
-        enabledSubjectsLive.postValue(DataService.homeworks.map { it.subjectId })
-        contentDependentActionIconLive.postValue(Icons.Rounded.FilterAlt)
-        contentDependentActionLive.postValue {
+        enabledSubjectsLive.value = DataService.homeworks.map { it.subjectId }
+        contentDependentActionIconLive.value = Icons.Rounded.FilterAlt
+        contentDependentActionLive.value = {
             DataService.homeworks.map { it.subjectId to it.subjectName }.toSet().forEach {
                 var checked by rememberSaveable(key = it.first.toString()) {
                     mutableStateOf(

@@ -41,7 +41,6 @@ import com.google.gson.reflect.TypeToken
 import org.bxkr.octodiary.utils.measurePerformance
 import java.util.Calendar
 import java.util.Date
-import android.net.Uri
 import kotlinx.coroutines.flow.MutableStateFlow
 
 object DataService {

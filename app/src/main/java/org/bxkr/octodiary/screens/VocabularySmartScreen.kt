@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
@@ -33,7 +34,7 @@ import org.bxkr.octodiary.navControllerLive
 @Composable
 fun VocabularySmartScreen() {
     val context = LocalContext.current
-    val nav = navControllerLive.value
+    val nav by navControllerLive.collectAsState()
     val scope = rememberCoroutineScope()
     
     var words by remember { mutableStateOf<List<Any>>(emptyList()) }

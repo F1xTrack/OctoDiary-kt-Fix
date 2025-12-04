@@ -60,6 +60,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.Diary
+import org.bxkr.octodiary.R
 import org.bxkr.octodiary.baseEnqueueOrNull
 import org.bxkr.octodiary.launchPickerLive
 import org.bxkr.octodiary.launchUrlLive
@@ -91,14 +92,15 @@ fun ProfileScreen2() {
     val subsystem by viewModel.subsystem.collectAsState()
     val currentProfileIndex by viewModel.currentProfileIndex.collectAsState()
 
-    val child = profileResponse?.children?.get(currentProfileIndex ?: 0)
+    val currentProfileResponse = profileResponse
+    val child = currentProfileResponse?.children?.get(currentProfileIndex ?: 0)
     Column(
         Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        if (child != null && profileResponse != null) {
-            ShortProfileInfo(child, profileResponse, avatars, viewModel)
+        if (child != null && currentProfileResponse != null) {
+            ShortProfileInfo(child, currentProfileResponse, avatars, viewModel)
             Cards(govExams, subsystem, viewModel)
         } else {
             // Show loading or error state
@@ -276,7 +278,7 @@ private fun ProfileCard(
                 shape = MaterialTheme.shapes.extraSmall
             )
             .clip(MaterialTheme.shapes.extraSmall)
-            .clickable { openBottomSheet { bottomSheetContent() } }
+            .clickable { openBottomSheet(bottomSheetContent) }
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

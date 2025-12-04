@@ -139,7 +139,7 @@ fun LazyListScope.dashboardRatingVisits() {
                             .fillMaxWidth()
                             .clickable {
                                 modalBottomSheetContentLive.value = { RankingList() }
-                                modalBottomSheetStateLive.postValue(true)
+                                modalBottomSheetStateLive.value = true
                             }
                     ) {
                         Column(
@@ -178,7 +178,7 @@ fun LazyListScope.dashboardRatingVisits() {
                                 .fillMaxWidth()
                                 .clickable {
                                     modalBottomSheetContentLive.value = { VisitsList() }
-                                    modalBottomSheetStateLive.postValue(true)
+                                    modalBottomSheetStateLive.value = true
                                 }
                         ) {
                             Row(

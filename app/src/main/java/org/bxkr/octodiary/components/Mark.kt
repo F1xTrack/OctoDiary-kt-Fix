@@ -24,7 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -337,18 +337,19 @@ fun RatingButton(subject: MarkListSubjectItem) {
 
 @Composable
 fun AverageChip(subject: MarkListSubjectItem) {
-    val navController = navControllerLive.observeAsState().value
+    val navController by navControllerLive.collectAsState()
     if (subject.currentPeriod != null) {
         Row(
             Modifier
                 .padding(top = 8.dp)
                 .clip(CircleShape)
                 .let {
-                    if (navController != null) {
+                    val nav = navController
+                    if (nav != null) {
                         it.clickable {
                             modalBottomSheetStateLive.value = false
                             scrollToSubjectIdLive.value = subject.subjectId
-                            navController.navigate(route = NavSection.Marks.route)
+                            nav.navigate(route = NavSection.Marks.route)
                         }
                     } else it
                 }

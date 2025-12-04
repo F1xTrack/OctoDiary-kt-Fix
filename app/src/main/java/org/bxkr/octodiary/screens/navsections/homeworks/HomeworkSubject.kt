@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.models.homeworks.Homework

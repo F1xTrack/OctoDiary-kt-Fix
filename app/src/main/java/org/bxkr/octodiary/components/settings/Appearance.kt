@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,10 +26,14 @@ import org.bxkr.octodiary.mainPrefs
 import org.bxkr.octodiary.save
 import org.bxkr.octodiary.ui.theme.CustomColorScheme
 
+import androidx.compose.runtime.derivedStateOf
+
 @Composable
 fun Appearance() {
     val activity = LocalActivity.current
-    val darkTheme by darkThemeLive.collectAsState(isSystemInDarkTheme())
+    val darkThemeState = darkThemeLive.collectAsState(isSystemInDarkTheme())
+    val darkTheme = darkThemeState.value
+    val safeDarkThemeState = remember { derivedStateOf { darkThemeState.value ?: false } }
     var selectedTheme by remember { mutableStateOf(colorSchemeLive.value) }
     // Track dynamic color state based on stored theme (-1 means dynamic)
     val dynamicState = remember { mutableStateOf(activity.mainPrefs.get<Int>("theme") == -1) }
@@ -47,7 +51,7 @@ fun Appearance() {
                         Modifier.padding(start = 8.dp),
                         true
                     ) {
-                        colorSchemeLive.postValue(-1)
+                        colorSchemeLive.value = -1
                         selectedTheme = -1
                         activity.mainPrefs.save("theme" to -1)
                         dynamicState.value = true
@@ -57,9 +61,10 @@ fun Appearance() {
         }
         items(CustomColorScheme.values()) {
             val scheme = remember {
-                when (darkTheme.value) {
+                when (darkTheme) {
                     true -> it.darkColorScheme
                     false -> it.lightColorScheme
+                    else -> it.lightColorScheme // Default fallback
                 }
             }
             scheme.run {
@@ -69,7 +74,7 @@ fun Appearance() {
                     secondary,
                     surfaceVariant
                 ) {
-                    colorSchemeLive.postValue(it.ordinal)
+                    colorSchemeLive.value = it.ordinal
                     selectedTheme = it.ordinal
                     activity.mainPrefs.save(
                         "theme" to it.ordinal,
@@ -89,13 +94,13 @@ fun Appearance() {
         ) { enabled ->
             dynamicState.value = enabled
             if (enabled) {
-                colorSchemeLive.postValue(-1)
+                colorSchemeLive.value = -1
                 selectedTheme = -1
                 activity.mainPrefs.save("theme" to -1)
             } else {
                 val fallback = activity.mainPrefs.get<Int>("last_static_theme")
                     ?: CustomColorScheme.Yellow.ordinal
-                colorSchemeLive.postValue(fallback)
+                colorSchemeLive.value = fallback
                 selectedTheme = fallback
                 activity.mainPrefs.save("theme" to fallback)
             }
@@ -104,14 +109,14 @@ fun Appearance() {
 
     SwitchPreference(
         title = stringResource(R.string.dark_theme),
-        listenState = darkTheme
+        listenState = safeDarkThemeState
     ) {
         darkThemeLive.value = it
         activity.mainPrefs.save("is_dark_theme" to it)
     }
     
     // AMOLED тема (только для темного режима)
-    if (darkTheme.value == true) {
+    if (darkTheme == true) {
         val amoledState = remember { 
             mutableStateOf(activity.mainPrefs.get<Boolean>("amoled_theme") ?: false) 
         }

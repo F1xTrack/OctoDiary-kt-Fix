@@ -27,7 +27,7 @@ import org.bxkr.octodiary.parseSimpleLongDate
 @Composable
 fun MarksByDate() {
     val filterState = remember { mutableStateOf(DateMarkFilterType.ByUpdated) }
-    contentDependentActionLive.postValue { DateMarkFilter(state = filterState) }
+    contentDependentActionLive.value = { DateMarkFilter(state = filterState) }
     val daySplitMarks = DataService.marksDate.payload.sortedByDescending {
         when (filterState.value) {
             DateMarkFilterType.ByUpdated -> it.updatedAt.parseSimpleLongDate()

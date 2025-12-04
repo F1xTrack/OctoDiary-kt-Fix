@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.ai.GeminiService
@@ -32,7 +33,7 @@ import java.util.Date
 @Composable
 fun AiDashboardScreen() {
     val context = LocalContext.current
-    val nav = navControllerLive.value
+    val nav by navControllerLive.collectAsState()
     val scope = rememberCoroutineScope()
     
     var studyPlan by remember { mutableStateOf<StudyPlan?>(null) }

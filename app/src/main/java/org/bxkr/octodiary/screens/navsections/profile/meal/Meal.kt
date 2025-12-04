@@ -41,7 +41,7 @@ import org.bxkr.octodiary.ui.theme.exitTransition2
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MealDialog() {
-    val onDismiss = { modalDialogStateLive.postValue(false) }
+    val onDismiss = { modalDialogStateLive.value = false }
     Dialog(
         properties = DialogProperties(
             usePlatformDefaultWidth = false

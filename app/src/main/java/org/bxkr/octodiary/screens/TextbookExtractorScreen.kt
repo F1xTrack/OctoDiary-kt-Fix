@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import org.bxkr.octodiary.ai.TextbookExtractorService
 import org.bxkr.octodiary.components.ai.TextbookExtractCard
@@ -26,7 +27,7 @@ import org.bxkr.octodiary.navControllerLive
 @Composable
 fun TextbookExtractorScreen() {
     val context = LocalContext.current
-    val nav = navControllerLive.value
+    val nav by navControllerLive.collectAsState()
     val scope = rememberCoroutineScope()
 
     var extracts by remember { mutableStateOf<List<TextbookExtractEntity>>(emptyList()) }

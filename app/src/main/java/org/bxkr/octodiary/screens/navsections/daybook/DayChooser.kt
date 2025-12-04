@@ -16,12 +16,12 @@ import java.util.Date
 @Composable
 fun DayChooser() {
     val datePickerState = rememberDatePickerState()
-    DatePickerDialog(onDismissRequest = { modalDialogStateLive.postValue(false) }, confirmButton = {
+    DatePickerDialog(onDismissRequest = { modalDialogStateLive.value = false }, confirmButton = {
         TextButton(onClick = {
             val selectedDate = datePickerState.selectedDateMillis
             if (selectedDate != null) {
-                daySelectedLive.postValue(Date(selectedDate))
-                modalDialogStateLive.postValue(false)
+                daySelectedLive.value = Date(selectedDate)
+                modalDialogStateLive.value = false
             }
         }) {
             Text(text = stringResource(id = R.string.select))

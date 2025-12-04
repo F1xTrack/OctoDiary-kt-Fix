@@ -11,7 +11,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -24,8 +25,8 @@ import org.bxkr.octodiary.parseFromDay
 
 @Composable
 fun HomeworkDay(homeworks: List<org.bxkr.octodiary.models.homeworks2.Homework>) {
-    val enabledSubjects = enabledSubjectsLive.observeAsState()
-    AnimatedVisibility(visible = homeworks.any { it.subjectId in enabledSubjects.value!! }) {
+    val enabledSubjects by enabledSubjectsLive.collectAsState()
+    AnimatedVisibility(visible = homeworks.any { it.subjectId in enabledSubjects!! }) {
         Column(Modifier.padding(bottom = 16.dp)) {
             val date = homeworks[0].date.parseFromDay()
             Row {
@@ -61,7 +62,7 @@ fun HomeworkDay(homeworks: List<org.bxkr.octodiary.models.homeworks2.Homework>) 
                         shape = MaterialTheme.shapes.extraSmall,
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
                     ) {
-                        AnimatedVisibility(visible = it.first().subjectId in enabledSubjects.value!!) {
+                        AnimatedVisibility(visible = it.first().subjectId in enabledSubjects!!) {
                             HomeworkSubject(homeworks = it)
                         }
                     }

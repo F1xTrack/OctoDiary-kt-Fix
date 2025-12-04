@@ -46,7 +46,7 @@ import java.util.Date
 @Composable
 fun MarksBySubject(scrollToSubjectId: Long? = null) {
     val filterState = remember { mutableStateOf(SubjectMarkFilterType.ByAverage) }
-    contentDependentActionLive.postValue { SubjectMarkFilter(state = filterState) }
+    contentDependentActionLive.value = { SubjectMarkFilter(state = filterState) }
     val periods = remember {
         DataService.marksSubject.maxBy {
             it.periods?.size ?: 0
@@ -126,7 +126,7 @@ fun MarksBySubject(scrollToSubjectId: Long? = null) {
                                     LaunchedEffect(Unit) {
                                         coroutineScope {
                                             lazyColumnState.animateScrollToItem(subjects.indexOfFirst { it.subjectId == scrollToSubjectId })
-                                            scrollToSubjectIdLive.postValue(null)
+                                            scrollToSubjectIdLive.value = null
                                         }
                                     }
                                 }

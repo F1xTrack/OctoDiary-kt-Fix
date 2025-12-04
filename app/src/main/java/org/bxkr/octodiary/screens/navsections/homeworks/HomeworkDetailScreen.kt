@@ -44,6 +44,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.compose.runtime.collectAsState
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import kotlinx.coroutines.Dispatchers
@@ -65,7 +67,7 @@ fun HomeworkDetailScreen(entryStudentId: Long) {
     var showWebView by rememberSaveable { mutableStateOf(false) }
     var webViewUrl by rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
-    val nav = navControllerLive.value
+    val nav by navControllerLive.collectAsState()
     val hw = remember(entryStudentId) {
         DataService.homeworks.firstOrNull { it.homeworkEntryStudentId == entryStudentId }
     }

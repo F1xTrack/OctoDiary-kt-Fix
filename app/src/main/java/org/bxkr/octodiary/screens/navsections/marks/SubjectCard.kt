@@ -35,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -99,7 +100,7 @@ fun SubjectCard(
             if ((it == DragValue.Start || it == DragValue.End) && !showHint && !blockShowingSheet) {
                 modalBottomSheetContentLive.value =
                     { MarkCalculator(period, subjectId, subjectName, markConfig) }
-                modalBottomSheetStateLive.postValue(true)
+                modalBottomSheetStateLive.value = true
             }
             if (blockShowingSheet) blockShowingSheet = false
             false
@@ -123,7 +124,8 @@ fun SubjectCard(
             anchoredDraggableState.animateTo(DragValue.Center)
         }
     }
-    val isGlow = subjectId == scrollToSubjectIdLive.value
+    val scrollToSubjectId by scrollToSubjectIdLive.collectAsState()
+    val isGlow = subjectId == scrollToSubjectId
     var size by remember { mutableStateOf(IntSize(0, 0)) }
     AnimatedContent(targetState = isGlow) { isGlowA ->
         Box {
@@ -206,7 +208,7 @@ private fun CardContent(
                 AverageChip(period.value, period.dynamic) {
                     modalBottomSheetContentLive.value =
                         { MarkCalculator(period, subjectId, subjectName, markConfig) }
-                    modalBottomSheetStateLive.postValue(true)
+                    modalBottomSheetStateLive.value = true
                 }
                 if (period.fixedValue != null) {
                     FinalChip(period.fixedValue)
@@ -234,8 +236,8 @@ private fun CardContent(
                 DataService.subjectRanking.firstOrNull { it.subjectId == subjectId }
                     ?.let {
                         FilledIconButton(onClick = {
-                            modalBottomSheetStateLive.postValue(true)
-                            modalBottomSheetContentLive.postValue {
+                            modalBottomSheetStateLive.value = true
+                            modalBottomSheetContentLive.value = {
                                 SubjectRatingBottomSheet(
                                     subjectId,
                                     subjectName

@@ -75,12 +75,11 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
         _subsystem.value = dataService.subsystem
         _token.value = dataService.token
 
-        // Observe pickedImageUri for avatar upload
         viewModelScope.launch {
-            dataService.pickedImageUri.asFlow().collect { uri: Uri? ->
+            dataService.pickedImageUri.collect { uri: Uri? ->
                 uri?.let {
                     uploadAvatar(it, getApplication<Application>().contentResolver)
-                    dataService.pickedImageUri.postValue(null) // Clear after processing
+                    dataService.pickedImageUri.value = null // Clear after processing
                 }
             }
         }
@@ -111,7 +110,7 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
     }
 
     fun onAvatarClick() {
-        modalDialogStateLive.postValue(true)
+        modalDialogStateLive.value = true
     }
 
     fun setCurrentProfileIndex(index: Int) {
@@ -125,9 +124,9 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
     fun mealOnClick() {
         if (dataService.subsystem == Diary.MES) {
             modalDialogContentLive.value = { MealDialog() }
-            modalDialogStateLive.postValue(true)
+            modalDialogStateLive.value = true
         } else {
-            launchUrlLive.postValue(Uri.parse(NetworkService.MySchoolAPIConfig.FOOD_URI))
+            launchUrlLive.value = Uri.parse(NetworkService.MySchoolAPIConfig.FOOD_URI)
         }
     }
 
@@ -139,7 +138,7 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
                 avatarId
             ).baseEnqueueOrNull {
                 loadAvatars()
-                modalDialogStateLive.postValue(false)
+                                modalDialogStateLive.value = false
             }
         }
     }
@@ -174,7 +173,7 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
                     part
                 ).baseEnqueueOrNull {
                     loadAvatars()
-                    modalDialogStateLive.postValue(false)
+                                    modalDialogStateLive.value = false
                 }
             }
 

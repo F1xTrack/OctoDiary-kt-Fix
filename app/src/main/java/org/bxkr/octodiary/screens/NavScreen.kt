@@ -53,7 +53,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -121,7 +121,7 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
     with(LocalContext.current) {
         val initialPin = remember { mutableStateOf(emptyList<Int>()) }
         val secondPin = remember { mutableStateOf(emptyList<Int>()) }
-        val navController = navControllerLive.observeAsState()
+        val navController by navControllerLive.collectAsState()
 
         if (initialPin.value.size == 4 && secondPin.value.size == 4) {
             if (initialPin.value == secondPin.value) {
@@ -204,7 +204,7 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
                         if (pref != null && pref in validRoutes) pref else NavSection.Dashboard.route
                     }
                     NavHost(
-                        navController = navController.value!!,
+                        navController = navController!!,
                         startDestination = startDestinationRoute
                     ) {
                         NavSection.values().forEach {
@@ -242,7 +242,7 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
                         composable(Screen.LectureNotesScreen.route) { LectureNotesScreen() }
                         composable(Screen.TextbookExtractorScreen.route) { TextbookExtractorScreen() }
                         composable(Screen.TextbooksScreen.route) {
-                            TextbooksScreen(onBack = { navController.value?.navigateUp() })
+                            TextbooksScreen(onBack = { navController?.navigateUp() })
                         }
                         composable("quotes") { QuoteBookScreen() }
                         composable("vocabulary") { VocabularyScreen() }

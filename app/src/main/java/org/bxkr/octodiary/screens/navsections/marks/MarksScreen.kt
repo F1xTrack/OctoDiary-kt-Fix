@@ -12,27 +12,27 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.contentDependentActionIconLive
 import org.bxkr.octodiary.showFilterLive
 
-val scrollToSubjectIdLive = MutableLiveData<Long?>(null)
+val scrollToSubjectIdLive = MutableStateFlow<Long?>(null)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MarksScreen() {
-    val scrollToSubjectId = scrollToSubjectIdLive.observeAsState()
-    showFilterLive.postValue(true)
-    contentDependentActionIconLive.postValue(Icons.AutoMirrored.Rounded.Sort)
-    var currentTab by remember { mutableStateOf(if (scrollToSubjectId.value != null) MarksScreenTab.BySubject else MarksScreenTab.ByDate) }
+    val scrollToSubjectId by scrollToSubjectIdLive.collectAsState()
+    showFilterLive.value = true
+    contentDependentActionIconLive.value = Icons.AutoMirrored.Rounded.Sort
+    var currentTab by remember { mutableStateOf(if (scrollToSubjectId != null) MarksScreenTab.BySubject else MarksScreenTab.ByDate) }
     Column {
         if (DataService.marksSubject.isNotEmpty()) {
             PrimaryTabRow(selectedTabIndex = currentTab.ordinal, divider = {}) {
@@ -52,7 +52,7 @@ fun MarksScreen() {
         Crossfade(targetState = currentTab, label = "marks_tab_anim") {
             when (it) {
                 MarksScreenTab.ByDate -> MarksByDate()
-                MarksScreenTab.BySubject -> MarksBySubject(scrollToSubjectId.value)
+                MarksScreenTab.BySubject -> MarksBySubject(scrollToSubjectId)
             }
         }
     }

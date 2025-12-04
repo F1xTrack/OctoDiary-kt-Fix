@@ -71,7 +71,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.RecomposeScope
 import androidx.compose.runtime.currentRecomposeScope
@@ -90,6 +89,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.graphics.scale
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavHostController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.launchIn
@@ -209,44 +210,10 @@ class MainActivity : FragmentActivity() {
                 1
             )
         }
-        val picker = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            uri ?: return@registerForActivityResult
-            val cursor = contentResolver.query(uri, null, null, null)
-            val result: String =
-                if (cursor == null) { // Source is Dropbox or other similar local file path
-                    uri.path!!
-                } else {
-                    cursor.moveToFirst()
-                    val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-                    val string = cursor.getString(idx)
-                    cursor.close()
-                    string
-                }
-            val file = File(result)
-            val bitmap = BitmapFactory.decodeFile(file.path)
-            val byteOutputStream = ByteArrayOutputStream()
-            bitmap.run {
-                if (height > width) {
-                    scale(200, height / (width / 200))
-                } else if (width > height) {
-                    scale(width / (height / 200), 200)
-                } else scale(200, 200)
-            }.compress(Bitmap.CompressFormat.PNG, 100, byteOutputStream)
-            val requestFile = RequestBody.create(
-                "multipart/form-data".toMediaType(),
-                byteOutputStream.toByteArray()
-            )
-            val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
+// Picker removed for debugging
 
-            DataService.pickedImageUri.value = uri
-        }
-        launchPickerLive.value = {
-            picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        }
-        enableEdgeToEdge()
+
         setContent {
-            colorSchemeLive.value = mainPrefs.get("theme") ?: -1
-            darkThemeLive.value = mainPrefs.get("is_dark_theme") ?: isSystemInDarkTheme()
             val colorScheme by colorSchemeLive.collectAsState(-1)
             val darkTheme by darkThemeLive.collectAsState(isSystemInDarkTheme())
             /**
@@ -256,8 +223,9 @@ class MainActivity : FragmentActivity() {
             val themeStartTime = System.currentTimeMillis()
             val animationStartTime = System.currentTimeMillis()
             // Оптимизация: используем remember для избежания лишних рекомпозиций
-            val currentThemeState = remember(darkTheme, colorScheme) {
-                darkTheme to colorScheme
+            val systemDark = isSystemInDarkTheme()
+            val currentThemeState = remember(darkTheme, colorScheme, systemDark) {
+                (darkTheme ?: systemDark) to colorScheme
             }
 
             AnimatedContent(
@@ -334,7 +302,7 @@ class MainActivity : FragmentActivity() {
         val surfaceColor = MaterialTheme.colorScheme.surface
         val elevatedColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
         // Оптимизация: используем derivedStateOf для topAppBarColor вместо прямого изменения
-        val navBackStackEntry by navController.value?.currentBackStackEntryAsState() ?: mutableStateOf(null)
+        val navBackStackEntry by navController?.currentBackStackEntryAsState() ?: mutableStateOf(null)
         val currentRoute by derivedStateOf { navBackStackEntry?.destination?.route }
         val topAppBarColor by derivedStateOf { if (currentRoute == NavSection.Daybook.route) elevatedColor else surfaceColor }
         val contentDependentAction by contentDependentActionLive.collectAsState()
@@ -365,9 +333,9 @@ class MainActivity : FragmentActivity() {
             mainPrefs.save("version" to BuildConfig.VERSION_CODE)
         }
 
-        if (launchUrl.value != null) {
+        if (launchUrl != null) {
             val tabIntent = CustomTabsIntent.Builder().build()
-            tabIntent.launchUrl(LocalContext.current, launchUrl.value!!)
+            tabIntent.launchUrl(LocalContext.current, launchUrl!!)
             launchUrlLive.value = null
         }
 
@@ -389,12 +357,12 @@ class MainActivity : FragmentActivity() {
                 LaunchedEffect(Unit) {
                     when (path) {
                         "/settings" -> settingsShown = true
-                        "/daybook" -> navController.value?.navigate(NavSection.Daybook.route)
-                        "/homeworks" -> navController.value?.navigate(NavSection.Homeworks.route)
-                        "/dashboard" -> navController.value?.navigate(NavSection.Dashboard.route)
-                        "/marks" -> navController.value?.navigate(NavSection.Marks.route)
-                        "/access" -> navController.value?.navigate(NavSection.Access.route)
-                        "/profile" -> navController.value?.navigate(NavSection.Profile.route)
+                        "/daybook" -> navController?.navigate(NavSection.Daybook.route)
+                        "/homeworks" -> navController?.navigate(NavSection.Homeworks.route)
+                        "/dashboard" -> navController?.navigate(NavSection.Dashboard.route)
+                        "/marks" -> navController?.navigate(NavSection.Marks.route)
+                        "/access" -> navController?.navigate(NavSection.Access.route)
+                        "/profile" -> navController?.navigate(NavSection.Profile.route)
                     }
                 }
             } else {
@@ -408,10 +376,7 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }
-        LaunchedEffect(rememberCoroutineScope()) {
-            snapshotFlow { DataService.loadedEverything.value }.onEach { localLoadedState = it }
-                .launchIn(this)
-        }
+
         CompositionLocalProvider(LocalActivity provides this) {
             Scaffold(modifier, topBar = {
                 Column {
@@ -420,7 +385,7 @@ class MainActivity : FragmentActivity() {
                         val titleAnimStart = System.currentTimeMillis()
                         val titleAnimationStart = System.currentTimeMillis()
                         AnimatedContent(targetState = title, label = "title_anim") {
-                            if ((currentScreen.value == Screen.MainNav && localLoadedState) || currentScreen.value != Screen.MainNav) {
+                            if ((currentScreen == Screen.MainNav && localLoadedState) || currentScreen != Screen.MainNav) {
                                 Text(stringResource(it))
                             } else {
                                 Text(stringResource(R.string.app_name))
@@ -437,9 +402,9 @@ class MainActivity : FragmentActivity() {
                         if (BuildConfig.DEBUG || mainPrefs.get<Boolean>("force_debug") == true) {
                             DebugMenu(this@MainActivity)
                         }
-                        if (localLoadedState && currentScreen.value == Screen.MainNav) {
+                        if (localLoadedState && currentScreen == Screen.MainNav) {
                             val currentRoute =
-                                navController.value!!.currentBackStackEntryAsState().value?.destination?.route
+                                navController!!.currentBackStackEntryAsState().value?.destination?.route
                             AnimatedVisibility(currentRoute == NavSection.Profile.route) {
                                 Row(Modifier) {
                                     IconButton(onClick = {
@@ -470,7 +435,7 @@ class MainActivity : FragmentActivity() {
                                     }
                                 }
                             }
-                            AnimatedVisibility(showFilter.value) {
+                            AnimatedVisibility(showFilter) {
                                 var expanded by remember {
                                     mutableStateOf(false)
                                 }
@@ -479,7 +444,7 @@ class MainActivity : FragmentActivity() {
                                     IconButton(onClick = { expanded = !expanded }) {
                                         val actionIconAnimationStart = System.currentTimeMillis()
                                         AnimatedContent(
-                                            targetState = icon.value,
+                                            targetState = icon,
                                             label = "action_icon_anim"
                                         ) {
                                             Icon(it, "action")
@@ -489,12 +454,12 @@ class MainActivity : FragmentActivity() {
                                         }
                                     }
                                     DropdownMenu(expanded, { expanded = false }) {
-                                        contentDependentAction.value?.invoke()
+                                        contentDependentAction?.invoke()
                                     }
 
                                 }
                             }
-                        } else if (currentScreen.value == Screen.Login) {
+                        } else if (currentScreen == Screen.Login) {
                             var expanded by remember { mutableStateOf(false) }
                             var showAboutDialog by remember { mutableStateOf(false) }
                             IconButton(onClick = { expanded = !expanded }) {
@@ -548,10 +513,10 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }, snackbarHost = { SnackbarHost(hostState = snackbarHostState) }, bottomBar = {
-                if ((currentScreen.value != Screen.MainNav) || !localLoadedState) return@Scaffold
+                if ((currentScreen != Screen.MainNav) || !localLoadedState) return@Scaffold
                 val navBarStartTime = System.currentTimeMillis()
                 NavigationBar {
-                    val navBackStackEntry by navController.value!!.currentBackStackEntryAsState()
+                    val navBackStackEntry by navController!!.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
                     Log.d("Performance", "NavigationBar rendering started")
                     NavSection.values().forEach {
@@ -567,12 +532,12 @@ class MainActivity : FragmentActivity() {
                                     showFilterLive.value = false
                                 }
                                 val navigationStart = System.currentTimeMillis()
-                                navController.value!!.navigate(it.route) {
-                                    popUpTo(navController.value!!.graph.findStartDestination().id) {
-                                        saveState = true
+                                navController!!.navigate(it.route) {
+                                    popUpTo(navController!!.graph.findStartDestination().id) {
+                                        // saveState = true
                                     }
                                     launchSingleTop = true
-                                    restoreState = true
+                                    // restoreState = true
                                 }
                                 if (BuildConfig.DEBUG) {
                                     Log.d("Performance", "Navigation to ${it.route} completed in ${System.currentTimeMillis() - clickStart}ms - total nav time: ${System.currentTimeMillis() - navigationStart}ms")
@@ -591,7 +556,7 @@ class MainActivity : FragmentActivity() {
                 }
             }) { padding ->
                 Surface {
-                    title = when (currentScreen.value!!) {
+                    title = when (currentScreen!!) {
                         Screen.Login -> {
                             LoginScreen(Modifier.padding(padding))
                             R.string.log_in
@@ -619,7 +584,7 @@ class MainActivity : FragmentActivity() {
                                     Log.d("Performance", "NavScreen rendered in ${System.currentTimeMillis() - screenStartTime}ms")
                                 }
                             }
-                            val navBackStackEntry = navController.value!!.currentBackStackEntryAsState()
+                            val navBackStackEntry = navController!!.currentBackStackEntryAsState()
                             val currentRoute = navBackStackEntry.value?.destination?.route
                             NavSection.values().firstOrNull { it.route == currentRoute }?.title ?: R.string.app_name
                         }
@@ -627,7 +592,7 @@ class MainActivity : FragmentActivity() {
                             val screenStartTime = System.currentTimeMillis()
                             val result = NavScreen(Modifier.padding(padding), pinFinished)
                             Log.d("Performance", "NavScreen rendered in ${System.currentTimeMillis() - screenStartTime}ms")
-                            val navBackStackEntry = navController.value!!.currentBackStackEntryAsState()
+                            val navBackStackEntry = navController!!.currentBackStackEntryAsState()
                             val currentRoute = navBackStackEntry.value?.destination?.route
                             NavSection.values().firstOrNull { it.route == currentRoute }?.title ?: R.string.app_name
                         }
@@ -641,7 +606,7 @@ class MainActivity : FragmentActivity() {
                         bottomSheetContent?.invoke()
                     }
                 }
-                if (showDialog.value == true) {
+                if (showDialog == true) {
                     Dialog(onDismissRequest = {
                         modalDialogStateLive.value = false
                         modalDialogCloseListenerLive.value?.invoke()
@@ -652,7 +617,7 @@ class MainActivity : FragmentActivity() {
                             shape = MaterialTheme.shapes.extraLarge,
                             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
                         ) {
-                            dialogContent.value?.invoke()
+                            dialogContent?.invoke()
                         }
                     }
                 }
