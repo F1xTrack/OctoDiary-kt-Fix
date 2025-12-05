@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.collectAsState
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.areBreaksShown
@@ -54,9 +55,10 @@ val daySelectedLive = MutableLiveData<Date>()
 @Composable
 fun ScheduleScreen() {
     key(updatedScheduleLive.observeAsState().value) {
-        val eventCalendar = DataService.eventCalendar.let {
+        val eventCalendarState = DataService.eventCalendar.collectAsState()
+        val eventCalendar = eventCalendarState.value.let {
             if (LocalContext.current.mainPrefs.get(CommonPrefs.showOnlyPlan.prefKey) ?: false) {
-                it.filter { it.source == "PLAN" }
+                it.filter { event -> event.source == "PLAN" }
             } else it
         }
         Column {

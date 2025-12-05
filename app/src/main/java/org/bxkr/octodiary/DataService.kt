@@ -42,6 +42,7 @@ import org.bxkr.octodiary.utils.measurePerformance
 import java.util.Calendar
 import java.util.Date
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 object DataService {
     lateinit var subsystem: Diary
@@ -65,6 +66,7 @@ object DataService {
         private val _eventCalendar = MutableStateFlow<List<Event>>(emptyList())
 
         val eventCalendar: StateFlow<List<Event>> = _eventCalendar
+        var hasEventCalendar = false
 
     lateinit var eventsRange: List<Long>
 
@@ -248,6 +250,7 @@ object DataService {
             expandFields = "homework,marks"
         ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { body ->
             _eventCalendar.value = body.response
+            hasEventCalendar = true
             eventsRange = listOf(startDate.time.time, endDate.time.time)
             onUpdated()
         }
@@ -274,6 +277,7 @@ object DataService {
             expandFields = "homework,marks"
         ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { body ->
             _eventCalendar.value = body.response // Обновляем StateFlow
+            hasEventCalendar = true
             listener(body.response, listOf(startDate.time.time, endDate.time.time))
         }
     }

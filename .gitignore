@@ -19,3 +19,5 @@ octodiary_deeplinks_logs.txt
 octodiary_interactive_test_logs.txt
 test_deep_links.ps1
 test_interactive_monkey.ps1
+.gemini/
+gha-creds-*.json

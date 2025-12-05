@@ -55,6 +55,8 @@ fun DashboardScreen() {
     val aiEnabled = context.getSharedPreferences("main_prefs", android.content.Context.MODE_PRIVATE)
         .getBoolean("ai_enabled", true)
     val state = rememberLazyListState()
+    val eventCalendar by DataService.eventCalendar.collectAsState()
+
     LazyColumn(
         state = state,
         reverseLayout = true,
@@ -76,30 +78,31 @@ fun DashboardScreen() {
                 item {
                     ChangelogCard(context)
                 }
-                item {
-                    DashboardScheduleComponent(context, showNumbers)
-                }
+                DashboardScheduleComponent(context, showNumbers, eventCalendar)
             }
         }
         
-        @Composable
-        fun DashboardScheduleComponent(context: Context, showNumbers: Boolean) {
-            val eventCalendar by DataService.eventCalendar.collectAsState()
+        private fun LazyListScope.DashboardScheduleComponent(context: Context, showNumbers: Boolean, eventCalendar: List<org.bxkr.octodiary.models.events.Event>) {
             val date = if (context.isDemo) {
                 demoScheduleDate
             } else Date()
-            Column {
+            
+            item {
                 Spacer(Modifier.size(8.dp))
-                DayItem(
-                    day = eventCalendar.filter { it.startAt.parseLongDate().time > date.time }
-                        .minByOrNull {
-                            it.startAt.parseLongDate().time - date.time
-                        }?.startAt?.parseLongDate()?.formatToDay()?.let { day ->
-                            eventCalendar.filter {
-                                it.startAt.parseLongDate().formatToDay() == day
-                            }
-                        } ?: listOf(), showNumbers, showBreaks = false, reversed = true)
-                val currentDay = remember { date.formatToDay() }
+            }
+            
+            DayItem(
+                day = eventCalendar.filter { it.startAt.parseLongDate().time > date.time }
+                    .minByOrNull {
+                        it.startAt.parseLongDate().time - date.time
+                    }?.startAt?.parseLongDate()?.formatToDay()?.let { day ->
+                        eventCalendar.filter {
+                            it.startAt.parseLongDate().formatToDay() == day
+                        }
+                    } ?: listOf(), showNumbers, showBreaks = false, reversed = true)
+            
+            item {
+                val currentDay = date.formatToDay()
                 Column(
                     verticalArrangement = Arrangement.Bottom
                 ) {

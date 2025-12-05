@@ -36,7 +36,7 @@ private fun buildAiContext(homework: Homework): AiContextData {
             val homeworkDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 .parse(homework.date.substringBefore("T"))
             
-            val lessons = DataService.eventCalendar
+            val lessons = DataService.eventCalendar.value
                 .filter { it.subjectName == homework.subjectName }
                 .sortedBy { it.startAt }
             

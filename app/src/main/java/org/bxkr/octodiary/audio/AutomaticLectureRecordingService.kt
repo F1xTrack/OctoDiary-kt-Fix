@@ -160,7 +160,7 @@ class AutomaticLectureRecordingService : Service(), CoroutineScope {
 
         val calendar = Calendar.getInstance().apply { timeInMillis = currentTime }
 
-        return DataService.eventCalendar.find { event ->
+        return DataService.eventCalendar.value.find { event ->
             val eventStart = Calendar.getInstance().apply {
                 try {
                     time = event.startAt.parseSimpleLongDate()
