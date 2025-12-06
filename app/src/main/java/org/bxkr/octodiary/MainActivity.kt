@@ -532,13 +532,7 @@ class MainActivity : FragmentActivity() {
                                     showFilterLive.value = false
                                 }
                                 val navigationStart = System.currentTimeMillis()
-                                navController!!.navigate(it.route) {
-                                    popUpTo(navController!!.graph.findStartDestination().id) {
-                                        // saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    // restoreState = true
-                                }
+                                navController!!.navigate(it.route)
                                 if (BuildConfig.DEBUG) {
                                     Log.d("Performance", "Navigation to ${it.route} completed in ${System.currentTimeMillis() - clickStart}ms - total nav time: ${System.currentTimeMillis() - navigationStart}ms")
                                 }
