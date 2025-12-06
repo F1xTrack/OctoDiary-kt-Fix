@@ -69,10 +69,10 @@ fun AiQuickAccessCard() {
             
             Text(
                 "Умный чат, анализ ДЗ, персональный план, серии",
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodySmall, // Back to small
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.padding(bottom = 4.dp),
-                maxLines = 2,
+                maxLines = 3, // Allow 3 lines
                 overflow = TextOverflow.Ellipsis
             )
             

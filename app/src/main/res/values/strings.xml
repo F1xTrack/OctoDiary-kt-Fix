@@ -345,7 +345,7 @@
     <string name="c26_version_shortname" translatable="false">v2.1.0</string>
     <string name="c32_version_shortname" translatable="false">v2.1.6</string>
     <string name="c26_description">• New schedule design\n• Final marks\n• Learning status widget</string>
-    <string name="c32_description">• Поздравляем с новым учебным годом!</string>
+    <string name="c32_description">Поздравляем с новым учебным годом!</string>
     <string name="c26_version_name">Version 2.1.0</string>
     <string name="c32_version_name">Version 2.1.6</string>
     <string name="back_exit">back/exit</string>
