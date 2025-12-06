@@ -2,6 +2,7 @@ package org.bxkr.octodiary
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Assignment
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
 import androidx.compose.material.icons.automirrored.rounded.TrendingUp
 import androidx.compose.material.icons.rounded.Dashboard
@@ -38,7 +39,7 @@ enum class NavSection(
     val composable: @Composable () -> Unit
 ) {
     Daybook(Icons.AutoMirrored.Rounded.MenuBook, R.string.diary, "daybook", { ScheduleScreen() }),
-    Homeworks(Icons.Rounded.HomeWork, R.string.homeworks, "homeworks", { HomeworksScreen() }),
+    Homeworks(Icons.AutoMirrored.Rounded.Assignment, R.string.homeworks, "homeworks", { HomeworksScreen() }),
     Dashboard(Icons.Rounded.Home, R.string.dashboard, "dashboard", { DashboardScreen() }),
     Marks(Icons.AutoMirrored.Rounded.TrendingUp, R.string.marks, "marks", { MarksScreen() }),
     Profile(Icons.Rounded.Person, R.string.profile, "profile", { ProfileScreen2() })

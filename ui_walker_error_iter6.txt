@@ -1,0 +1,1 @@
+/sdcard/screen.png: 1 file pulled, 0 skipped. 15.0 MB/s (193778 bytes in 0.012s)

@@ -131,7 +131,7 @@ fun EventItem(event: Event, index: Int = -1, showLessonNumbers: Boolean = true) 
                         Modifier
                             .weight(1f, false)
                             .animateContentSize(),
-                        maxLines = if (!isExpanded) 1 else Int.MAX_VALUE,
+                        maxLines = if (!isExpanded) 2 else Int.MAX_VALUE, // Allow 2 lines
                         overflow = TextOverflow.Ellipsis
                     )
                     if (event.source == "PLAN") {
