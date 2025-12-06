@@ -9,17 +9,7 @@ class AuthInterceptor(private val context: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
 
-        val token = try {
-            if (DataService.states.isNotEmpty() && DataService.hasUserId) {
-                DataService.token
-            } else {
-                null
-            }
-        } catch (e: UninitializedPropertyAccessException) {
-            null
-        } catch (e: Exception) {
-            null
-        }
+        val token = DataService.tokenFlow.value
 
         val requestWithToken = if (token != null) {
             originalRequest.newBuilder()
@@ -45,13 +35,13 @@ class AuthInterceptor(private val context: Context) : Interceptor {
 
                 // Recreate the request with the new token
                 val newRequestWithToken = originalRequest.newBuilder()
-                    .header("Authorization", "Bearer ${DataService.token}")
+                    .header("Authorization", "Bearer ${DataService.tokenFlow.value}")
                     .build()
                 response = chain.proceed(newRequestWithToken) // Retry the original request
             } else {
                 // Token refresh failed, clear credentials (this is a placeholder for now)
                 // In a real app, you might want to redirect to login screen
-                DataService.token = "" // Clear token
+                DataService.updateToken(null) // Clear token
                 // TODO: Add logic to clear other auth data and redirect to login
             }
         }

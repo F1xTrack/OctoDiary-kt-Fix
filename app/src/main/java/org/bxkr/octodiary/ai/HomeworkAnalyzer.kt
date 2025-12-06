@@ -69,9 +69,9 @@ object HomeworkAnalyzer {
         currentTime: String = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
     ): Result<StudyPlan> {
         // Получаем средний балл ученика
-        val averageGrade = if (DataService.hasMarksSubject) {
+        val averageGrade = if (DataService.marksSubjectFlow.value.isNotEmpty()) {
             val allMarks = mutableListOf<Double>()
-            for (subject in DataService.marksSubject) {
+            for (subject in DataService.marksSubjectFlow.value) {
                 val currentPeriod = subject.currentPeriod
                 if (currentPeriod != null) {
                     for (mark in currentPeriod.marks) {

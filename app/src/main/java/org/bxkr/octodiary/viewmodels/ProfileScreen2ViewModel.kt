@@ -67,13 +67,13 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
     val currentProfileIndex: StateFlow<Int> = _currentProfileIndex
 
     init {
-        _currentProfileIndex.value = dataService.currentProfile
+        _currentProfileIndex.value = dataService.currentProfile.value
 
         loadProfileData()
         loadAvatars()
         loadGovExams()
         _subsystem.value = dataService.subsystem
-        _token.value = dataService.token
+        _token.value = dataService.tokenFlow.value
 
         viewModelScope.launch {
             dataService.pickedImageUri.collect { uri: Uri? ->
@@ -88,7 +88,7 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
     fun loadProfileData() {
         viewModelScope.launch {
             dataService.updateProfile {
-                _profile.value = dataService.profile
+                _profile.value = dataService.profile.value
             }
         }
     }
@@ -96,7 +96,7 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
     fun loadAvatars() {
         viewModelScope.launch {
             dataService.updateAvatars {
-                _avatars.value = dataService.avatars
+                _avatars.value = dataService.avatarsFlow.value
             }
         }
     }
@@ -104,7 +104,7 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
     fun loadGovExams() {
         viewModelScope.launch {
             dataService.updateGovExams {
-                _govExams.value = dataService.govExams
+                _govExams.value = dataService.govExamsFlow.value
             }
         }
     }
@@ -114,7 +114,7 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
     }
 
     fun setCurrentProfileIndex(index: Int) {
-        dataService.currentProfile = index
+        dataService.setCurrentProfile(index)
         _currentProfileIndex.value = index
         loadProfileData()
         loadAvatars()
@@ -133,8 +133,8 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
     fun deleteAvatar(avatarId: String) {
         viewModelScope.launch {
             dataService.secondaryApi.deleteAvatar(
-                "Bearer ${dataService.token}",
-                dataService.profile.children[dataService.currentProfile].contingentGuid,
+                "Bearer ${dataService.tokenFlow.value}",
+                dataService.profile.value?.children?.get(dataService.currentProfile.value)?.contingentGuid ?: "",
                 avatarId
             ).baseEnqueueOrNull {
                 loadAvatars()
@@ -168,8 +168,8 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
 
             val uploadLogic = {
                 dataService.secondaryApi.uploadAvatar(
-                    "Bearer ${dataService.token}",
-                    dataService.profile.children[dataService.currentProfile].contingentGuid,
+                    "Bearer ${dataService.tokenFlow.value}",
+                    dataService.profile.value?.children?.get(dataService.currentProfile.value)?.contingentGuid ?: "",
                     part
                 ).baseEnqueueOrNull {
                     loadAvatars()
@@ -177,11 +177,11 @@ class ProfileScreen2ViewModel(application: Application, private val dataService:
                 }
             }
 
-            if (dataService.avatars.isNotEmpty()) {
+            if (dataService.avatarsFlow.value.isNotEmpty()) {
                 dataService.secondaryApi.deleteAvatar(
-                    "Bearer ${dataService.token}",
-                    dataService.profile.children[dataService.currentProfile].contingentGuid,
-                    dataService.avatars.first().id.toString()
+                    "Bearer ${dataService.tokenFlow.value}",
+                    dataService.profile.value?.children?.get(dataService.currentProfile.value)?.contingentGuid ?: "",
+                    dataService.avatarsFlow.value.first().id.toString()
                 ).baseEnqueueOrNull {
                     uploadLogic()
                 }

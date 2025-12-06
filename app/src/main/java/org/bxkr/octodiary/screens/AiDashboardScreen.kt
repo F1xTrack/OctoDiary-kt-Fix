@@ -165,13 +165,13 @@ fun AiDashboardScreen() {
                             "Персональный план",
                             style = MaterialTheme.typography.titleMedium
                         )
-                        if (DataService.hasHomeworks) {
+                        if (DataService.homeworksFlow.value.isNotEmpty()) {
                             TextButton(onClick = {
                                 isGeneratingPlan = true
                                 scope.launch {
                                     val result = HomeworkAnalyzer.generateStudyPlan(
                                         context,
-                                        DataService.homeworks.filter { !it.isDone }
+                                        DataService.homeworksFlow.value.filter { !it.isDone }
                                     )
                                     result.onSuccess { plan ->
                                         studyPlan = plan
@@ -201,7 +201,7 @@ fun AiDashboardScreen() {
                     item {
                         StudyPlanCard(studyPlan!!)
                     }
-                } else if (DataService.hasHomeworks) {
+                } else if (DataService.homeworksFlow.value.isNotEmpty()) {
                     item {
                         Card(Modifier.fillMaxWidth()) {
                             Column(Modifier.padding(16.dp)) {

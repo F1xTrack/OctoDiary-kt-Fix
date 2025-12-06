@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -38,9 +39,12 @@ import kotlin.math.roundToInt
 
 @Composable
 fun DiningHistory() {
-    with(DataService.daysBalanceInfo) {
-        LazyColumn(Modifier.padding(horizontal = 16.dp)) {
-            item {
+    val info by DataService.daysBalanceInfo.collectAsState(initial = null)
+    
+    if (info != null) {
+        with(info!!) {
+            LazyColumn(Modifier.padding(horizontal = 16.dp)) {
+                item {
                 Spacer(Modifier.size(16.dp))
             }
             if (!days.isNullOrEmpty()) {
@@ -61,6 +65,7 @@ fun DiningHistory() {
                 }
             }
         }
+    }
     }
 }
 

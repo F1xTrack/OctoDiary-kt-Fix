@@ -23,18 +23,30 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.contentDependentActionIconLive
 import org.bxkr.octodiary.showFilterLive
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import org.bxkr.octodiary.viewmodels.MarksViewModel
+import org.bxkr.octodiary.viewmodels.MarksViewModelFactory
 
 val scrollToSubjectIdLive = MutableStateFlow<Long?>(null)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MarksScreen() {
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: MarksViewModel = viewModel(
+        factory = MarksViewModelFactory(application, DataService)
+    )
+
+    val marksSubject by viewModel.marksSubject.collectAsState()
+
     val scrollToSubjectId by scrollToSubjectIdLive.collectAsState()
     showFilterLive.value = true
     contentDependentActionIconLive.value = Icons.AutoMirrored.Rounded.Sort
     var currentTab by remember { mutableStateOf(if (scrollToSubjectId != null) MarksScreenTab.BySubject else MarksScreenTab.ByDate) }
     Column {
-        if (DataService.marksSubject.isNotEmpty()) {
+        if (marksSubject.isNotEmpty()) {
             PrimaryTabRow(selectedTabIndex = currentTab.ordinal, divider = {}) {
                 MarksScreenTab.values().forEach {
                     Tab(
@@ -44,6 +56,8 @@ fun MarksScreen() {
                         },
                         text = { Text(stringResource(id = it.title)) },
                         icon = { Icon(it.icon, stringResource(it.title)) },
+                        selectedContentColor = MaterialTheme.colorScheme.primary,
+                        unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.clip(MaterialTheme.shapes.large)
                     )
                 }

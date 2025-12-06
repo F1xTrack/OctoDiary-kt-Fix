@@ -31,7 +31,7 @@ private fun buildAiContext(homework: Homework): AiContextData {
     var marksHistory: String? = null
     
     // Получаем темы предыдущего и следующего уроков
-    if (DataService.hasEventCalendar) {
+    if (DataService.eventCalendar.value.isNotEmpty()) {
         try {
             val homeworkDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 .parse(homework.date.substringBefore("T"))
@@ -58,9 +58,9 @@ private fun buildAiContext(homework: Homework): AiContextData {
     }
     
     // Получаем историю оценок по предмету
-    if (DataService.hasMarksSubject) {
+    if (DataService.marksSubjectFlow.value.isNotEmpty()) {
         try {
-            val subjectMarks = DataService.marksSubject
+            val subjectMarks = DataService.marksSubjectFlow.value
                 .find { it.subjectName == homework.subjectName }
             
             if (subjectMarks != null && subjectMarks.periods?.isNotEmpty() == true) {

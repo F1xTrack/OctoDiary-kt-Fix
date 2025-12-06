@@ -74,7 +74,10 @@ fun WeekPager(eventsLoaded: List<Event>) {
     val isDemo = LocalContext.current.isDemo
     var events by remember { mutableStateOf(eventsLoaded) }
     var isLoadingNewEvents by remember { mutableStateOf(false) }
-    var currentDateRange by remember { mutableStateOf(DataService.eventsRange) }
+    
+    val globalEventsRange by DataService.eventsRange.collectAsState()
+    var currentDateRange by remember { mutableStateOf(globalEventsRange) }
+
     val showNumbers =
         LocalContext.current.mainPrefs.get(CommonPrefs.showLessonNumbers.prefKey) ?: true
     val showBreaks = areBreaksShown()
@@ -101,9 +104,9 @@ fun WeekPager(eventsLoaded: List<Event>) {
             if (weekdays.indexOf(getWeekday(date)) != dayPosition.currentPage) {
                 dayPosition.animateScrollToPage(weekdays.indexOf(getWeekday(currentDay.value)))
             }
-            if (date.isDateBetween(DataService.eventsRange) && currentDateRange != DataService.eventsRange) {
+            if (date.isDateBetween(globalEventsRange) && currentDateRange != globalEventsRange) {
                 events = eventsLoaded
-                currentDateRange = DataService.eventsRange
+                currentDateRange = globalEventsRange
             }
             if (!date.isDateBetween(currentDateRange) && !isDemo) {
                 isLoadingNewEvents = true

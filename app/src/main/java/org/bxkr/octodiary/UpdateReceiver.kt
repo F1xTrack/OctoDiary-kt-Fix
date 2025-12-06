@@ -145,15 +145,15 @@ class UpdateReceiver : BroadcastReceiver() {
         val token = context.authPrefs.get<String>("access_token")
         if (token == null) return
         DataService.subsystem = Diary.values()[context.authPrefs.get<Int>("subsystem") ?: 0]
-        DataService.token = token
-        DataService.profile = context.cachePrefs.getFromJson("profile")
+        DataService.updateToken(token)
+        DataService.setProfile(context.cachePrefs.getFromJson("profile"))
         DataService.mainSchoolApi =
             NetworkService.mainSchoolApi(MainSchoolAPI.getBaseUrl(DataService.subsystem))
 
         val continueFn = {
             context.cachePrefs.save(
-                "marksDate" to DataService.marksDate,
-                "marksSubject" to DataService.marksSubject
+                "marksDate" to DataService.marksDateFlow.value,
+                "marksSubject" to DataService.marksSubjectFlow.value
             )
         }
         var loadedDate = false

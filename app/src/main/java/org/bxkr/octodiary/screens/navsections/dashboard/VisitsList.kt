@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
@@ -24,45 +26,49 @@ import org.bxkr.octodiary.parseFromDay
 
 @Composable
 fun VisitsList() {
+    val visits by DataService.visits.collectAsState()
+
     LazyColumn(
         Modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        items(DataService.visits.payload) {
-            // MES sets "-" for visit time if there was no visit on that day
-            if (it.visits[0].run { inX != "-" && out != "-" }) {
-                OutlinedCard(Modifier.padding(bottom = 8.dp)) {
+        visits?.payload?.let { payload ->
+            items(payload) {
+                // MES sets "-" for visit time if there was no visit on that day
+                if (it.visits[0].run { inX != "-" && out != "-" }) {
+                    OutlinedCard(Modifier.padding(bottom = 8.dp)) {
 
-                    it.visits.forEachIndexed { index, visit ->
-                        Row(Modifier.padding(8.dp)) {
-                            Text(
-                                it.date.parseFromDay().formatToHumanDay(),
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier
-                                    .padding(end = 4.dp)
-                                    .alpha(
-                                        if (index == 0) 1f else 0f
-                                    )
-                            )
-                            Text(
-                                visit.inX,
-                                modifier = Modifier.padding(end = 4.dp)
-                            )
-                            Icon(
-                                Icons.AutoMirrored.Rounded.ArrowForward,
-                                stringResource(id = R.string.to),
-                                modifier = Modifier.padding(end = 4.dp)
-                            )
-                            Text(
-                                visit.out,
-                                modifier = Modifier
-                                    .padding(end = 4.dp)
-                                    .fillMaxWidth()
-                            )
+                        it.visits.forEachIndexed { index, visit ->
+                            Row(Modifier.padding(8.dp)) {
+                                Text(
+                                    it.date.parseFromDay().formatToHumanDay(),
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier
+                                        .padding(end = 4.dp)
+                                        .alpha(
+                                            if (index == 0) 1f else 0f
+                                        )
+                                )
+                                Text(
+                                    visit.inX,
+                                    modifier = Modifier.padding(end = 4.dp)
+                                )
+                                Icon(
+                                    Icons.AutoMirrored.Rounded.ArrowForward,
+                                    stringResource(id = R.string.to),
+                                    modifier = Modifier.padding(end = 4.dp)
+                                )
+                                Text(
+                                    visit.out,
+                                    modifier = Modifier
+                                        .padding(end = 4.dp)
+                                        .fillMaxWidth()
+                                )
+                            }
+
                         }
-
                     }
                 }
             }

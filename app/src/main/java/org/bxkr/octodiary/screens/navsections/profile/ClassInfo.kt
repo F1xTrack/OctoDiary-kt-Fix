@@ -46,6 +46,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -59,6 +60,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.bxkr.octodiary.CachePrefs
 import org.bxkr.octodiary.CloverShape
 import org.bxkr.octodiary.DataService
@@ -75,12 +79,23 @@ import org.bxkr.octodiary.models.classmembers.ClassMember
 import org.bxkr.octodiary.models.classmembers.OctoClassMembers
 import org.bxkr.octodiary.save
 import org.bxkr.octodiary.screens.navsections.dashboard.RankingList
+import org.bxkr.octodiary.viewmodels.ClassInfoViewModel
+import org.bxkr.octodiary.viewmodels.ClassInfoViewModelFactory
 
 private val infoRecomposeTrigger = MutableLiveData(false)
 
 @Composable
 fun ClassInfo() {
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: ClassInfoViewModel = viewModel(
+        factory = ClassInfoViewModelFactory(application, DataService)
+    )
+    val classMembers by viewModel.classMembers.collectAsState()
+    val profile by viewModel.profile.collectAsState()
+    val currentProfileIndex by viewModel.currentProfileIndex.collectAsState()
+
     val trigger by infoRecomposeTrigger.observeAsState()
+    val rankingList by viewModel.ranking.collectAsState()
     var showRanking by remember { mutableStateOf(false) }
     val enterTransition1 = remember {
         slideInHorizontally(
@@ -118,7 +133,7 @@ fun ClassInfo() {
         ) {
             Column(Modifier.padding(16.dp)) {
                 key(trigger) {
-                    with(DataService) {
+                    with(viewModel) {
                         Row(
                             Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
@@ -127,7 +142,7 @@ fun ClassInfo() {
                             Column {
                                 Text(
                                     stringResource(
-                                        R.string.class_t, profile.children[currentProfile].className
+                                        R.string.class_t, profile?.children?.get(currentProfileIndex)?.className ?: ""
                                     ), style = MaterialTheme.typography.titleMedium
                                 )
                                 Text(
@@ -191,7 +206,7 @@ fun ClassInfo() {
                                                     shape = CloverShape
                                                 ) {
                                                     Text(
-                                                        ranking.firstOrNull { rankingMember -> it.personId == rankingMember.personId }?.rank?.rankPlace?.toString()
+                                                        rankingList.firstOrNull { rankingMember -> it.personId == rankingMember.personId }?.rank?.rankPlace?.toString()
                                                             ?: "?",
                                                         style = MaterialTheme.typography.titleMedium,
                                                         fontWeight = FontWeight.Bold
@@ -212,7 +227,7 @@ fun ClassInfo() {
                                             { Text(stringResource(R.string.assign_id)) },
                                             {
                                                 modalDialogContentLive.value = {
-                                                    AssignIdDialog(it)
+                                                    AssignIdDialog(it, viewModel)
                                                 }
                                                 modalDialogCloseListenerLive.value = { }
                                                 modalDialogStateLive.value = true
@@ -230,7 +245,7 @@ fun ClassInfo() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AssignIdDialog(member: ClassMember) {
+private fun AssignIdDialog(member: ClassMember, viewModel: ClassInfoViewModel) {
     var personId by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -246,7 +261,7 @@ private fun AssignIdDialog(member: ClassMember) {
             TextButton({
                 if (personId.isNotBlank() && member.studentId != null) {
                     isLoading = true
-                    assignPersonId(
+                    viewModel.assignPersonId(
                         member.studentId,
                         personId,
                         context.cachePrefs
@@ -350,54 +365,4 @@ private fun textField(
     )
 }
 
-private fun assignPersonId(
-    studentId: Long,
-    personId: String,
-    cachePrefs: CachePrefs,
-    onUpdated: () -> Unit,
-) {
-    val classMember =
-        DataService.classMembers.first { it.studentId == studentId }.copy(personId = personId)
-    val newClassMembers =
-        DataService.classMembers.filter { it.studentId != studentId } + listOf(classMember)
-    val assignments = newClassMembers
-        .filter { it.personId != null && it.studentId != null }
-        .map { Assignment(studentId, personId) }
-
-    DataService.classMembers = newClassMembers
-    cachePrefs.save("classMembers" to newClassMembers.let { Gson().toJson(it) })
-    DataService.pushUserSettings("od_class_members_assignments", OctoClassMembers(assignments)) {
-        infoRecomposeTrigger.postValue(infoRecomposeTrigger.value?.not())
-        onUpdated()
-    }
-}
-
-//private fun addNewStudent(
-//    names: User,
-//    personId: String,
-//    cachePrefs: CachePrefs,
-//    onUpdated: () -> Unit,
-//) {
-//    val newMember = ClassMember(
-//        personId, names, true
-//    )
-//    val newClassMembers = DataService.classMembers + listOf(newMember)
-//    DataService.classMembers = newClassMembers
-//    cachePrefs.save("classMembers" to newClassMembers.let { Gson().toJson(it) })
-//    DataService.pushUserSettings("od_class_members", OctoClassMembers(DataService.classMembers)) {
-//        infoRecomposeTrigger.postValue(infoRecomposeTrigger.value?.not())
-//        onUpdated()
-//    }
-//}
-//
-//private fun deleteStudent(
-//    personId: String,
-//    cachePrefs: CachePrefs,
-//) {
-//    val newClassMembers = DataService.classMembers.filter { it.personId != personId }
-//    DataService.classMembers = newClassMembers
-//    cachePrefs.save("classMembers" to newClassMembers.let { Gson().toJson(it) })
-//    DataService.pushUserSettings("od_class_members", OctoClassMembers(DataService.classMembers)) {
-//        infoRecomposeTrigger.postValue(infoRecomposeTrigger.value?.not())
-//    }
-//}
+// Logic moved to ClassInfoViewModel

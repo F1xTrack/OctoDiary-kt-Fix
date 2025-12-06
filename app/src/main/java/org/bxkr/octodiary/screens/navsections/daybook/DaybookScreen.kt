@@ -23,6 +23,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import android.app.Application
+import org.bxkr.octodiary.viewmodels.ScheduleViewModel
+import org.bxkr.octodiary.viewmodels.ScheduleViewModelFactory
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.areBreaksShown
@@ -42,7 +46,11 @@ import kotlin.math.roundToInt
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 fun DaybookScreen() {
-    val eventCalendarState = DataService.eventCalendar.collectAsState()
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: ScheduleViewModel = viewModel(
+        factory = ScheduleViewModelFactory(application, DataService)
+    )
+    val eventCalendarState = viewModel.eventCalendar.collectAsState()
     val eventCalendar = eventCalendarState.value.let {
         if (LocalContext.current.mainPrefs.get(CommonPrefs.showOnlyPlan.prefKey) ?: false) {
             it.filter { event -> event.source == "PLAN" }
@@ -85,13 +93,13 @@ fun DaybookScreen() {
         }
         val currentWeeksAfter = weekSplitCalendar.lastIndex - currentWeekIndex
         val addWeekBefore = { onFinish: () -> Unit ->
-            DataService.updateEventCalendar(currentWeekIndex + 1, currentWeeksAfter) {
+            viewModel.updateEventCalendar(currentWeekIndex + 1, currentWeeksAfter) {
                 recompositionTrigger.value = !recompositionTrigger.value
                 onFinish()
             }
         }
         val addWeekAfter = { onFinish: () -> Unit ->
-            DataService.updateEventCalendar(currentWeekIndex, currentWeeksAfter + 1) {
+            viewModel.updateEventCalendar(currentWeekIndex, currentWeeksAfter + 1) {
                 recompositionTrigger.value = !recompositionTrigger.value
                 onFinish()
             }

@@ -37,7 +37,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.bxkr.octodiary.DataService
+import org.bxkr.octodiary.viewmodels.MarksViewModel
+import org.bxkr.octodiary.viewmodels.MarksViewModelFactory
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.components.MarkSimple
 import org.bxkr.octodiary.convertToRoman
@@ -47,10 +54,23 @@ import org.bxkr.octodiary.models.marklistsubject.MarkListSubjectItem
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FinalsScreen(
-    subjects: List<MarkListSubjectItem> = DataService.marksSubject,
+    subjects: List<MarkListSubjectItem>? = null,
     scrollState: ScrollState = rememberScrollState(),
 ) {
-    val periods = subjects.maxByOrNull { it.periods?.size ?: 0 }?.periods ?: listOf()
+    val actualSubjects = if (subjects != null) {
+        subjects
+    } else {
+        val application = LocalContext.current.applicationContext as Application
+        val viewModel: MarksViewModel = viewModel(
+            factory = MarksViewModelFactory(application, DataService)
+        )
+        viewModel.marksSubject.collectAsState().value
+    }
+
+    if (actualSubjects.isEmpty()) {
+        return
+    }
+    val periods = actualSubjects.maxByOrNull { it.periods?.size ?: 0 }?.periods ?: listOf()
     val markConfig = getMarkConfig()
     LazyColumn {
         item {
@@ -107,7 +127,7 @@ fun FinalsScreen(
                 HorizontalDivider()
             }
         }
-        items(subjects) { subject ->
+        items(actualSubjects) { subject ->
             CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
                 Row(Modifier.horizontalScroll(scrollState)) {
                     Cell(Modifier.width(256.dp)) {

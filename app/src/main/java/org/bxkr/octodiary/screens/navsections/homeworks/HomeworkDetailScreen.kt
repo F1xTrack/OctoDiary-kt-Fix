@@ -69,7 +69,7 @@ fun HomeworkDetailScreen(entryStudentId: Long) {
     val context = LocalContext.current
     val nav by navControllerLive.collectAsState()
     val hw = remember(entryStudentId) {
-        DataService.homeworks.firstOrNull { it.homeworkEntryStudentId == entryStudentId }
+        DataService.homeworksFlow.value.firstOrNull { it.homeworkEntryStudentId == entryStudentId }
     }
     val scope = rememberCoroutineScope()
     var showAiChat by remember { mutableStateOf(false) }

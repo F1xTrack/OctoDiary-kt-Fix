@@ -26,7 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.bxkr.octodiary.DataService
+import org.bxkr.octodiary.viewmodels.HomeworksViewModel
+import org.bxkr.octodiary.viewmodels.HomeworksViewModelFactory
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.contentDependentActionIconLive
 import org.bxkr.octodiary.contentDependentActionLive
@@ -37,6 +44,12 @@ val enabledSubjectsLive = MutableStateFlow<List<Long>>(emptyList())
 
 @Composable
 fun HomeworksScreen() {
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: HomeworksViewModel = viewModel(
+        factory = HomeworksViewModelFactory(application, DataService)
+    )
+    val homeworks by viewModel.homeworks.collectAsState()
+
     LaunchedEffect(Unit) {
         val enable = { enabled: Boolean, id: Long ->
             if (enabledSubjectsLive.value != null) {
@@ -49,10 +62,10 @@ fun HomeworksScreen() {
                 }
             }
         }
-        enabledSubjectsLive.value = DataService.homeworks.map { it.subjectId }
+        enabledSubjectsLive.value = homeworks.map { it.subjectId }
         contentDependentActionIconLive.value = Icons.Rounded.FilterAlt
         contentDependentActionLive.value = {
-            DataService.homeworks.map { it.subjectId to it.subjectName }.toSet().forEach {
+            homeworks.map { it.subjectId to it.subjectName }.toSet().forEach {
                 var checked by rememberSaveable(key = it.first.toString()) {
                     mutableStateOf(
                         enabledSubjectsLive.value!!.any { it1 -> it1 == it.first })
@@ -77,7 +90,7 @@ fun HomeworksScreen() {
     }
 
     val daySplitMarks = remember {
-        DataService.homeworks.sortedBy {
+        homeworks.sortedBy {
             it.date.parseFromDay().toInstant().toEpochMilli()
         }.fold(mutableListOf<MutableList<org.bxkr.octodiary.models.homeworks2.Homework>>()) { sum, it ->
             if (sum.isEmpty() || sum.last().first().date != it.date) {

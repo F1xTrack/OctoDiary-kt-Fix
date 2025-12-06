@@ -33,7 +33,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.coroutineScope
+import android.app.Application
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.bxkr.octodiary.DataService
+import org.bxkr.octodiary.viewmodels.MarksViewModel
+import org.bxkr.octodiary.viewmodels.MarksViewModelFactory
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.contentDependentActionLive
 import org.bxkr.octodiary.get
@@ -45,12 +51,20 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MarksBySubject(scrollToSubjectId: Long? = null) {
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: MarksViewModel = viewModel(
+        factory = MarksViewModelFactory(application, DataService)
+    )
+    val marksSubject by viewModel.marksSubject.collectAsState()
+    val subjectRanking by viewModel.subjectRanking.collectAsState()
+
     val filterState = remember { mutableStateOf(SubjectMarkFilterType.ByAverage) }
     contentDependentActionLive.value = { SubjectMarkFilter(state = filterState) }
     val periods = remember {
-        DataService.marksSubject.maxBy {
+        val maxSubject = marksSubject.maxByOrNull {
             it.periods?.size ?: 0
-        }.periods?.map { it.title to (it.startIso to it.endIso) }
+        }
+        maxSubject?.periods?.map { it.title to (it.startIso to it.endIso) }
     }
     var currentPeriod by remember {
         mutableStateOf(
@@ -72,29 +86,21 @@ fun MarksBySubject(scrollToSubjectId: Long? = null) {
                             label = "filter_anim"
                         ) { filter ->
                             Column {
-                                val subjects =
-                                    DataService.marksSubject.filter {
-                                        it.periods != null && it.periods.map { it.title }
-                                            .contains(periodState)
+                                val filteredSubjects = marksSubject.filter {
+                                    it.periods != null && it.periods.map { p -> p.title }.contains(periodState)
+                                }
+                                val subjects = when (filter) {
+                                    SubjectMarkFilterType.Alphabetical -> filteredSubjects.sortedBy { it.subjectName }
+                                    SubjectMarkFilterType.ByAverage -> filteredSubjects.sortedByDescending { it.periods?.first { p -> p.title == periodState }?.value?.toDoubleOrNull() }
+                                    SubjectMarkFilterType.ByRanking -> filteredSubjects.sortedBy { subject ->
+                                        subjectRanking.firstOrNull { r -> r.subjectId == subject.subjectId }?.rank?.rankPlace
                                     }
-                                        .run {
-                                            when (filter) {
-                                                SubjectMarkFilterType.Alphabetical -> sortedBy { it.subjectName }
-                                                SubjectMarkFilterType.ByAverage -> sortedByDescending { it.periods?.first { it.title == periodState }?.value?.toDoubleOrNull() }
-                                                SubjectMarkFilterType.ByRanking -> sortedBy { subject ->
-                                                    DataService.subjectRanking.firstOrNull { it.subjectId == subject.subjectId }?.rank?.rankPlace
-                                                }
-
-                                                SubjectMarkFilterType.ByUpdated -> sortedByDescending {
-                                                    it.periods?.first { it.title == periodState }?.marks?.maxBy { it1 ->
-                                                        it1.date.parseFromDay().toInstant()
-                                                            .toEpochMilli()
-                                                    }?.date?.parseFromDay()?.toInstant()
-                                                        ?.toEpochMilli()
-                                                        ?: 0
-                                                }
-                                            }
-                                        }
+                                    SubjectMarkFilterType.ByUpdated -> filteredSubjects.sortedByDescending {
+                                        it.periods?.first { p -> p.title == periodState }?.marks?.maxByOrNull { m ->
+                                            m.date.parseFromDay().toInstant().toEpochMilli()
+                                        }?.date?.parseFromDay()?.toInstant()?.toEpochMilli() ?: 0
+                                    }
+                                }
                                 val lazyColumnState = rememberLazyListState()
                                 val context = LocalContext.current
                                 LazyColumn(
@@ -107,16 +113,16 @@ fun MarksBySubject(scrollToSubjectId: Long? = null) {
                                     val helpingIndex = (0..3).random()
                                     val showHints =
                                         context.mainPrefs.get<Boolean>("show_calc_hint") ?: true
-                                    itemsIndexed(subjects) { index, it ->
-                                        if (it.periods != null && it.periods.any { it.title == periodState }) {
+                                    itemsIndexed(subjects) { index, subject ->
+                                        if (subject.periods != null && subject.periods.any { p -> p.title == periodState }) {
                                             val sentPeriod =
-                                                it.periods.first { it.title == periodState }
+                                                subject.periods.first { p -> p.title == periodState }
                                             SubjectCard(
                                                 period = sentPeriod,
-                                                it.subjectId,
-                                                it.subjectName,
-                                                sentPeriod == it.currentPeriod,
-                                                markConfig,
+                                                subjectId = subject.subjectId,
+                                                subjectName = subject.subjectName,
+                                                showRating = sentPeriod == subject.currentPeriod,
+                                                markConfig = markConfig,
                                                 showHintOnce = (index == helpingIndex) && showHints
                                             )
                                         }

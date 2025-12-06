@@ -53,8 +53,14 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import org.bxkr.octodiary.models.subjectranking.SubjectRanking
 import org.bxkr.octodiary.CloverShape
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.bxkr.octodiary.DataService
+import org.bxkr.octodiary.viewmodels.MarksViewModel
+import org.bxkr.octodiary.viewmodels.MarksViewModelFactory
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.components.MarkComp
 import org.bxkr.octodiary.components.MarkConfig
@@ -81,6 +87,11 @@ fun SubjectCard(
     showHint: Boolean = false,
     showHintOnce: Boolean = false,
 ) {
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: MarksViewModel = viewModel(
+        factory = MarksViewModelFactory(application, DataService)
+    )
+    val subjectRanking by viewModel.subjectRanking.collectAsState()
     val density = LocalDensity.current
     val draggableAnchors = with(density) {
         DraggableAnchors {
@@ -176,7 +187,7 @@ fun SubjectCard(
                     )
                 ).takeIf { isGlowA }
             ) {
-                CardContent(period, subjectId, subjectName, showRating, markConfig)
+                CardContent(period, subjectId, subjectName, showRating, markConfig, subjectRanking)
             }
         }
     }
@@ -189,6 +200,7 @@ private fun CardContent(
     subjectName: String,
     showRating: Boolean,
     markConfig: MarkConfig,
+    subjectRanking: List<org.bxkr.octodiary.models.subjectranking.SubjectRanking>,
 ) {
     Column(Modifier.padding(16.dp)) {
         Row(
@@ -202,6 +214,7 @@ private fun CardContent(
                 subjectName,
                 Modifier.weight(1f),
                 style = MaterialTheme.typography.titleMedium,
+                maxLines = 2, // Allow 2 lines
                 overflow = TextOverflow.Ellipsis
             )
             Row {
@@ -233,7 +246,7 @@ private fun CardContent(
             }
             if ((LocalContext.current.mainPrefs.get<Boolean>(CommonPrefs.subjectRating.prefKey) != false) and showRating
             ) {
-                DataService.subjectRanking.firstOrNull { it.subjectId == subjectId }
+                subjectRanking.firstOrNull { it.subjectId == subjectId }
                     ?.let {
                         FilledIconButton(onClick = {
                             modalBottomSheetStateLive.value = true
@@ -244,7 +257,6 @@ private fun CardContent(
                                 )
                             }
                         }, shape = CloverShape, modifier = Modifier) {
-
                             Text(
                                 it.rank.rankPlace.toString(),
                                 style = MaterialTheme.typography.titleMedium,

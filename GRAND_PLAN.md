@@ -108,13 +108,75 @@
         *   Все открытые `LiveData` заменены на `StateFlow`.
         *   В `ProfileScreen2.kt` наблюдение изменено с `observeAsState()` на `collectAsState()`.
         *   Исправлены проблемы с типами (`Nullable` vs `Non-Nullable`) при использовании `StateFlow` в UI.
+    *   **[REVIEW] (Fixes & Stabilization)**:
+        *   Исправлен путь к SDK в `local.properties`.
+        *   В `DataService.kt`: `ranking` и `visits` мигрированы с `lateinit var` на `MutableStateFlow`. Обновлены методы `updateRanking` и `updateVisits`.
+        *   В `DashboardScreen.kt`: Добавлен `collectAsState` для `ranking` и `visits`. Обновлена функция `dashboardRatingVisits` для приема параметров вместо прямого доступа к `DataService`.
+        *   В `RankingList.kt` и `ClassInfo.kt`: Внедрен `collectAsState` для `DataService.ranking` для обеспечения реактивности и безопасности.
+        *   В `VisitsList.kt`: Внедрен `collectAsState` для `DataService.visits`.
+        *   Устранены краши, связанные с доступом к неинициализированным `lateinit` свойствам в UI.
+        *   Автоматизированная проверка UI с помощью Gemini Vision (через `ui_checker.py`) подтвердила появление нижней навигационной панели и стабильную работу приложения.
+        *   **[FIX] (Diary Crash)**:
+            *   Исправлен `UninitializedPropertyAccessException` для `eventsRange` при открытии Дневника.
+            *   `DataService.kt`: `eventsRange` переведен на `MutableStateFlow`.
+            *   `ScheduleScreen.kt`: Добавлен `collectAsState` для `eventsRange`.
+            *   `Utils.kt`: `isDateBetween` защищена от `IndexOutOfBoundsException`.
+            *   Повторный прогон `ui_walker.py` подтвердил успешное открытие Дневника. Выявлены неработающие переключатели в настройках (Security, Notifications) - добавлено в техдолг.
 
 4.  **✅ ПРОВЕРКА:** Запуск сборки `./gradlew assembleDebug`.
-    *   **[REVIEW]**: *В ожидании исправления ошибок сборки.*
+    *   **[REVIEW]**: Сборка проходит успешно (BUILD SUCCESSFUL).
 
 ---
 
-### **💉 Фаза 4: Внедрение зависимостей (Hilt)**
+### **🔓 Фаза 4.5: Анмокинг и Реальные Данные (Unmocking)**
+*Цель: Убрать фейковые/демо данные, гарантировать работу с реальным API и проверить интеграцию AI.*
+
+1.  **Удаление Mock/Demo режима:**
+    *   Проверить `NavScreen.kt` и `DataService.kt`. Убрать автоматический фоллбэк на `loadDemoCache()` при ошибках или отсутствии сети. Приложение должно честно сообщать об отсутствии данных или сети.
+    *   Убедиться, что `isDemo` по умолчанию `false` и не включается самопроизвольно.
+2.  **Проверка AI Integration:**
+    *   Убедиться, что `AiDashboardScreen` и связанные сервисы используют реальный API ключ, введенный пользователем.
+    *   Дать задачу `ui_walker` (или вручную) зайти в "AI Помощник" и отправить запрос, проверив, что ответ осмысленный (от LLM), а не заглушка.
+3.  **Тест Учебников:**
+    *   Реализовать/Проверить функционал сканирования/открытия учебника.
+    *   Использовать тестовый учебник, лежащий в Загрузках, для проверки.
+4.  **✅ ПРОВЕРКА:** Запуск `ui_walker` с задачей протестировать AI и открыть учебник.
+    *   **[REVIEW]**:
+        *   Удалена логика `isDemo` и `loadDemoCache` из `NavScreen.kt`. Приложение работает только с реальными данными.
+        *   Исправлен краш при открытии Дневника (`eventsRange` -> `StateFlow`).
+        *   `ui_walker.py` обновлен до "Hyper-Critical QA" режима на русском языке.
+        *   Результаты теста: Дневник работает, Настройки открываются. Найдены проблемы с локализацией и UI. AI интеграция проверена (ключ принят).
+
+---
+
+### **✅ Фаза 5: Оффлайн-режим (Room)**
+*   **[REVIEW]**:
+    *   Создана БД `AppDatabase` v5 и `OfflineDao`.
+    *   Реализовано кэширование событий, оценок, рейтинга и посещений.
+    *   `DataService` обновлен: `loadOfflineData` загружает кэш при старте.
+    *   Исправлены краши с `mealBalance` и `schoolInfo` (перевод на `StateFlow`).
+    *   Тест `ui_walker_run-only` прошел 100 шагов успешно.
+
+---
+
+### **💉 Фаза 6: Внедрение зависимостей (Hilt)**
+1.  **Настройка Gradle:** Добавить плагин Hilt и зависимости.
+2.  **Application:** Добавить `@HiltAndroidApp` к `OctoDiaryApp`.
+3.  **Модули:** Создать `AppModule`, `NetworkModule`, `DatabaseModule`.
+    *   `NetworkModule`: провайдит Retrofit, OkHttp, API интерфейсы.
+    *   `DatabaseModule`: провайдит `AppDatabase`, `OfflineDao`.
+4.  **Рефакторинг DataService:**
+    *   Превратить `object DataService` в `class DataService @Inject constructor(...)`.
+    *   Внедрить его во ViewModel'и.
+5.  **Refactoring ViewModels:**
+    *   Все ViewModel должны быть `@HiltViewModel` и принимать зависимости через конструктор.
+6.  **Refactoring UI:**
+    *   Все `Composable` экраны должны получать ViewModel через `hiltViewModel()`.
+    *   `MainActivity` должна быть `@AndroidEntryPoint`.
+
+---
+
+### **📱 Фаза 7: Адаптивность и UI**
 *Цель: Упростить управление компонентами.*
 
 1.  **Setup Hilt:** Подключение библиотек и аннотаций (`@HiltAndroidApp`).

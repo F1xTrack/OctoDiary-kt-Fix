@@ -234,7 +234,7 @@ private fun Context.webViewFactory(
         settings.domStorageEnabled = true
         val cookieHost = if (DataService.subsystem == Diary.MES) ".mos.ru" else ".mosreg.ru"
         CookieManager.getInstance().apply {
-            setCookie(cookieHost, "aupd_token=${DataService.token}")
+            setCookie(cookieHost, "aupd_token=${DataService.tokenFlow.value}")
             setCookie(cookieHost, "aupd_current_role=2:1")
         }
         loadUrl(url)

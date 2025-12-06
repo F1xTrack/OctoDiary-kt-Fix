@@ -305,7 +305,7 @@ fun SettingsDialog(onDismissRequest: () -> Unit) {
                                 val openBot: (test: Boolean) -> Unit = { isTest ->
                                     val link = Uri.parse(
                                         NetworkService.ExternalIntegrationConfig.BOT_AUTH_URL.format(
-                                            DataService.token,
+                                            DataService.tokenFlow.value,
                                             DataService.subsystem.ordinal,
                                             if (isTest) 1 else 0
                                         )

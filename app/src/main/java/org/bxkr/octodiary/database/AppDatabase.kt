@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import kotlinx.coroutines.*
 import org.bxkr.octodiary.database.dao.*
 import org.bxkr.octodiary.database.entity.*
+import org.bxkr.octodiary.database.entity.offline.*
 import org.bxkr.octodiary.models.TocEntry
 
 @Database(
@@ -24,9 +25,14 @@ import org.bxkr.octodiary.models.TocEntry
         StudyPlanEntity::class,
         TocEntry::class,
         ParagraphEntity::class,
-        TextbookExtractEntity::class
+        TextbookExtractEntity::class,
+        // Offline entities
+        EventEntity::class,
+        SubjectMarksEntity::class,
+        RankingMemberEntity::class,
+        VisitDayEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -45,6 +51,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun tocDao(): TocDao
     abstract fun paragraphDao(): ParagraphDao
     abstract fun textbookExtractDao(): TextbookExtractDao
+    abstract fun offlineDao(): OfflineDao
     
     companion object {
         @Volatile

@@ -90,7 +90,7 @@ fun ExamResults() {
 
 @Composable
 fun ExamList(onClickExam: (Exam) -> Unit) {
-    val govExams = remember { DataService.govExams.data }
+    val govExams = remember { DataService.govExamsFlow.value?.data ?: emptyList() }
     val shownCategories = remember {
         mutableStateMapOf(*govExams.map {
             when (it.formaGia) {

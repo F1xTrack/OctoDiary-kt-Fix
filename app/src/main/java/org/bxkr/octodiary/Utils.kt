@@ -473,7 +473,10 @@ fun getWeekday(date: Date): Int = Calendar.getInstance().run {
 }
 
 //fun Date.isDateBetween(start: Date, end: Date): Boolean = time > start.time && time < end.time
-fun Date.isDateBetween(range: List<Long>): Boolean = time > range[0] && time < range[1]
+fun Date.isDateBetween(range: List<Long>): Boolean {
+    if (range.size < 2) return false
+    return time > range[0] && time < range[1]
+}
 
 @Composable
 fun rememberMarker(

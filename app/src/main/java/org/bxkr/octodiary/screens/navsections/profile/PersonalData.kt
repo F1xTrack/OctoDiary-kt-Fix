@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,13 +46,17 @@ import org.bxkr.octodiary.parseFromDay
 
 @Composable
 fun PersonalData() {
+    val profile by DataService.profile.collectAsState()
+    val currentProfile by DataService.currentProfile.collectAsState()
+    val child = profile?.children?.get(currentProfile) ?: return
+
     Column(
         Modifier
             .padding(16.dp)
             .fillMaxWidth()
     ) {
         val clipboardManager = LocalClipboardManager.current
-        with(DataService.profile.children[DataService.currentProfile]) {
+        with(child) {
             Text("$lastName $firstName $middleName", style = MaterialTheme.typography.titleMedium)
             Text(
                 stringResource(R.string.birth_date_t, birthDate.parseFromDay().formatToHumanDate())

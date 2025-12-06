@@ -102,7 +102,7 @@ fun MarkComp(
     FilledTonalIconButton(
         onClick = { if (enabled) onClick(mark, subjectId) },
         modifier = modifier,
-        shape = MaterialTheme.shapes.small,
+        shape = MaterialTheme.shapes.medium, // More rounded
         colors = IconButtonDefaults.filledTonalIconButtonColors(containerColor = color)
     ) {
         Box(
@@ -141,7 +141,7 @@ fun MarkSimple(value: String, markConfig: MarkConfig, modifier: Modifier = Modif
     Box(
         modifier
             .size(40.dp)
-            .background(color, MaterialTheme.shapes.small)
+            .background(color, MaterialTheme.shapes.medium) // Unified with MarkComp
     ) {
         Text(
             value, Modifier.align(Alignment.Center), MaterialTheme.colorScheme.onSecondaryContainer,
@@ -163,8 +163,8 @@ fun MarkSheetContent(mark: Mark, subjectId: Long) {
         }
     }
     val subject = remember {
-        if (DataService.hasMarksSubject) {
-            DataService.marksSubject.firstOrNull { it.subjectId == subjectId }
+        if (DataService.marksSubjectFlow.value.isNotEmpty()) {
+            DataService.marksSubjectFlow.value.firstOrNull { it.subjectId == subjectId }
         } else null
     }
 
@@ -311,7 +311,7 @@ fun ClassResults(markInfo: MarkInfo) {
 fun RatingButton(subject: MarkListSubjectItem) {
     val context = LocalContext.current
     if (context.mainPrefs.get(CommonPrefs.subjectRating.prefKey) ?: true) {
-        DataService.subjectRanking.firstOrNull { it.subjectId == subject.subjectId }
+        DataService.subjectRanking.value.firstOrNull { it.subjectId == subject.subjectId }
             ?.let {
                 FilledIconButton(
                     {

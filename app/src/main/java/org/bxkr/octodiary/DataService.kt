@@ -4,10 +4,18 @@ import android.content.Context
 import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import okhttp3.ResponseBody
+import org.bxkr.octodiary.data.AuthRepository
+import org.bxkr.octodiary.database.AppDatabase
+import org.bxkr.octodiary.database.dao.OfflineDao
+import org.bxkr.octodiary.database.entity.offline.*
 import org.bxkr.octodiary.models.avatar.Avatar
-import org.bxkr.octodiary.utils.CacheUtils
 import org.bxkr.octodiary.models.classmembers.ClassMember
 import org.bxkr.octodiary.models.classmembers.OctoClassMembers
 import org.bxkr.octodiary.models.classranking.RankingMember
@@ -29,6 +37,7 @@ import org.bxkr.octodiary.models.rankingforsubject.RankingForSubject
 import org.bxkr.octodiary.models.schoolinfo.SchoolInfo
 import org.bxkr.octodiary.models.sessionuser.SessionUser
 import org.bxkr.octodiary.models.subjectranking.SubjectRanking
+import org.bxkr.octodiary.models.visits.Payload
 import org.bxkr.octodiary.models.visits.VisitsResponse
 import org.bxkr.octodiary.network.MESLoginService.refreshToken
 import org.bxkr.octodiary.network.NetworkService.externalApi
@@ -36,85 +45,92 @@ import org.bxkr.octodiary.network.interfaces.DSchoolAPI
 import org.bxkr.octodiary.network.interfaces.MainSchoolAPI
 import org.bxkr.octodiary.network.interfaces.SchoolSessionAPI
 import org.bxkr.octodiary.network.interfaces.SecondaryAPI
-import org.bxkr.octodiary.data.AuthRepository
-import com.google.gson.reflect.TypeToken
+import org.bxkr.octodiary.utils.CacheUtils
 import org.bxkr.octodiary.utils.measurePerformance
 import java.util.Calendar
 import java.util.Date
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 object DataService {
+    private val gson = Gson()
     lateinit var subsystem: Diary
     lateinit var mainSchoolApi: MainSchoolAPI
     lateinit var dSchoolApi: DSchoolAPI
     lateinit var secondaryApi: SecondaryAPI
     lateinit var schoolSessionApi: SchoolSessionAPI
     lateinit var authRepository: AuthRepository
+    private lateinit var context: Context
 
-    lateinit var token: String
+    private var refreshingToken = false
+    private val tokenMutex = Mutex()
 
-    lateinit var userId: ProfilesId
-    var hasUserId = false
+    private val _tokenMutable = MutableStateFlow<String?>(null)
+    val tokenFlow: StateFlow<String?> = _tokenMutable
 
-        lateinit var sessionUser: SessionUser
+    private val _userIdMutable = MutableStateFlow<ProfilesId>(ProfilesId())
+    val userIdFlow: StateFlow<ProfilesId> = _userIdMutable
 
-        var hasSessionUser = false
+    private val _sessionUserMutable = MutableStateFlow<SessionUser?>(null)
+    val sessionUserFlow: StateFlow<SessionUser?> = _sessionUserMutable
 
-    
+    fun setUserId(newUserId: ProfilesId) {
+        _userIdMutable.value = newUserId
+    }
 
-        private val _eventCalendar = MutableStateFlow<List<Event>>(emptyList())
+    fun setSessionUser(newSessionUser: SessionUser) {
+        _sessionUserMutable.value = newSessionUser
+    }
 
-        val eventCalendar: StateFlow<List<Event>> = _eventCalendar
-        var hasEventCalendar = false
+    private val _eventCalendarMutable = MutableStateFlow<List<Event>>(emptyList())
+    val eventCalendar: StateFlow<List<Event>> = _eventCalendarMutable
 
-    lateinit var eventsRange: List<Long>
+    private val _eventsRangeMutable = MutableStateFlow<List<Long>>(emptyList())
+    val eventsRange: StateFlow<List<Long>> = _eventsRangeMutable
 
-    lateinit var ranking: List<RankingMember>
-    var hasRanking = false
+    private val _rankingMutable = MutableStateFlow<List<RankingMember>>(emptyList())
+    val ranking: StateFlow<List<RankingMember>> = _rankingMutable
 
-    lateinit var classMembers: List<ClassMember>
-    var hasClassMembers = false
+    private val _classMembersMutable = MutableStateFlow<List<ClassMember>>(emptyList())
+    val classMembers: StateFlow<List<ClassMember>> = _classMembersMutable
 
-    lateinit var subjectRanking: List<SubjectRanking>
-    var hasSubjectRanking = false
+    private val _subjectRankingMutable = MutableStateFlow<List<SubjectRanking>>(emptyList())
+    val subjectRanking: StateFlow<List<SubjectRanking>> = _subjectRankingMutable
 
-    lateinit var profile: ProfileResponse
-    var hasProfile = false
+    private val _profileMutable = MutableStateFlow<ProfileResponse?>(null)
+    val profile: StateFlow<ProfileResponse?> = _profileMutable
 
-    lateinit var visits: VisitsResponse
-    var hasVisits = false
+    private val _visitsMutable = MutableStateFlow<VisitsResponse?>(null)
+    val visits: StateFlow<VisitsResponse?> = _visitsMutable
 
-    lateinit var marksDate: MarkListDate
-    var hasMarksDate = false
+    private val _marksDateMutable = MutableStateFlow<MarkListDate?>(null)
+    val marksDateFlow: StateFlow<MarkListDate?> = _marksDateMutable
 
-    lateinit var marksSubject: List<MarkListSubjectItem>
-    var hasMarksSubject = false
+    private val _marksSubjectMutable = MutableStateFlow<List<MarkListSubjectItem>>(emptyList())
+    val marksSubjectFlow: StateFlow<List<MarkListSubjectItem>> = _marksSubjectMutable
 
-    lateinit var homeworks: List<org.bxkr.octodiary.models.homeworks2.Homework>
-    var hasHomeworks = false
+    private val _homeworksMutable = MutableStateFlow<List<org.bxkr.octodiary.models.homeworks2.Homework>>(emptyList())
+    val homeworksFlow: StateFlow<List<org.bxkr.octodiary.models.homeworks2.Homework>> = _homeworksMutable
 
-    lateinit var mealBalance: MealBalance
-    var hasMealBalance = false
+    private val _mealBalanceMutable = MutableStateFlow<MealBalance?>(null)
+    val mealBalance: StateFlow<MealBalance?> = _mealBalanceMutable
 
-    lateinit var schoolInfo: SchoolInfo
-    var hasSchoolInfo = false
+    private val _schoolInfoMutable = MutableStateFlow<SchoolInfo?>(null)
+    val schoolInfo: StateFlow<SchoolInfo?> = _schoolInfoMutable
 
-    lateinit var personData: PersonData
-    var hasPersonData = false
+    private val _personDataMutable = MutableStateFlow<PersonData?>(null)
+    val personData: StateFlow<PersonData?> = _personDataMutable
 
-    lateinit var daysBalanceInfo: DaysBalanceInfo
-    var hasDaysBalanceInfo = false
+    private val _daysBalanceInfoMutable = MutableStateFlow<DaysBalanceInfo?>(null)
+    val daysBalanceInfo: StateFlow<DaysBalanceInfo?> = _daysBalanceInfoMutable
     var daysBalanceInfoCompleted = false
 
-    lateinit var mealsMenuComplexes: MealsMenuComplexes
-    var hasMealsMenuComplexes = false
+    private val _mealsMenuComplexesMutable = MutableStateFlow<MealsMenuComplexes?>(null)
+    val mealsMenuComplexes: StateFlow<MealsMenuComplexes?> = _mealsMenuComplexesMutable
 
-    lateinit var govExams: GovExamsResponse
-    var hasGovExams = false
+    private val _govExamsMutable = MutableStateFlow<GovExamsResponse?>(null)
+    val govExamsFlow: StateFlow<GovExamsResponse?> = _govExamsMutable
 
-    lateinit var avatars: List<Avatar>
-    var hasAvatars = false
+    private val _avatarsMutable = MutableStateFlow<List<Avatar>>(emptyList())
+    val avatarsFlow: StateFlow<List<Avatar>> = _avatarsMutable
 
     // Оптимизация: кэширование часто используемых данных
     private val memoryCache = mutableMapOf<String, Pair<Any, Long>>()
@@ -135,130 +151,197 @@ object DataService {
         memoryCache[key] = Pair(data, System.currentTimeMillis())
     }
 
-    /**
-     * Очищает кэш при низком уровне памяти
-     */
     fun clearCacheIfLowMemory(context: Context) {
         CacheUtils.clearCacheIfLowMemory(context, memoryCache)
     }
 
-    // ADD_NEW_FIELD_HERE
-    // Don't forget to add demo cache data in res/raw folder, preferably with MES flavor
 
-    val states
+
+    val fields: List<kotlin.reflect.KProperty<*>>
         get() =
             listOfNotNull(
-                ::hasUserId,
-                ::hasSessionUser,
-                // ::hasEventCalendar, // Удалено, так как eventCalendar теперь StateFlow
-                // ::hasEventCalendar,
-                ::hasRanking,
-                ::hasClassMembers,
-                ::hasProfile,
-                ::hasVisits.takeIf { subsystem == Diary.MES },
-                ::hasMarksDate,
-                ::hasMarksSubject,
-                ::hasHomeworks,
-                ::hasMealBalance.takeIf { subsystem == Diary.MES },
-                ::hasSchoolInfo,
-                ::hasPersonData,
-                ::hasDaysBalanceInfo.takeIf { subsystem == Diary.MES },
-                ::hasMealsMenuComplexes.takeIf { subsystem == Diary.MES },
-                ::hasSubjectRanking,
-                ::hasGovExams,
-                ::hasAvatars
-            )
-
-    val fields
-        get() =
-            listOfNotNull(
-                ::userId,
-                ::sessionUser,
-                // ::eventCalendar, // Удалено, так как eventCalendar теперь StateFlow
+                ::userIdFlow,
+                ::sessionUserFlow,
                 ::eventsRange,
                 ::ranking,
                 ::classMembers,
                 ::profile,
                 ::visits.takeIf { subsystem == Diary.MES },
-                ::marksDate,
-                ::marksSubject,
-                ::homeworks,
+                ::marksDateFlow,
+                ::marksSubjectFlow,
+                ::homeworksFlow,
                 ::mealBalance.takeIf { subsystem == Diary.MES },
                 ::schoolInfo,
                 ::personData,
                 ::daysBalanceInfo.takeIf { subsystem == Diary.MES },
                 ::mealsMenuComplexes.takeIf { subsystem == Diary.MES },
                 ::subjectRanking,
-                ::govExams,
-                ::avatars
+                ::govExamsFlow,
+                ::avatarsFlow
             )
 
-    val mapOfDemoResourceIds = mapOf(
-        ::userId to R.raw.demo_user_id,
-        ::sessionUser to R.raw.demo_session_user,
-        // ::eventCalendar to R.raw.demo_event_calendar,
+    val mapOfDemoResourceIds = mapOf<kotlin.reflect.KProperty<*>, Int>(
+        ::userIdFlow to R.raw.demo_user_id,
+        ::sessionUserFlow to R.raw.demo_session_user,
         ::eventsRange to R.raw.demo_events_range,
         ::ranking to R.raw.demo_ranking,
         ::classMembers to R.raw.demo_class_members,
         ::profile to R.raw.demo_profile,
         ::visits to R.raw.demo_visits,
-        ::marksDate to R.raw.demo_marks_date,
-        ::marksSubject to R.raw.demo_marks_subject,
-        ::homeworks to R.raw.demo_homeworks,
+        ::marksDateFlow to R.raw.demo_marks_date,
+        ::marksSubjectFlow to R.raw.demo_marks_subject,
+        ::homeworksFlow to R.raw.demo_homeworks,
         ::mealBalance to R.raw.demo_meal_balance,
         ::schoolInfo to R.raw.demo_school_info,
         ::personData to R.raw.demo_person_data,
         ::daysBalanceInfo to R.raw.demo_days_balance_info,
         ::mealsMenuComplexes to R.raw.demo_meals_menu_complexes,
         ::subjectRanking to R.raw.demo_subject_ranking,
-        ::govExams to R.raw.demo_gov_exams,
-        ::avatars to R.raw.demo_avatars
+        ::govExamsFlow to R.raw.demo_gov_exams,
+        ::avatarsFlow to R.raw.demo_avatars
     ).mapKeys { it.key.name }
 
     val loadedEverything = mutableStateOf(false)
-
-    var tokenExpirationHandler: (() -> Unit)? = null
-
-    var onSingleItemInUpdateAllLoadedHandler: ((name: String, progress: Float) -> Unit)? = null
-
     var loadingStarted = false
+    var tokenExpirationHandler: (() -> Unit)? = null
+    var onSingleItemInUpdateAllLoadedHandler: ((name: String, progress: Float) -> Unit)? = null
+    private val _currentProfileMutable = MutableStateFlow(0)
+    val currentProfile: StateFlow<Int> = _currentProfileMutable
 
-    var currentProfile = 0
-
+    fun setCurrentProfile(index: Int) {
+        _currentProfileMutable.value = index
+    }
     val pickedImageUri = MutableStateFlow<Uri?>(null)
+    var database: AppDatabase? = null
+    var offlineDao: OfflineDao? = null
 
+    fun init(context: Context, authRepository: AuthRepository) {
+        this.context = context
+        database = AppDatabase.getInstance(context)
+        offlineDao = database?.offlineDao()
+        this.authRepository = authRepository
+    }
 
+    fun loadOfflineData(onUpdated: () -> Unit) {
+        val dao = offlineDao ?: return
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val events = dao.getAllEvents().mapNotNull {
+                    try { gson.fromJson<Event>(it.json, object : TypeToken<Event>() {}.type) } catch (e: Exception) { null }
+                }
+                if (events.isNotEmpty()) {
+                    _eventCalendarMutable.value = events
+                }
+                val marks = dao.getAllSubjectMarks().mapNotNull {
+                    try { gson.fromJson<MarkListSubjectItem>(it.json, object : TypeToken<MarkListSubjectItem>() {}.type) } catch (e: Exception) { null }
+                }
+                if (marks.isNotEmpty()) {
+                    _marksSubjectMutable.value = marks
+                }
+                val rankingMembers = dao.getAllRankingMembers().mapNotNull {
+                    try { gson.fromJson<RankingMember>(it.json, object : TypeToken<RankingMember>() {}.type) } catch (e: Exception) { null }
+                }
+                if (rankingMembers.isNotEmpty()) {
+                    _rankingMutable.value = rankingMembers
+                }
+                val visitsPayloads = dao.getAllVisits().mapNotNull {
+                    try { gson.fromJson<Payload>(it.json, object : TypeToken<Payload>() {}.type) } catch (e: Exception) { null }
+                }
+                if (visitsPayloads.isNotEmpty()) {
+                    _visitsMutable.value = VisitsResponse(visitsPayloads)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                withContext(Dispatchers.Main) {
+                    onUpdated()
+                }
+            }
+        }
+    }
 
+    fun updateToken(newToken: String?) {
+        _tokenMutable.value = newToken
+    }
 
+    fun setProfile(newProfile: ProfileResponse?) {
+        _profileMutable.value = newProfile
+    }
 
     fun updateEventCalendar(weeksBefore: Int = 0, weeksAfter: Int = 0, onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-        val startDate = Calendar.getInstance().also {
-            it.set(Calendar.WEEK_OF_YEAR, it.get(Calendar.WEEK_OF_YEAR) - weeksBefore)
-            it.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        }
-        val endDate = Calendar.getInstance().also {
-            it.set(Calendar.WEEK_OF_YEAR, it.get(Calendar.WEEK_OF_YEAR) + weeksAfter)
-            it.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        }
-        secondaryApi.events(
-            "Bearer $token",
-            personIds = profile.children[currentProfile].contingentGuid,
-            beginDate = startDate.time.formatToDay(),
-            endDate = endDate.time.formatToDay(),
-            expandFields = "homework,marks"
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { body ->
-            _eventCalendar.value = body.response
-            hasEventCalendar = true
-            eventsRange = listOf(startDate.time.time, endDate.time.time)
+        if (!context.isOnline()) {
             onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateEventCalendar(weeksBefore, weeksAfter, onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) { // Check if profile is initialized
+                onUpdated()
+                return@launch
+            }
+            val studentId = profile.value?.children?.get(currentProfile.value)?.studentId // Add studentId here
+            if (studentId == null) {
+                onUpdated()
+                return@launch
+            }
+            val startDate = Calendar.getInstance().also {
+                it.set(Calendar.WEEK_OF_YEAR, it.get(Calendar.WEEK_OF_YEAR) - weeksBefore)
+                it.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+            }
+            val endDate = Calendar.getInstance().also {
+                it.set(Calendar.WEEK_OF_YEAR, it.get(Calendar.WEEK_OF_YEAR) + weeksAfter)
+                it.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+            }
+            secondaryApi.events(
+                "Bearer ${tokenFlow.value!!}",
+                personIds = profile.value?.children?.get(currentProfile.value)?.contingentGuid ?: "",
+                beginDate = startDate.time.formatToDay(),
+                endDate = endDate.time.formatToDay(),
+                expandFields = "homework,marks"
+            ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { body ->
+                _eventCalendarMutable.value = body.response
+                _eventsRangeMutable.value = listOf(startDate.time.time, endDate.time.time)
+                offlineDao?.let { dao ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val entities = body.response.map { event ->
+                            EventEntity(
+                                id = event.id,
+                                startAt = event.startAt.parseLongDate().time,
+                                finishAt = event.finishAt.parseLongDate().time,
+                                json = gson.toJson(event)
+                            )
+                        }
+                        dao.insertEvents(entities)
+                    }
+                }
+                onUpdated()
+            }
         }
     }
 
     fun getEventWeek(date: Date, listener: (events: List<Event>, range: List<Long>) -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
+        if (tokenFlow.value == null || profile.value?.children.isNullOrEmpty()) {
+            return
+        }
         val startDate = Calendar.getInstance().also {
             it.time = date
             it.set(Calendar.WEEK_OF_YEAR, it.get(Calendar.WEEK_OF_YEAR))
@@ -270,343 +353,793 @@ object DataService {
             it.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
         }
         secondaryApi.events(
-            "Bearer $token",
-            personIds = profile.children[currentProfile].contingentGuid,
+            "Bearer ${tokenFlow.value!!}",
+            personIds = profile.value?.children?.get(currentProfile.value)?.contingentGuid ?: "",
             beginDate = startDate.time.formatToDay(),
             endDate = endDate.time.formatToDay(),
             expandFields = "homework,marks"
         ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { body ->
-            _eventCalendar.value = body.response // Обновляем StateFlow
-            hasEventCalendar = true
+            _eventCalendarMutable.value = body.response
             listener(body.response, listOf(startDate.time.time, endDate.time.time))
         }
     }
 
     fun getMarkInfo(markId: Long, errorListener: (String) -> Unit, listener: (MarkInfo) -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
+        if (tokenFlow.value == null || profile.value?.children.isNullOrEmpty()) {
+            return
+        }
+        val studentId = profile.value?.children?.get(currentProfile.value)?.studentId
+        if (studentId == null) {
+            return
+        }
         mainSchoolApi.markInfo(
-            token,
+            tokenFlow.value!!,
             markId = markId,
-            studentId = profile.children[currentProfile].studentId
+            studentId = studentId
         ).baseEnqueue(errorListenerForMessage(errorListener)) { listener(it) }
     }
 
     fun updateRanking(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
+        if (!context.isOnline()) {
+            onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateRanking(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid
+            if (contingentGuid == null) {
+                onUpdated()
+                return@launch
+            }
 
-        var rankingFinished = false
-        var classMembersFinished = false
+            var rankingFinished = false
+            var classMembersFinished = false
 
-        // Ranking request:
-        secondaryApi.classRanking(
-            token,
-            personId = profile.children[currentProfile].contingentGuid,
-            date = Date().formatToDay()
-        ).baseEnqueue({ errorBody: ResponseBody, httpCode: Int, className: String? ->
-            val errorText = errorBody.string()
-
-            if (errorText.contains("Рейтинг не доступен.")) {
-                ranking = emptyList()
-                hasRanking = true
+            secondaryApi.classRanking(
+                tokenFlow.value!!,
+                personId = contingentGuid,
+                date = Date().formatToDay()
+            ).baseEnqueue({ errorBody: ResponseBody, httpCode: Int, className: String? ->
+                val errorText = errorBody.string()
+                if (errorText.contains("Рейтинг не доступен.")) {
+                    _rankingMutable.value = emptyList()
+                } else {
+                    baseErrorFunction(errorBody, httpCode, className)
+                }
+            }, ::baseInternalExceptionFunction) {
+                _rankingMutable.value = it
                 rankingFinished = true
                 if (classMembersFinished) onUpdated()
-            } else {
-                baseErrorFunction(errorBody, httpCode, className)
             }
-        }, ::baseInternalExceptionFunction) {
-            ranking = it
-            hasRanking = true
-            rankingFinished = true
-            if (classMembersFinished) onUpdated()
-        }
-
-        // Class members request for matching names:
-//        dSchoolApi.classMembers(
-//            token,
-//            profile.children[currentProfile].studentId,
-//            profile.children[currentProfile].classUnitId
-//        ).baseEnqueue({ _, _, _ ->
-            classMembers = emptyList()
-            hasClassMembers = true
+            
+            _classMembersMutable.value = emptyList()
             classMembersFinished = true
             if (rankingFinished) onUpdated()
-//        }, ::baseInternalExceptionFunction) {
-//            classMembers = it
-//            hasClassMembers = true
-//            classMembersFinished = true
-//            if (rankingFinished) onUpdated()
-//        }
+        }
     }
 
     fun updateCustomClassMembers(onUpdated: () -> Unit) {
-        require(this::token.isInitialized)
-
-        mainSchoolApi.pullUserSettingsRaw(token, "od_class_members_assignments")
-            .baseEnqueue({ _, _, _ -> onUpdated() }, ::baseInternalExceptionFunction) { unparsed ->
-                val parsed = unparsed.fromJson<OctoClassMembers>()
-                if (parsed != null) parsed.assignments.let { assignments ->
-                    if (assignments != null) {
-                        val assignmentsStudentIds =
-                            assignments.map { assignment -> assignment.studentId }
-                        val newClassMembers = classMembers.map {
-                            if (it.studentId in assignmentsStudentIds) {
-                                it.copy(personId = assignments.first { assignment -> assignment.studentId == it.studentId }.personId)
-                            } else it
-                        }
-                        classMembers = newClassMembers
-                    }
+                if (!context.isOnline() || tokenFlow.value == null || profile.value?.children.isNullOrEmpty()) {
                     onUpdated()
-                } else onUpdated()
-            }
+                    return
+                }
+                val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid
+                val studentId = profile.value?.children?.get(currentProfile.value)?.studentId
+                if (contingentGuid == null || studentId == null) {
+                    onUpdated()
+                    return
+                }
+        
+                mainSchoolApi.pullUserSettingsRaw(tokenFlow.value!!, "od_class_members_assignments")
+                    .baseEnqueue({ _, _, _ -> onUpdated() }, ::baseInternalExceptionFunction) { unparsed ->
+                        val parsed = unparsed.fromJson<OctoClassMembers>()
+                        if (parsed != null) parsed.assignments.let { assignments ->
+                            if (assignments != null) {
+                                val assignmentsStudentIds =
+                                    assignments.map { assignment -> assignment.studentId }
+                                val newClassMembers = classMembers.value.map {
+                                    if (it.studentId in assignmentsStudentIds) {
+                                        it.copy(personId = assignments.first { assignment -> assignment.studentId == it.studentId }.personId)
+                                    } else it
+                                }
+                                _classMembersMutable.value = newClassMembers
+                            }
+                            onUpdated()
+                        } else onUpdated()
+                    }
     }
 
     fun updateSubjectRanking(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-
-        secondaryApi.subjectRanking(
-            token,
-            profile.children[currentProfile].contingentGuid,
-            Date().formatToDay()
-        ).baseEnqueue({ errorBody: ResponseBody, httpCode: Int, className: String? ->
-            val errorText = errorBody.string()
-
-            if (errorText.contains("Рейтинг не доступен.")) {
-                subjectRanking = emptyList()
-                hasSubjectRanking = true
-                onUpdated()
-            } else {
-                baseErrorFunction(errorBody, httpCode, className)
-            }
-        }) {
-            subjectRanking = it
-            hasSubjectRanking = true
+        if (!context.isOnline()) {
             onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateSubjectRanking(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+                        if (profile.value?.children.isNullOrEmpty()) {
+                            onUpdated()
+                            return@launch
+                        }
+                        val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid
+                        if (contingentGuid == null) {
+                            onUpdated()
+                            return@launch
+                        }
+            
+                        secondaryApi.subjectRanking(
+                            tokenFlow.value!!,
+                            contingentGuid,
+                            Date().formatToDay()
+                        ).baseEnqueue({ errorBody: ResponseBody, httpCode: Int, className: String? ->
+                val errorText = errorBody.string()
+                if (errorText.contains("Рейтинг не доступен.")) {
+                    _subjectRankingMutable.value = emptyList()
+                    onUpdated()
+                } else {
+                    baseErrorFunction(errorBody, httpCode, className)
+                }
+            }) {
+                _subjectRankingMutable.value = it
+                onUpdated()
+            }
         }
     }
 
     fun updateProfile(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-
-        // Оптимизация: проверяем кэш
-        val cacheKey = "profile_${token.hashCode()}"
-        val cachedProfile: ProfileResponse? = getCachedData(cacheKey)
-        if (cachedProfile != null && hasProfile) {
-            profile = cachedProfile
+        if (!context.isOnline()) {
             onUpdated()
             return
         }
-
-        mainSchoolApi.profile(token)
-            .baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
-                profile = it
-                hasProfile = true
-                setCachedData(cacheKey, it)
-                onUpdated()
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateProfile(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
             }
+            val cacheKey = "profile_${tokenFlow.value!!.hashCode()}"
+            val cachedProfile: ProfileResponse? = getCachedData(cacheKey)
+            if (cachedProfile != null && _profileMutable.value != null) {
+                _profileMutable.value = cachedProfile
+                onUpdated()
+                return@launch
+            }
+            mainSchoolApi.profile(tokenFlow.value!!)
+                .baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
+                    _profileMutable.value = it
+                    setCachedData(cacheKey, it)
+                    onUpdated()
+                }
+        }
     }
 
     fun updateVisits(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-        assert(subsystem == Diary.MES)
-
-        mainSchoolApi.visits(
-            token,
-            profile.children[0].contractId,
-            fromDate = Calendar.getInstance().apply {
-                time = Date()
-                set(Calendar.DAY_OF_YEAR, get(Calendar.DAY_OF_YEAR) - 61)
-            }.time.formatToDay(),
-            toDate = Date().formatToDay()
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { visitsResponse ->
-            visits = VisitsResponse(
-                payload = visitsResponse.payload.sortedByDescending {
-                    it.date.parseFromDay().toInstant().toEpochMilli()
-                }
-            )
-            hasVisits = true
+        if (!context.isOnline()) {
             onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateVisits(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            if (subsystem != Diary.MES) {
+                onUpdated()
+                return@launch
+            }
+            val contractId = profile.value?.children?.get(currentProfile.value)?.contractId ?: 0 // handle null properly
+            if (contractId == 0L) {
+                 onUpdated()
+                 return@launch
+            }
+            mainSchoolApi.visits(
+                tokenFlow.value!!,
+                contractId,
+                fromDate = Calendar.getInstance().apply {
+                    time = Date()
+                    set(Calendar.DAY_OF_YEAR, get(Calendar.DAY_OF_YEAR) - 61)
+                }.time.formatToDay(),
+                toDate = Date().formatToDay()
+            ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) { visitsResponse ->
+                _visitsMutable.value = VisitsResponse(
+                    payload = visitsResponse.payload.sortedByDescending {
+                        it.date.parseFromDay().toInstant().toEpochMilli()
+                    }
+                )
+                offlineDao?.let { dao ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val entities = visitsResponse.payload.map { item ->
+                            VisitDayEntity(
+                                date = item.date,
+                                json = gson.toJson(item)
+                            )
+                        }
+                        dao.clearVisits()
+                        dao.insertVisits(entities)
+                    }
+                }
+                onUpdated()
+            }
         }
     }
 
     fun updateMarksDate(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-
-        mainSchoolApi.markList(
-            token,
-            studentId = profile.children[currentProfile].studentId,
-            fromDate = Calendar.getInstance().run {
-                set(Calendar.WEEK_OF_YEAR, get(Calendar.WEEK_OF_YEAR) - 4)
-                time
-            }.formatToDay(),
-            toDate = Date().formatToDay()
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
-            marksDate = it
-            hasMarksDate = true
+        if (!context.isOnline()) {
             onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateMarksDate(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) { // Check if profile is initialized
+                onUpdated()
+                return@launch
+            }
+            val studentId = profile.value?.children?.get(currentProfile.value)?.studentId
+            if (studentId == null) {
+                onUpdated()
+                return@launch
+            }
+            val cal = Calendar.getInstance()
+            cal.add(Calendar.WEEK_OF_YEAR, 1)
+            val toDate = cal.time.formatToDay()
+            cal.add(Calendar.WEEK_OF_YEAR, -5)
+            val fromDate = cal.time.formatToDay()
+
+            try {
+                val call: retrofit2.Call<MarkListDate> = mainSchoolApi.markList(tokenFlow.value!!, studentId, fromDate, toDate)
+                val response: retrofit2.Response<MarkListDate> = call.execute()
+                if (response.isSuccessful) {
+                    val body: MarkListDate? = response.body()
+                    _marksDateMutable.value = body
+                    if (body != null) {
+                        setCachedData(::marksDateFlow.name, body)
+                    }
+                }
+                onUpdated()
+            } catch (e: Exception) {}
         }
     }
 
     fun updateMarksSubject(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-
-        mainSchoolApi.subjectMarks(
-            token,
-            studentId = profile.children[currentProfile].studentId
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
-            marksSubject = it.payload
-            hasMarksSubject = true
+        if (!context.isOnline()) {
             onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateMarksSubject(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            val studentId = profile.value?.children?.get(currentProfile.value)?.studentId
+            if (studentId == null) {
+                onUpdated()
+                return@launch
+            }
+
+            mainSchoolApi.subjectMarks(
+                tokenFlow.value!!,
+                studentId = studentId
+            ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
+                _marksSubjectMutable.value = it.payload
+                offlineDao?.let { dao ->
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val entities = it.payload.map { item ->
+                            SubjectMarksEntity(
+                                subjectId = item.subjectId,
+                                json = gson.toJson(item)
+                            )
+                        }
+                        dao.clearSubjectMarks()
+                        dao.insertSubjectMarks(entities)
+                    }
+                }
+                onUpdated()
+            }
         }
     }
 
     fun updateHomeworks(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-
-        mainSchoolApi.homeworks(
-            token,
-            studentId = profile.children[currentProfile].studentId,
-            fromDate = Date().formatToDay(),
-            toDate = Calendar.getInstance().run {
-                set(Calendar.WEEK_OF_YEAR, get(Calendar.WEEK_OF_YEAR) + 1)
-                time
-            }.formatToDay()
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
-            homeworks = it.payload
-            hasHomeworks = true
+        if (!context.isOnline()) {
             onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateHomeworks(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            val studentId = profile.value?.children?.get(currentProfile.value)?.studentId
+            if (studentId == null) {
+                onUpdated()
+                return@launch
+            }
+
+            mainSchoolApi.homeworks(
+                tokenFlow.value!!,
+                studentId = studentId,
+                fromDate = Date().formatToDay(),
+                toDate = Calendar.getInstance().run {
+                    set(Calendar.WEEK_OF_YEAR, get(Calendar.WEEK_OF_YEAR) + 1)
+                    time
+                }.formatToDay()
+            ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
+                _homeworksMutable.value = it.payload
+                onUpdated()
+            }
         }
     }
 
     fun updateMealBalance(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-        assert(subsystem == Diary.MES)
-
-        dSchoolApi.mealBalance(
-            token,
-            contractId = profile.children[currentProfile].contractId
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
-            mealBalance = it
-            hasMealBalance = true
+        if (!context.isOnline()) {
             onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateMealBalance(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            if (subsystem != Diary.MES) {
+                onUpdated()
+                return@launch
+            }
+            val contractId = profile.value?.children?.get(currentProfile.value)?.contractId
+            if (contractId == null) {
+                onUpdated()
+                return@launch
+            }
+
+            dSchoolApi.mealBalance(
+                tokenFlow.value!!,
+                contractId = contractId
+            ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
+                _mealBalanceMutable.value = it
+                onUpdated()
+            }
         }
     }
 
     fun updateSchoolInfo(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
+        if (!context.isOnline()) {
+            onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateSchoolInfo(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            val child = profile.value?.children?.get(currentProfile.value)
+            if (child == null) {
+                onUpdated()
+                return@launch
+            }
 
-        mainSchoolApi.schoolInfo(
-            token,
-            schoolId = profile.children[currentProfile].school.id,
-            classUnitId = profile.children[currentProfile].classUnitId
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
-            schoolInfo = it
-            hasSchoolInfo = true
+            mainSchoolApi.schoolInfo(
+                tokenFlow.value!!,
+                schoolId = child.school.id,
+                classUnitId = child.classUnitId
+            ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
+                _schoolInfoMutable.value = it
+                onUpdated()
+            }
+        }
+    }
+
+    fun updatePersonData(onUpdated: () -> Unit) {
+        if (!context.isOnline()) {
+            onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updatePersonData(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            _personDataMutable.value = PersonData()
             onUpdated()
         }
     }
 
-
-    fun updatePersonData(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-
-        personData = PersonData()
-        hasPersonData = true
-        onUpdated()
-    }
-
-    // Complicated request, so do it in background
     fun updateDaysBalanceInfo(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
+        if (!context.isOnline()) {
+            onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateDaysBalanceInfo(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid
+            if (contingentGuid == null) {
+                onUpdated()
+                return@launch
+            }
 
-        daysBalanceInfo = DaysBalanceInfo(emptyList(), false)
-        hasDaysBalanceInfo = true
-        daysBalanceInfoCompleted = false
-        onUpdated()
-
-        mainSchoolApi.daysBalanceInfo(
-            accessToken = token,
-            personId = profile.children[currentProfile].contingentGuid,
-            from = "${Date().formatToDay()}T00:00:00.000Z",
-            withPayments = false,
-            limit = Int.MAX_VALUE
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
-            daysBalanceInfo = it
-            daysBalanceInfoCompleted = true
-            onSingleItemInUpdateAllLoadedHandler?.invoke("daysBalanceInfo", 100f)
+            mainSchoolApi.daysBalanceInfo(
+                accessToken = tokenFlow.value!!,
+                personId = contingentGuid,
+                from = "${Date().formatToDay()}T00:00:00.000Z",
+                withPayments = false,
+                limit = Int.MAX_VALUE
+            ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
+                _daysBalanceInfoMutable.value = it
+                daysBalanceInfoCompleted = true
+                onUpdated()
+            }
         }
     }
 
     fun updateMealsMenuComplexes(onUpdated: () -> Unit) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
-
-        mainSchoolApi.mealsMenuComplexes(
-            accessToken = token,
-            personId = profile.children[currentProfile].contingentGuid,
-            onDate = Date().formatToDay()
-        ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
-            mealsMenuComplexes = it
-            hasMealsMenuComplexes = true
+        if (!context.isOnline()) {
             onUpdated()
+            return
+        }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateMealsMenuComplexes(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid
+            if (contingentGuid == null) {
+                onUpdated()
+                return@launch
+            }
+
+            mainSchoolApi.mealsMenuComplexes(
+                accessToken = tokenFlow.value!!,
+                personId = contingentGuid,
+                onDate = Date().formatToDay()
+            ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
+                _mealsMenuComplexesMutable.value = it
+                onUpdated()
+            }
         }
     }
 
     fun updateGovExams(onUpdated: () -> Unit) {
-        require(this::token.isInitialized)
-        require(this::profile.isInitialized)
-
-        val onError = {
-            govExams = GovExamsResponse(listOf(), "OK")
-            hasGovExams = true
+        if (!context.isOnline()) {
             onUpdated()
+            return
         }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateGovExams(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid
+            if (contingentGuid == null) {
+                onUpdated()
+                return@launch
+            }
 
-        secondaryApi.govExams(
-            "Bearer $token",
-            profile.children[currentProfile].contingentGuid
-        ).baseEnqueue({ _, _, _ -> onError() }, { _, _ -> onError() }) {
-            govExams = it
-            hasGovExams = true
-            onUpdated()
+            val onError = {
+                _govExamsMutable.value = GovExamsResponse(listOf(), "OK")
+                onUpdated()
+            }
+
+            secondaryApi.govExams(
+                "Bearer ${tokenFlow.value!!}",
+                contingentGuid
+            ).baseEnqueue({ _, _, _ -> onError() }, { _, _ -> onError() }) {
+                _govExamsMutable.value = it
+                onUpdated()
+            }
         }
     }
 
     fun updateAvatars(onUpdated: () -> Unit) {
-        require(this::token.isInitialized)
-        require(this::profile.isInitialized)
-
-        // Оптимизация: проверяем кэш для аватаров
-        val cacheKey = "avatars_${profile.children[currentProfile].contingentGuid}"
-        val cachedAvatars: List<Avatar>? = getCachedData(cacheKey)
-        if (cachedAvatars != null && hasAvatars) {
-            avatars = cachedAvatars
+        if (!context.isOnline()) {
             onUpdated()
             return
         }
+        GlobalScope.launch {
+            if (tokenFlow.value == null) {
+                if (refreshingToken) {
+                    tokenMutex.withLock {
+                        if (tokenFlow.value == null) {
+                            refreshingToken = false
+                            onUpdated()
+                            return@launch
+                        }
+                    }
+                } else {
+                    refreshingToken = true
+                    tokenMutex.withLock {
+                        authRepository.refreshToken {
+                            refreshingToken = false
+                            updateAvatars(onUpdated)
+                        }
+                    }
+                    return@launch
+                }
+            }
+            if (profile.value?.children.isNullOrEmpty()) {
+                onUpdated()
+                return@launch
+            }
+            val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid
+            if (contingentGuid == null) {
+                onUpdated()
+                return@launch
+            }
 
-        secondaryApi.avatars(
-            "Bearer $token",
-            profile.children[currentProfile].contingentGuid
-        ).baseEnqueue({ _, _, _ ->
-            avatars = emptyList()
-            hasAvatars = true
-            onUpdated()
-        }) {
-            avatars = it
-            hasAvatars = true
-            setCachedData(cacheKey, it)
-            onUpdated()
+            // Оптимизация: проверяем кэш для аватаров
+            val cacheKey = "avatars_${contingentGuid}"
+            val cachedAvatars: List<Avatar>? = getCachedData(cacheKey)
+            if (cachedAvatars != null && avatarsFlow.value.isNotEmpty()) {
+                _avatarsMutable.value = cachedAvatars
+                onUpdated()
+                return@launch
+            }
+
+            secondaryApi.avatars(
+                "Bearer ${tokenFlow.value!!}",
+                contingentGuid
+            ).baseEnqueue({ _, _, _ ->
+                _avatarsMutable.value = emptyList()
+                onUpdated()
+            }) {
+                _avatarsMutable.value = it
+                setCachedData(cacheKey, it)
+                onUpdated()
+            }
         }
     }
 
@@ -615,28 +1148,26 @@ object DataService {
         errorListener: (String) -> Unit,
         listener: (List<RankingForSubject>) -> Unit,
     ) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
+        if (!context.isOnline() || tokenFlow.value == null || profile.value?.children.isNullOrEmpty()) return
+        val child = profile.value?.children?.get(currentProfile.value)
+        if (child == null) return
 
         secondaryApi.rankingForSubject(
-            token,
-            profile.children[currentProfile].contingentGuid,
-            profile.children[currentProfile].classUnitId,
+            tokenFlow.value!!,
+            child.contingentGuid,
+            child.classUnitId,
             Date().formatToDay(),
             subjectId
         ).baseEnqueue(errorFunction = errorListenerForMessage(errorListener)) { listener(it) }
     }
 
-
-
     fun setHomeworkDoneState(homeworkId: Long, state: Boolean, listener: () -> Unit) {
-        assert(this::token.isInitialized)
-
+        if (tokenFlow.value == null) return
         if (state) {
-            mainSchoolApi.doHomework(token, homeworkId)
+            mainSchoolApi.doHomework(tokenFlow.value!!, homeworkId)
                 .baseEnqueue(::baseErrorFunction) { listener() }
         } else {
-            mainSchoolApi.undoHomework(token, homeworkId)
+            mainSchoolApi.undoHomework(tokenFlow.value!!, homeworkId)
                 .baseEnqueue(::baseErrorFunction) { listener() }
         }
     }
@@ -646,22 +1177,23 @@ object DataService {
         errorListener: (String) -> Unit,
         listener: (LessonResponse) -> Unit,
     ) {
-        assert(this::token.isInitialized)
-        assert(this::profile.isInitialized)
+        if (!context.isOnline() || tokenFlow.value == null || profile.value?.children.isNullOrEmpty()) {
+            return
+        }
+        val studentId = profile.value?.children?.get(currentProfile.value)?.studentId ?: return
 
         mainSchoolApi.lessonSchedule(
-            token,
+            tokenFlow.value!!,
             lessonId,
-            profile.children[currentProfile].studentId
+            studentId
         ).baseEnqueue(errorListenerForMessage(errorListener)) {
             listener(it)
         }
     }
 
     fun getLaunchUrl(homeworkId: Long, materialId: String, listener: (String) -> Unit) {
-        assert(this::token.isInitialized)
-
-        mainSchoolApi.launchMaterial(token, homeworkId, materialId)
+        if (tokenFlow.value == null) return
+        mainSchoolApi.launchMaterial(tokenFlow.value!!, homeworkId, materialId)
             .baseEnqueue({ errorBody, httpCode, className ->
                 if (httpCode < 400) {
                     listener(errorBody.string())
@@ -672,12 +1204,14 @@ object DataService {
     }
 
     fun getMealsMenuComplexes(date: Date, listener: (MealsMenuComplexes) -> Unit) {
-        require(this::token.isInitialized)
-        require(this::profile.isInitialized)
+        if (!context.isOnline() || tokenFlow.value == null || profile.value?.children.isNullOrEmpty()) {
+            return
+        }
+        val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid ?: return
 
         mainSchoolApi.mealsMenuComplexes(
-            accessToken = token,
-            personId = profile.children[currentProfile].contingentGuid,
+            accessToken = tokenFlow.value!!,
+            personId = contingentGuid,
             onDate = date.formatToDay()
         ).baseEnqueue(::baseErrorFunction, ::baseInternalExceptionFunction) {
             listener(it)
@@ -688,12 +1222,14 @@ object DataService {
         fromDay: String = Date().formatToDay(),
         listener: (DaysBalanceInfo) -> Unit,
     ) {
-        require(this::token.isInitialized)
-        require(this::profile.isInitialized)
+        if (!context.isOnline() || tokenFlow.value == null || profile.value?.children.isNullOrEmpty()) {
+            return
+        }
+        val contingentGuid = profile.value?.children?.get(currentProfile.value)?.contingentGuid ?: return
 
         mainSchoolApi.daysBalanceInfo(
-            accessToken = token,
-            personId = profile.children[currentProfile].contingentGuid,
+            accessToken = tokenFlow.value!!,
+            personId = contingentGuid,
             from = "${fromDay}T00:00:00.000Z",
             withPayments = true,
             limit = Int.MAX_VALUE
@@ -703,12 +1239,12 @@ object DataService {
     }
 
     fun sendStatistic(onUpdated: () -> Unit) {
-        assert(this::userId.isInitialized)
-
-        externalApi().sendStat(
-            subsystem.ordinal,
-            encodeToBase64(hash(userId[0].id.toString()))
-        ).baseEnqueue { onUpdated() }
+        if (userIdFlow.value.isNotEmpty()) {
+            externalApi().sendStat(
+                subsystem.ordinal,
+                encodeToBase64(hash(userIdFlow.value[0].id.toString()))
+            ).baseEnqueue { onUpdated() }
+        }
     }
 
     fun <Model> pushUserSettings(
@@ -717,9 +1253,11 @@ object DataService {
         onError: (String) -> Unit = {},
         onUpdated: () -> Unit,
     ) {
-        assert(this::token.isInitialized)
-
-        mainSchoolApi.pushUserSettings(token, path, Gson().toJsonTree(content).asJsonObject)
+        if (!context.isOnline() || tokenFlow.value == null) {
+            onUpdated()
+            return
+        }
+        mainSchoolApi.pushUserSettings(tokenFlow.value!!, path, Gson().toJsonTree(content).asJsonObject)
             .baseEnqueueOrNull(
                 { errorBody, _, _ -> onError(errorBody.string()) },
                 { throwable, _ -> onError(throwable.message ?: "null throwable message") }) {
@@ -727,69 +1265,151 @@ object DataService {
             }
     }
 
-    fun updateAll(context: Context? = null, silent: Boolean = false) {
-        if (loadingStarted) return else loadingStarted = true
-
-        // Мониторим производительность загрузки данных
+    fun updateAll(silent: Boolean = false) {
         measurePerformance("DataService", "updateAll") {
-        // ADD_NEW_FIELD_HERE
-        if (!silent) {
-            states.forEach { it.set(false) }
-        }
-        val onSingleItemLoad = { name: String ->
-            val statesInit = states.map { it.get() }
-            onSingleItemInUpdateAllLoadedHandler?.invoke(name, (statesInit.count { it }
-                .toFloat()) / (statesInit.size.toFloat()))
-            if (!(statesInit.contains(false))) {
-                loadedEverything.value = true
+            loadOfflineData { }
+            val onSingleItemLoad = { name: String ->
+                onSingleItemInUpdateAllLoadedHandler?.invoke(name, 0.5f)
             }
-            println("$name response is loaded, $statesInit")
-        }
-        // if (context != null) {
-        //     refreshToken(context) {}
-        // }
-        authRepository.updateUserId {
-            onSingleItemLoad(::userId.name)
-            authRepository.updateSessionUser {
-                onSingleItemLoad(::sessionUser.name)
-                updateProfile {
-                    onSingleItemLoad(::profile.name)
-                    updateEventCalendar {
-                        onSingleItemLoad(::eventCalendar.name)
-                        onSingleItemLoad(::eventsRange.name)
-                    }
-                    updateMarksDate { onSingleItemLoad(::marksDate.name) }
-                    updateMarksSubject { onSingleItemLoad(::marksSubject.name) }
-                    updateHomeworks { onSingleItemLoad(::homeworks.name) }
-                    updateRanking {
-                        updateCustomClassMembers {
-                            onSingleItemLoad(::classMembers.name)
+            authRepository.updateUserId {
+                onSingleItemLoad(::userIdFlow.name)
+                authRepository.updateSessionUser {
+                    onSingleItemLoad(::sessionUserFlow.name)
+                    updateProfile {
+                        onSingleItemLoad(::profile.name)
+                        updateEventCalendar {
+                            onSingleItemLoad(::eventCalendar.name)
+                            onSingleItemLoad(::eventsRange.name)
                         }
-                        onSingleItemLoad(::ranking.name)
+                        updateMarksDate { onSingleItemLoad(::marksDateFlow.name) }
+                        updateMarksSubject { onSingleItemLoad(::marksSubjectFlow.name) }
+                        updateHomeworks { onSingleItemLoad(::homeworksFlow.name) }
+                        updateRanking {
+                            updateCustomClassMembers {
+                                onSingleItemLoad(::classMembers.name)
+                            }
+                            onSingleItemLoad(::ranking.name)
+                        }
+                        updateGovExams { onSingleItemLoad(::govExamsFlow.name) }
+                        updateSubjectRanking { onSingleItemLoad(::subjectRanking.name) }
+                        if (subsystem == Diary.MES) updateVisits { onSingleItemLoad(::visits.name) }
+                        if (subsystem == Diary.MES) updateMealBalance { onSingleItemLoad(::mealBalance.name) }
+                        updateSchoolInfo { onSingleItemLoad(::schoolInfo.name) }
+                        updateAvatars { onSingleItemLoad(::avatarsFlow.name) }
+                        updatePersonData { onSingleItemLoad(::personData.name) }
+                        if (subsystem == Diary.MES) updateDaysBalanceInfo { onSingleItemLoad(::daysBalanceInfo.name) }
+                        if (subsystem == Diary.MES) updateMealsMenuComplexes { onSingleItemLoad(::mealsMenuComplexes.name) }
                     }
-                    updateGovExams { onSingleItemLoad(::govExams.name) }
-                    updateSubjectRanking { onSingleItemLoad(::subjectRanking.name) }
-                    if (subsystem == Diary.MES) updateVisits { onSingleItemLoad(::visits.name) }
-                    if (subsystem == Diary.MES) updateMealBalance { onSingleItemLoad(::mealBalance.name) }
-                    updateSchoolInfo { onSingleItemLoad(::schoolInfo.name) }
-                    updateAvatars { onSingleItemLoad(::avatars.name) }
-                    updatePersonData { onSingleItemLoad(::personData.name) }
-                    if (subsystem == Diary.MES) updateDaysBalanceInfo { onSingleItemLoad(::daysBalanceInfo.name) }
-                    if (subsystem == Diary.MES) updateMealsMenuComplexes { onSingleItemLoad(::mealsMenuComplexes.name) }
                 }
             }
         }
-        } // Закрывающая скобка для measurePerformance
     }
 
     fun loadFromCache(get: (String) -> String) {
-        fields.map { it.name }.forEachIndexed { index, it ->
-            javaClass.getDeclaredField(it).let { field ->
-                val type = field.genericType
-                val value = Gson().fromJson<Any?>(get(it), TypeToken.get(type).type) // Explicit Any?
-                field.set(this, value)
+        fields.map { it.name }.forEachIndexed { index, name ->
+            try {
+                when (name) {
+                    "userIdFlow" -> {
+                        val type = object : TypeToken<ProfilesId>() {}.type
+                        val value = Gson().fromJson<ProfilesId>(get(name), type)
+                        _userIdMutable.value = value
+                    }
+                    "sessionUserFlow" -> {
+                        val type = object : TypeToken<SessionUser>() {}.type
+                        val value = Gson().fromJson<SessionUser>(get(name), type)
+                        _sessionUserMutable.value = value
+                    }
+                    "profile" -> {
+                        val type = object : TypeToken<ProfileResponse>() {}.type
+                        val value = Gson().fromJson<ProfileResponse>(get(name), type)
+                        _profileMutable.value = value
+                    }
+                    "classMembers" -> {
+                        val type = object : TypeToken<List<ClassMember>>() {}.type
+                        val value = Gson().fromJson<List<ClassMember>>(get(name), type)
+                        _classMembersMutable.value = value
+                    }
+                    "ranking" -> {
+                        val type = object : TypeToken<List<RankingMember>>() {}.type
+                        val value = Gson().fromJson<List<RankingMember>>(get(name), type)
+                        _rankingMutable.value = value
+                    }
+                    "visits" -> {
+                        val type = object : TypeToken<VisitsResponse>() {}.type
+                        val value = Gson().fromJson<VisitsResponse>(get(name), type)
+                        _visitsMutable.value = value
+                    }
+                    "eventsRange" -> {
+                        val type = object : TypeToken<List<Long>>() {}.type
+                        val value = Gson().fromJson<List<Long>>(get(name), type)
+                        _eventsRangeMutable.value = value
+                    }
+                    "mealBalance" -> {
+                        val type = object : TypeToken<MealBalance>() {}.type
+                        val value = Gson().fromJson<MealBalance>(get(name), type)
+                        _mealBalanceMutable.value = value
+                    }
+                    "schoolInfo" -> {
+                        val type = object : TypeToken<SchoolInfo>() {}.type
+                        val value = Gson().fromJson<SchoolInfo>(get(name), type)
+                        _schoolInfoMutable.value = value
+                    }
+                    "personData" -> {
+                        val type = object : TypeToken<PersonData>() {}.type
+                        val value = Gson().fromJson<PersonData>(get(name), type)
+                        _personDataMutable.value = value
+                    }
+                    "daysBalanceInfo" -> {
+                        val type = object : TypeToken<DaysBalanceInfo>() {}.type
+                        val value = Gson().fromJson<DaysBalanceInfo>(get(name), type)
+                        _daysBalanceInfoMutable.value = value
+                    }
+                    "mealsMenuComplexes" -> {
+                        val type = object : TypeToken<MealsMenuComplexes>() {}.type
+                        val value = Gson().fromJson<MealsMenuComplexes>(get(name), type)
+                        _mealsMenuComplexesMutable.value = value
+                    }
+                    "govExamsFlow" -> {
+                        val type = object : TypeToken<GovExamsResponse>() {}.type
+                        val value = Gson().fromJson<GovExamsResponse>(get(name), type)
+                        _govExamsMutable.value = value
+                    }
+                    "marksDateFlow" -> {
+                        val type = object : TypeToken<MarkListDate>() {}.type
+                        val value = Gson().fromJson<MarkListDate>(get(name), type)
+                        _marksDateMutable.value = value
+                    }
+                    "marksSubjectFlow" -> {
+                        val type = object : TypeToken<List<MarkListSubjectItem>>() {}.type
+                        val value = Gson().fromJson<List<MarkListSubjectItem>>(get(name), type)
+                        _marksSubjectMutable.value = value
+                    }
+                    "homeworksFlow" -> {
+                        val type = object : TypeToken<List<org.bxkr.octodiary.models.homeworks2.Homework>>() {}.type
+                        val value = Gson().fromJson<List<org.bxkr.octodiary.models.homeworks2.Homework>>(get(name), type)
+                        _homeworksMutable.value = value
+                    }
+                    "avatarsFlow" -> {
+                        val type = object : TypeToken<List<Avatar>>() {}.type
+                        val value = Gson().fromJson<List<Avatar>>(get(name), type)
+                        _avatarsMutable.value = value
+                    }
+                    "subjectRanking" -> {
+                        val type = object : TypeToken<List<SubjectRanking>>() {}.type
+                        val value = Gson().fromJson<List<SubjectRanking>>(get(name), type)
+                        _subjectRankingMutable.value = value
+                    }
+                    else -> {
+                        javaClass.getDeclaredField(name).let { field ->
+                            val type = field.genericType
+                            val value = Gson().fromJson<Any?>(get(name), TypeToken.get(type).type)
+                            field.set(this, value)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            states[index].set(true)
         }
     }
 
@@ -801,5 +1421,4 @@ object DataService {
                 )
             ).bufferedReader(Charsets.UTF_8).use { it.readText() }
         }
-
 }

@@ -344,7 +344,7 @@ class MainActivity : FragmentActivity() {
             Log.d("Performance", "Optimized navigation listener removed - using derivedStateOf instead")
         }
 
-        var localLoadedState by remember { mutableStateOf(false) }
+        // var localLoadedState by remember { mutableStateOf(false) }
         var settingsShown by remember { mutableStateOf(false) }
 
         val intentData = intent.dataString
@@ -361,7 +361,6 @@ class MainActivity : FragmentActivity() {
                         "/homeworks" -> navController?.navigate(NavSection.Homeworks.route)
                         "/dashboard" -> navController?.navigate(NavSection.Dashboard.route)
                         "/marks" -> navController?.navigate(NavSection.Marks.route)
-                        "/access" -> navController?.navigate(NavSection.Access.route)
                         "/profile" -> navController?.navigate(NavSection.Profile.route)
                     }
                 }
@@ -385,7 +384,7 @@ class MainActivity : FragmentActivity() {
                         val titleAnimStart = System.currentTimeMillis()
                         val titleAnimationStart = System.currentTimeMillis()
                         AnimatedContent(targetState = title, label = "title_anim") {
-                            if ((currentScreen == Screen.MainNav && localLoadedState) || currentScreen != Screen.MainNav) {
+                            if ((currentScreen == Screen.MainNav && DataService.loadedEverything.value) || currentScreen != Screen.MainNav) {
                                 Text(stringResource(it))
                             } else {
                                 Text(stringResource(R.string.app_name))
@@ -399,27 +398,28 @@ class MainActivity : FragmentActivity() {
                         }
                         Log.d("Performance", "Title animation completed in ${System.currentTimeMillis() - titleAnimStart}ms")
                     }, actions = {
-                        if (BuildConfig.DEBUG || mainPrefs.get<Boolean>("force_debug") == true) {
+                        if (mainPrefs.get<Boolean>("force_debug") == true) {
                             DebugMenu(this@MainActivity)
                         }
-                        if (localLoadedState && currentScreen == Screen.MainNav) {
+                        if (DataService.loadedEverything.value && currentScreen == Screen.MainNav) {
                             val currentRoute =
                                 navController!!.currentBackStackEntryAsState().value?.destination?.route
-                            AnimatedVisibility(currentRoute == NavSection.Profile.route) {
-                                Row(Modifier) {
+                            Row(Modifier) {
+                                AnimatedVisibility(currentRoute == NavSection.Profile.route) {
                                     IconButton(onClick = {
-                                                                            modalDialogStateLive.value = true                                    }) {
+                                        modalDialogStateLive.value = true
+                                    }) {
                                         Icon(
                                             Icons.Rounded.Groups,
                                             stringResource(id = R.string.choose_context_profile)
                                         )
                                     }
-                                    IconButton(onClick = { settingsShown = true }) {
-                                        Icon(
-                                            Icons.Rounded.Settings,
-                                            stringResource(id = R.string.settings)
-                                        )
-                                    }
+                                }
+                                IconButton(onClick = { settingsShown = true }) {
+                                    Icon(
+                                        Icons.Rounded.Settings,
+                                        stringResource(id = R.string.settings)
+                                    )
                                 }
                             }
                             AnimatedVisibility(currentRoute == NavSection.Daybook.route) {
@@ -513,7 +513,7 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }, snackbarHost = { SnackbarHost(hostState = snackbarHostState) }, bottomBar = {
-                if ((currentScreen != Screen.MainNav) || !localLoadedState) return@Scaffold
+                if ((currentScreen != Screen.MainNav) || !DataService.loadedEverything.value) return@Scaffold
                 val navBarStartTime = System.currentTimeMillis()
                 NavigationBar {
                     val navBackStackEntry by navController!!.currentBackStackEntryAsState()

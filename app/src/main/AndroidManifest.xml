@@ -49,6 +49,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/status_widget_info" />
         </receiver>
+        <!--
         <service
             android:name=".nfc.CardEmulationService"
             android:exported="true"
@@ -60,6 +61,7 @@
                 android:name="android.nfc.cardemulation.host_apdu_service"
                 android:resource="@xml/apduservice" />
         </service>
+        -->
         <service
             android:name=".services.RecordingService"
             android:enabled="true"

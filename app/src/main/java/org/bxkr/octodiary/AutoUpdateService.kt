@@ -51,7 +51,7 @@ class AutoUpdateService : Service() {
 
                      // Обновляем данные в фоне без индикатора загрузки
                      try {
-                         DataService.updateAll(applicationContext, silent = true)
+                         DataService.updateAll(silent = true)
                          Log.d("AutoUpdateService", "Data updated automatically")
                      } catch (e: Exception) {
                          Log.e("AutoUpdateService", "Error during auto update", e)

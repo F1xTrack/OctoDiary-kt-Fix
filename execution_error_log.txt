@@ -1,0 +1,1053 @@
+--------- beginning of main
+12-07 01:51:43.221 14628 28074 I EPDG -- SIM1 [UTILS]: isEpdgNotAvailableRequired apnType: null
+12-07 01:51:43.221 14628 28074 I EPDG -- SIM1 [EpdgHandler]: isPermanentFail : false
+12-07 01:51:43.221 14628 28074 I EPDG -- SIM1 [UTILS]: isAttachApn: Received CID is: 5 returning result as: true
+12-07 01:51:43.221 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND CALL STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:43.221 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_CALL_STATUS Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:43.221 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND GPRS EPDG STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:43.221 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:43.221 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: Unknown: 22 Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:43.221 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:43.223 28225 28242 I eris    : 08[KNL] interface epdg4 deactivated
+12-07 01:51:43.226 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:43.227 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:43.227 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:43.227 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:43.255  1717  1811 I System.out: Broadcasting: Intent { act=android.intent.action.EXCLUDE_IMS_PACKET_COUNT (has extras) }
+12-07 01:51:43.261   793  1465 I Sensors : lux = 4, CCT = 1666, r = 11, g = 0, b = 12, c = 0, atime = 12, again = 2048, lux_raw = 4, brightness = 0, time = 294469575447607
+12-07 01:51:43.262  1198  2015 D SensorService: Calling activate off 33
+12-07 01:51:43.263   793   793 I Sensors : LightCCT_Sensor old sensor_state 67387392, new sensor_state : 1444775526154240 en : 0
+12-07 01:51:43.264  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:43.265  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:43.265 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:43.265  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:43.265  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_PDN_FAILED
+12-07 01:51:43.265  2141  2385 I RegiMgr-NetEvtCtr: slot[1]: onPdnFailed: NOT_DEFINED
+12-07 01:51:43.265  1198  1524 E ActivityManager: Sending non-protected broadcast android.intent.action.EXCLUDE_IMS_PACKET_COUNT from system uid 1001 pkg null
+12-07 01:51:43.265  1198  1524 E ActivityManager: java.lang.Throwable
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at com.android.server.am.ActivityManagerService.checkBroadcastFromSystem(ActivityManagerService.java:16109)
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16922)
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16124)
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentWithFeature(ActivityManagerService.java:17101)
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntent(ActivityManagerService.java:17079)
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:2688)
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:3135)
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at android.os.Binder.execTransactInternal(Binder.java:1321)
+12-07 01:51:43.265  1198  1524 E ActivityManager: 	at android.os.Binder.execTransact(Binder.java:1280)
+12-07 01:51:43.267   793   793 I Sensors : disable:: light_cct_sensor(19)
+--------- beginning of system
+12-07 01:51:43.267  1198  2237 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:43.267  2141  2385 E #IMSCR  : 12-07 01:51:43 0x1101000A:1,PDN FAIL:NOT_DEFINED
+12-07 01:51:43.267  2141  2385 I RegiGvnBase<1>: onPdnRequestFailed: NOT_DEFINED
+12-07 01:51:43.267  2141  2385 I RegiGvnEur<1>: onPdnRequestFailed ignore in non LTE/NR
+12-07 01:51:43.267  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:43.268  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:43.268  2141  2385 I SimManager: mSimState:LOADED, mIsimLoaded:false, hasIsim():false
+12-07 01:51:43.268  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:43.268  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:43.268  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_TRY_REGISTER
+12-07 01:51:43.268  2141  2385 I RegiMgr<0>: tryRegister:
+12-07 01:51:43.268  2141  2385 I RegiMgr<0>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:43.269  2141  2385 I RegiMgr<1>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:43.269  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:43.269  2141  2385 I RegisterTask: isSuspended: mSuspended(false) mSuspendByIrat(false)
+12-07 01:51:43.269  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkForTryRegister id: 122
+12-07 01:51:43.269  2141  2385 I RegiMgr : isPdnConnected: false, PdnType: 11
+12-07 01:51:43.270  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:43.271  1198  2015 D SensorManager: unregisterListener :: com.samsung.android.displaysolution.EyeComfortSolutionService$2@47e706f
+12-07 01:51:43.271  1717  2650 I System.out: Broadcast completed: result=0
+12-07 01:51:43.272  2141  2385 I PdnController: getDefaultNetworkBearer:  WIFI
+12-07 01:51:43.272  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:43.272  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:43.272  2141  2385 I RegiMgr-Utils<0>: Not found best network in IWLAN - NetworkAvailable: false - OOS: true
+12-07 01:51:43.273  2141  2385 I RegiGvnBase<0>: isReadyToDualRegister : true
+12-07 01:51:43.277  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkInitialRegistrationIsReady: APM ON [true], Roamimg [false]
+12-07 01:51:43.277  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:43.277  2141  2385 I ImsProfile: isRttSupportByCallApp : false ttyType : 1
+12-07 01:51:43.277  2141  2385 I RegiMgr-Utils<0>: getPriorityRegiedTask : isPriority  High? true
+12-07 01:51:43.278  2141  2385 I RegiGvnBase: checkRegiStatus: getState()=CONNECTING mIsUpdateRegistering=false
+12-07 01:51:43.278  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:43.279  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:43.280  2141  2385 I RegiGvnBase[0]: isDelayedDeregisterTimerRunning [false]
+12-07 01:51:43.356  8743  8743 I wpa_supplicant: Heartbeat 42
+12-07 01:51:43.452  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.19869483]
+12-07 01:51:43.453  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.08084445]
+12-07 01:51:43.453  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.39157492]
+12-07 01:51:43.453  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 0.685154 msecs
+12-07 01:51:43.454  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 1.222 msecs
+12-07 01:51:43.456  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 1.742154 msecs
+12-07 01:51:43.501 17660 19348 I PlayCommon: [14890] Preparing logs for uploading
+12-07 01:51:43.509  1198  2237 I ActivityManager: Killing 17126:com.samsung.android.dynamiclock/u0a60 (adj 999): empty #33
+12-07 01:51:43.515  1198  1304 I libprocessgroup: Successfully killed process cgroup uid 10060 pid 17126 in 0ms
+12-07 01:51:43.525 17660 19348 I PlayCommon: [14890] Connecting to server for timestamp: https://play.googleapis.com/play/log/timestamp
+12-07 01:51:43.540   764   764 I Zygote  : Process 17126 exited due to signal 9 (Killed)
+12-07 01:51:43.552  1198  2237 I ActivityManager: Killing 17173:com.google.android.partnersetup/u0a212 (adj 999): empty #33
+12-07 01:51:43.552  1198  1671 D NetdEventListenerService: DNS Requested by : 289, 10225
+12-07 01:51:43.553  1198  2237 I ActivityManager: Killing 17599:com.sec.android.provider.badge/u0a47 (adj 999): empty #34
+12-07 01:51:43.553  1198  2237 I ActivityManager: Killing 17339:com.samsung.android.dialer/u0a106 (adj 999): empty #35
+12-07 01:51:43.558 17660 19348 D TrafficStats: tagSocket(106) with statsTag=0xffffffff, statsUid=-1
+12-07 01:51:43.565  1198  1304 I libprocessgroup: Successfully killed process cgroup uid 10212 pid 17173 in 0ms
+12-07 01:51:43.607   764   764 I Zygote  : Process 17339 exited due to signal 9 (Killed)
+12-07 01:51:43.630   862  1002 I EDEN    : [Exynos][EDEN][v1.6.23][SERVICE] processAliveMointorMain:253: Try to check pid=(823)...
+12-07 01:51:43.632   764   764 I Zygote  : Process 17599 exited due to signal 9 (Killed)
+12-07 01:51:43.645   764   764 I Zygote  : Process 17173 exited due to signal 9 (Killed)
+12-07 01:51:43.648  1198  1304 I libprocessgroup: Successfully killed process cgroup uid 10047 pid 17599 in 0ms
+12-07 01:51:43.649  1198  1304 I libprocessgroup: Successfully killed process cgroup uid 10106 pid 17339 in 0ms
+12-07 01:51:43.754 17660 19348 I PlayCommon: [14890] Connecting to server: https://play.googleapis.com/play/log?format=raw&proto_v2=true
+12-07 01:51:43.841 17660 19348 I PlayCommon: [14890] Successfully uploaded logs.
+12-07 01:51:43.957  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.45639265]
+12-07 01:51:43.958  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.19270414]
+12-07 01:51:43.958  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.9303682]
+12-07 01:51:43.958  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.313885 msecs
+12-07 01:51:43.961  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 2.433192 msecs
+12-07 01:51:43.963  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 1.995269 msecs
+12-07 01:51:44.098   552   552 D io_stats: !@   8,0 r 37172766 595170332 w 25505249 216623028 d 10734808 137176388 f 0 0 iot 16052640 0 th 0 0 0 pt 0 inp 0 0 276802.716
+12-07 01:51:44.464  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.19315007]
+12-07 01:51:44.464  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.14628664]
+12-07 01:51:44.465  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.66090393]
+12-07 01:51:44.465  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.462269 msecs
+12-07 01:51:44.468  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 2.621462 msecs
+12-07 01:51:44.470  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.318654 msecs
+12-07 01:51:44.606  1198  1621 I ChimeraAggressivePolicyHandler: executePolicy() - triggerSource: TRIGGER_SOURCE_LMKD
+12-07 01:51:44.608  1198  1621 I ChimeraAggressivePolicyHandler: available memory: 4754612, free memory target: 2515968, quit chimera
+12-07 01:51:44.827  1198  5157 I EDMNativeHelperService: isScreenCaptureEnabled
+12-07 01:51:44.828  1198  5157 D RestrictionPolicy: isScreenCaptureEnabled : ret=true userId=0
+12-07 01:51:44.830 20195 20195 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+12-07 01:51:44.831   783   980 D gralloc : [mali_gralloc_allocate] begin
+12-07 01:51:44.832   783   980 D gralloc : buffer_descriptor: wh(1080 2400) usage_pc(0xb66 0xb06) hal_format(0x1) layer_count(1) sizes(0 0 0) strde(0) byte_stride(0) alloc_wh(0 0) internal_format(0x0) alloc_format(0x0) fd_count(1) plane_count(0)
+12-07 01:51:44.832   783   980 D gralloc : [mali_gralloc_allocate] allocation successful
+12-07 01:51:44.843   504   504 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+12-07 01:51:44.843 20195 20199 I Gralloc4: mapper 4.x is not supported
+12-07 01:51:44.844   504   504 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@3.0::IMapper/default in either framework or device VINTF manifest.
+12-07 01:51:44.844 20195 20199 W Gralloc3: mapper 3.x is not supported
+12-07 01:51:44.868 20195 20199 I gralloc : Arm Module v1.0
+12-07 01:51:44.888   787   787 I android.hardware.health@2.1-service-samsung: updateLrpSysfs: write: 386
+12-07 01:51:44.889  1198  1300 D BatteryService: Sending ACTION_BATTERY_CHANGED: level:65, status:2, health:2, ac:false, usb:true, wireless:false, pogo:false, misc:0xf0000, charge_type:2, charger_type:0, voltage:3891, temperature:380, online:4, current_avg:1, ps:false, hvc:false, capacity:280000, current_event:0x20008000, current_now:-270, mcc:0, mcv:0, cc:1184400, present:true, scale:100, technology:Li-ion
+12-07 01:51:44.890  1198  1515 D MotionRecognitionService: [SAR]  onReceive : ACTION_BATTERY_CHANGED, Plugged: 2
+12-07 01:51:44.890  1198  1198 D PhoneWindowManagerExt: ACTION_BATTERY_CHANGED - Level=65, status=2
+12-07 01:51:44.891  1198  1198 D AdaptiveBrightnessLongtermModelBuilder: Received android.intent.action.BATTERY_CHANGED
+12-07 01:51:44.891  1198  1198 D SemWifiApBroadcastReceiver: Received : android.intent.action.BATTERY_CHANGED
+12-07 01:51:44.894  1198  1666 I DeviceBatteryInfoService: action: android.intent.action.BATTERY_CHANGED
+12-07 01:51:44.894  1198  1666 I DeviceBatteryInfoService: phone battery level: 65
+12-07 01:51:44.894  1198  1666 I DeviceBatteryInfoService: phone battery status: 2
+12-07 01:51:44.894  1717  1717 D SemBigDataInfoController: Intent: android.intent.action.BATTERY_CHANGED
+12-07 01:51:44.894  1717  1717 D SemBigDataInfoController: Intent: android.intent.action.BATTERY_CHANGED
+12-07 01:51:44.895  1736  1736 I AODBatteryManager: updateBatteryData: ACTION_BATTERY_CHANGED
+12-07 01:51:44.895  1198  1491 D SEP_UNION_SemDeviceInfoManagerService: onReceive : android.intent.action.BATTERY_CHANGED, userId = 0 
+12-07 01:51:44.895  1198  1491 D ActivityTaskManager: SafeActivityOptions created, mOriginalCallingPid=1198, mOriginalCallingUid=1000, options=null, caller=com.android.server.am.PendingIntentRecord.sendInner:486 com.android.server.am.ActivityManagerService.sendIntentSender:6624 com.android.server.am.ActivityManagerService.sendIntentSender:6613 android.app.PendingIntent.sendAndReturnResult:1029 android.app.PendingIntent.send:1000 android.app.PendingIntent.send:908 com.android.server.sepunion.SemDeviceInfoManagerService.sendIntentAction:197 
+12-07 01:51:44.900 20013 20013 I [SCPMV2][SystemMonitorReceiver]: onReceive: android.intent.action.BATTERY_CHANGED
+12-07 01:51:44.903  1736  1736 I AODBatteryManager: saveBatteryData : AOD BatteryData [mBatteryLevel=65, mBatteryStatus=CHARGING, mBatteryPlugType=USB, mBatteryPlugged=true, mRemainingChargeTime=17091000, mBatteryChargingType=1, mBatteryChargerType=NORMAL, mBatteryOnline=USB, mBatterySwellingMode=NONE, mBatteryProtectMode=false]
+12-07 01:51:44.903  1736  1736 D SamsungBatteryMeterDrawable: onBatteryLevelChanged isSomethingChanged: false
+12-07 01:51:44.904  1736  1736 D SamsungBatteryMeterDrawable: onBatteryLevelChanged isSomethingChanged: false
+12-07 01:51:44.904  1736  1736 D SamsungBatteryMeterDrawable: onBatteryLevelChanged isSomethingChanged: false
+12-07 01:51:44.904  1736  1736 D SamsungBatteryMeterDrawable: onBatteryLevelChanged isSomethingChanged: false
+12-07 01:51:44.905  1736  1736 I PowerUI : mBootCompleted = true |  mFullyConnected = true
+12-07 01:51:44.905  1736  1736 I PowerUI : BATTERY_HEALTH_CHECK extraHealth=2 mBatteryMiscEvent=983040
+12-07 01:51:44.905  1736  1736 W PowerUI : Plug reason
+12-07 01:51:44.905  1736  1736 W PowerUI : Skip charging animation - by plug status
+12-07 01:51:44.905  1736  1736 D PowerUI : priorPlugType = 2 mPlugType = 2 priorBatteryStatus = 2 mBatteryStatus = 2
+12-07 01:51:44.905  1736  1736 W PowerUI : Plug reason
+12-07 01:51:44.905  1736  1736 W PowerUI : Skip charging sound - by plug status
+12-07 01:51:44.905  1198  1491 W ProcessStats: Tracking association SourceState{5e6fca9 system/1000 BTopFgs #1661923} whose proc state 2 is better than process ProcessState{3033ebd com.arlosoft.macrodroid/10306 pkg=com.arlosoft.macrodroid} proc state 3 (31 skipped)
+12-07 01:51:44.905  1736  1736 I PowerUI : oldMisalign : false, curMisalign : false
+12-07 01:51:44.906  1198  1491 D ActivityManager: Received SERVICE intent 0x5879f3a Key{startService pkg=com.samsung.android.app.routines intent=act=com.samsung.android.app.routine.ACTION_CONDITION_STATE_CHANGED cmp=com.samsung.android.app.routines/.domainmodel.service.RoutineService flags=0x2000000 u=0} requestCode=14 from uid 1000
+12-07 01:51:44.906  1198  1491 D SEP_UNION_SemDeviceInfoManagerService: sendIntentAction() action = android.intent.action.BATTERY_CHANGED, tag = battery_condition 
+12-07 01:51:44.907  1736  3535 D SecPowerUI.Notification: dismissing low battery warning: level=65
+12-07 01:51:44.907  1736  3535 D SecPowerUI.Notification: updateNotification mWarning=false mPlaySound=false
+12-07 01:51:44.907  1736  1736 D SecPowerUI.Notification: showChargingNotice oldChargingType : 8 / currentChargingType : 8, oldChargingTime : 17091000 / mChargingTime : 17091000
+12-07 01:51:44.907  1736  1736 D SecPowerUI.Notification: There is no change about charging status, so return!
+12-07 01:51:44.907  1736  1736 D PowerUI : Battery swelling mode - priorBatterySwellingMode = 0 mBatterySwellingMode = 0 mBatteryStatus = 2
+12-07 01:51:44.907  1736  1736 I PowerUI : mBatteryMiscEvent = 983040
+12-07 01:51:44.908  1736  3535 D SecPowerUI.Notification: SecBatteryStatsSnapshot{batteryLevel=65, currentBatteryMode=1, chargingTime=17091000, chargingType=8, batteryHealth=2, automaticTestMode=false, isHiccupState=false}
+12-07 01:51:44.908  1736  1736 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-07 01:51:44.908  1736  1736 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-07 01:51:44.908  1736  3535 D SecPowerUI.Notification: 1. restoreScreenTimeOut - saved_value : :
+12-07 01:51:44.908  1736  3535 E SecPowerUI.Notification: no saved value, so we do nothing !!
+12-07 01:51:44.910  1198  1308 W libprocessgroup: Failed to open /dev/blkio//cgroup.procs: No such file or directory
+12-07 01:51:44.911 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onCreate
+12-07 01:51:44.911 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onStartCommand: com.samsung.android.app.routine.ACTION_CONDITION_STATE_CHANGED
+12-07 01:51:44.911 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onConditionStateChanged: packageName=com.samsung.android.app.routines, tag =battery_condition
+12-07 01:51:44.912 17383 17919 I Routine@Core[4.2.01.2]: COORD/CoordinatorRequestHandler: onCallReceive - method: condition_state_changed
+12-07 01:51:44.912 17383 17516 I Routine@Core[4.2.01.2]: COORD/CoordinatorRequestHandler: threadHandler.handleMessage - message: CONDITION_STATE_CHANGED
+12-07 01:51:44.916 17383 17516 I Routine@Core[4.2.01.2]: COORD/ConditionStateHandlerImpl: onConditionStateChanged: packageName=com.samsung.android.app.routines, tag=battery_condition, size=1
+12-07 01:51:44.917 17383 17516 I Routine@Core[4.2.01.2]: ENGINE/BasicConditionController: handleConditions: conditions.size=1
+12-07 01:51:44.917 17383 17516 I Routine@Core[4.2.01.2]: ENGINE/BasicConditionController: handleConditions: condition=RoutineCondition(meta=ConditionMeta(id=14, tag=battery_condition, packageName=com.samsung.android.app.routines, componentName=com.samsung.android.app.routines/.preloadproviders.provider.PreloadRoutineConditionProvider, componentType=provider, labelResourceId=2131820760, subLabelResourceId=-1, enabledLabelResourceId=2131820759, negativeEnabledLabelResourceId=-1, _isSupportNegative=0, descriptionResourceId=0, iconResourceId=2131230948, configActivity=com.samsung.android.app.routines/.preloadproviders.system.conditions.batterylevel.BatteryLevelConfigActivity, category=null, defaultParameter=null, defaultParameterLabel=null, uri=null, correctParam=null, supportState=1, attributes=null, version=1), _instance=ConditionInstance(id=2, uuid=5124649005392154005, routineId=2, isNegative=-1, timestamp=1765041445646, validState=0, extra=, _triggerStatus=0))
+12-07 01:51:44.924 17383 17516 I Routine@Core[4.2.01.2]: TASKD/ConditionTaskDispatcherImpl: getConditionValidity: conditionId=battery_condition(id=2, uuid=512464, routineId=2)
+12-07 01:51:44.924 17383 17516 I Routine@Core[4.2.01.2]: TASKD/ConditionTaskAdapterFactory: createConditionTaskAdapter - metaId=battery_condition(id=14)
+12-07 01:51:44.927 17383 17516 I Routine@Core[4.2.01.2]: PreloadRoutineConditionProvider: isValid: result=0, tag=battery_condition, isNegative=false - ($)
+12-07 01:51:44.927 17383 17516 I Routine@Core[4.2.01.2]: TASKD/ConditionTaskDispatcherImpl: isSatisfied: conditionId=battery_condition(id=2, uuid=512464, routineId=2)
+12-07 01:51:44.927 17383 17516 I Routine@Core[4.2.01.2]: TASKD/ConditionTaskAdapterFactory: createConditionTaskAdapter - metaId=battery_condition(id=14)
+12-07 01:51:44.930 17383 17516 I Routine@Core[4.2.01.2]: BatteryLevelCondition: isSatisfied, param : 16;0, isNegative : falsecurrent percent : 65, goal : 16
+12-07 01:51:44.930 17383 17516 I Routine@Core[4.2.01.2]: PreloadRoutineConditionProvider: isSatisfied: result=false, tag=battery_condition, isNegative : false - ($)
+12-07 01:51:44.930 17383 17516 I Routine@Core[4.2.01.2]: ENGINE/BasicConditionController: handleConditions: isSatisfied=false (conditionId=battery_condition(id=2, uuid=512464, routineId=2))
+12-07 01:51:44.936 17383 17516 I Routine@Core[4.2.01.2]: ENGINE/BasicConditionController: isConditionOfLifestyleMode: routineId=2(uuid=726203, name=Low battery announcement)[READY], isLifestyleModeRoutine=false, conditionId=battery_condition(id=2, uuid=512464, routineId=2)
+12-07 01:51:44.942 17383 17516 I Routine@Core[4.2.01.2]: COORD/ConditionProgressCallback: doTriggerOff: routineState=READY (routineId=2(uuid=726203, name=Low battery announcement)[READY]) (conditionId=battery_condition(id=2, uuid=512464, routineId=2))
+12-07 01:51:44.942 17383 17516 W Routine@Core[4.2.01.2]: COORD/ConditionProgressCallback: doTriggerOff: not handled status. routineState=READY
+12-07 01:51:44.943 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onConditionStateChanged.onComplete: tag=battery_condition
+12-07 01:51:44.943 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onStartCommand.onConditionStateChanged: result=true
+12-07 01:51:44.948 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onDestroy
+12-07 01:51:44.971  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.290415]
+12-07 01:51:44.971  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.06674667]
+12-07 01:51:44.971  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.5481361]
+12-07 01:51:44.971  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 0.646346 msecs
+12-07 01:51:44.972  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 1.057539 msecs
+12-07 01:51:44.973  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 0.916077 msecs
+12-07 01:51:45.245  3970  7618 I MediaProvider: Begin Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///... flg=0x1400010 cmp=com.google.android.providers.media.module/com.android.providers.media.MediaService }
+12-07 01:51:45.287  3970  7618 I MediaProvider: End Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///... flg=0x1400010 cmp=com.google.android.providers.media.module/com.android.providers.media.MediaService }
+12-07 01:51:45.288 19698 19724 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10439; state: ENABLED
+12-07 01:51:45.291 15480 15506 D CompatibilityChangeReporter: Compat change id reported: 150939131; UID 10310; state: ENABLED
+12-07 01:51:45.300  1198  5286 D SyncManager: userId - 0 auto - false
+12-07 01:51:45.320  1198  1308 W libprocessgroup: Failed to open /dev/blkio//cgroup.procs: No such file or directory
+12-07 01:51:45.333  5178 15861 I NetworkScheduler.Stats: (REDACTED) Task %s/%s started execution. cause:%s exec_start_elapsed_seconds: %s
+12-07 01:51:45.354  5178 19781 I NetworkScheduler.Stats: (REDACTED) Task %s/%s finished executing. cause:%s result: %s elapsed_millis: %s uptime_millis: %s exec_start_elapsed_seconds: %s
+12-07 01:51:45.401  6165  6990 D MediaSync: loaded: 108ms, 1
+12-07 01:51:45.404  6165  5452 D MediaParser: scanItem: 1
+12-07 01:51:45.408 23117 23338 I BaseThreadPoolExecutor: [#CMH#] Task o.e@f15967d is submitted
+12-07 01:51:45.467 23117 20214 I MediaContentSyncTask: [#CMH#] No of Row (SEC MP :  3558, Max Id : 2147526505) (CMH : 3558, Max Id : 2147526505) - Time :25
+12-07 01:51:45.503 23117 20214 I MediaContentSyncTask: [#CMH#] MP time stamp :  1765061505397, CMH time stamp : 1765059279136
+12-07 01:51:45.511 23117 20214 I MediaContentSyncTask: [#CMH#] Update ITEM  :  1
+12-07 01:51:45.524 23117 20214 I MediaContentSyncTask: [#CMH#] Update Cursor Count (1=>1), Time: 13 
+12-07 01:51:45.527 23117 20214 I MediaContentSyncTask: [#CMH#] Update ITEM :  1
+12-07 01:51:45.592 23117 20214 I MediaContentSyncLocation: [#CMH#] Location Count MP :  443, CMH : 443
+12-07 01:51:45.592 23117 20214 I BaseThreadPoolExecutor: [#CMH#] afterExecute FutureTask
+12-07 01:51:45.593 23117 20214 I ControllerEventHandler: [#CMH#] New Task for wait content sync job 
+12-07 01:51:45.593 23117 20214 I BaseThreadPoolExecutor: [#CMH#] Task o.e@f15967d is submitted
+12-07 01:51:45.648 23117 20214 I MediaContentSyncTask: [#CMH#] No of Row (SEC MP :  3558, Max Id : 2147526505) (CMH : 3558, Max Id : 2147526505) - Time :19
+12-07 01:51:45.684 23117 20214 I MediaContentSyncTask: [#CMH#] MP time stamp :  1765061505397, CMH time stamp : 1765061505397
+12-07 01:51:45.684 23117 20214 I MediaContentSyncTask: [#CMH#] Update ITEM :  0
+12-07 01:51:45.701 23117 20214 I BaseThreadPoolExecutor: [#CMH#] afterExecute FutureTask
+12-07 01:51:45.702 23117 20214 I ControllerEventHandler: [#CMH#] Alive Privacy Ignored Policy Called:  false
+12-07 01:51:45.712  1198  3205 D SemWifiUsabilityStatsMonitor: onWifiUsabilityStats - seqNum 55312, isSameBssidAndFreq true
+12-07 01:51:45.714  1198  1632 I SemWifiLinkQualityMonitor: Link Qos Query: 0,018 ms / 456,659 Mbps (780 / 0,007 / 1,029)
+12-07 01:51:45.720 23117 23318 I ControllerEventHandler: [#CMH#] POI pending item is  0
+12-07 01:51:45.942  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.2469113]
+12-07 01:51:45.944  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.35159358]
+12-07 01:51:45.944  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.51640224]
+12-07 01:51:45.944  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.469615 msecs
+12-07 01:51:45.949  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 4.601038 msecs
+12-07 01:51:45.954  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 4.337615 msecs
+12-07 01:51:46.101   552   552 D io_stats: !@   8,0 r 37173558 595187080 w 25505295 216623220 d 10734808 137176388 f 0 0 iot 16052852 0 th 0 0 0 pt 0 inp 0 0 276804.719
+12-07 01:51:46.287  1717  1717 I TelephonyProvider: D/TelephonyProvider: subIdString = 2 subId = 2
+12-07 01:51:46.287  1717  1717 I TelephonyProvider: D/TelephonyProvider: getPreferredApnIdFromApn: for subId 2
+12-07 01:51:46.302  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:46.302  1198  5157 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:46.303 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:46.305  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:46.306  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:46.306  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:46.319 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:46.319 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_DEFINE_PDP_CONTEXT Param: Suppressed
+12-07 01:51:46.321 14628 15055 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:46.321 14628 15055 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:46.326 28225 28247 I eris    : 11[KNL] interface epdg4 activated
+12-07 01:51:46.330  1717  2188 I TelephonyProvider: D/TelephonyProvider: Using old permission behavior for telephony provider compat
+12-07 01:51:46.330  1717  2188 I TelephonyProvider: D/TelephonyProvider: URL_TELEPHONY uid = 1000, pid= 14628
+12-07 01:51:46.335 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:46.335 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:46.335 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:46.335 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:46.346 14628 15055 E EPDG -- SIM1 [UTILS]: getApnTypeByName() : no apn type matched. check it with remoteuri.
+12-07 01:51:46.347 14628 15055 E EPDG -- SIM1 [UTILS]: getApnTypeByName() failed for : ims
+12-07 01:51:46.347 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: handleIPSecConnectionInitRequest getApnTypeByName apnType: null apnName : ims
+12-07 01:51:46.348 14628 15055 I EPDG -- SIM1 [RILSHAREDDATA]: getIWlanState(): returning state 0for cid 4
+12-07 01:51:46.348 14628 15055 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GEN_CMD Sub: IPC_GEN_PHONE_RES Cmd Type: IPC_CMD_RESP Param: 0D 01 03 00 80 
+12-07 01:51:46.348 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:46.348 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: RX [IPC_GPRS_DEFINE_PDP_CONTEXT] -- RESPONSE -- true -- Received Values: Cid: 5APNName: imsv4: Suppressedv6: Suppressedpcscfreq: 3
+12-07 01:51:46.350 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:46.352 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_PDP_CONTEXT Param: 03 05 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+12-07 01:51:46.353 14628 15055 I EPDG -- SIM1 [RILSHAREDDATA]: getIWlanState(): returning state 0for cid 4
+12-07 01:51:46.353 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: RX [IPC_GPRS_PDP_CONTEXT] for connect -- RESPONSE -- true-- (cid : 5)
+12-07 01:51:46.353 14628 15055 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GEN_CMD Sub: IPC_GEN_PHONE_RES Cmd Type: IPC_CMD_RESP Param: 0D 04 03 00 80 
+12-07 01:51:46.353 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:46.355 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Event received: RIL_CONNECT_REQ cid - 0
+12-07 01:51:46.355 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Event: APN_ATTACH_REQ
+12-07 01:51:46.355 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM_HP]: setIsHandOver : false
+12-07 01:51:46.355 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Connect request is received for cid: 5 apnName: ims
+12-07 01:51:46.355 14628 28074 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:46.356 14628 28074 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:46.361  1717  2650 I TelephonyProvider: D/TelephonyProvider: Using old permission behavior for telephony provider compat
+12-07 01:51:46.361  1717  2650 I TelephonyProvider: D/TelephonyProvider: URL_TELEPHONY uid = 1000, pid= 14628
+12-07 01:51:46.371 14628 28074 E EPDG -- SIM1 [UTILS]: getApnTypeByName() : no apn type matched. check it with remoteuri.
+12-07 01:51:46.371 14628 28074 E EPDG -- SIM1 [UTILS]: getApnTypeByName() failed for : ims
+12-07 01:51:46.371 14628 28074 E EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Failed find apntype by apnname. 
+12-07 01:51:46.371 14628 28074 E EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Send failure connection status to RIL
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Event received: SM_UPDATE_CONN_STATUS cid - 0
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Update apn connection status for cid: 5apnType: null
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [UTILS]: isEpdgNotAvailableRequired apnType: null
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [EpdgHandler]: isPermanentFail : false
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [UTILS]: isAttachApn: Received CID is: 5 returning result as: true
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND CALL STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_CALL_STATUS Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND GPRS EPDG STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:46.372 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: Unknown: 22 Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:46.372 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:46.373 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:46.376 28225 28243 I eris    : 13[KNL] interface epdg4 deactivated
+12-07 01:51:46.381 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:46.381 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:46.381 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:46.381 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:46.409  1717  1811 I System.out: Broadcasting: Intent { act=android.intent.action.EXCLUDE_IMS_PACKET_COUNT (has extras) }
+12-07 01:51:46.415  1198  5286 E ActivityManager: Sending non-protected broadcast android.intent.action.EXCLUDE_IMS_PACKET_COUNT from system uid 1001 pkg null
+12-07 01:51:46.415  1198  5286 E ActivityManager: java.lang.Throwable
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at com.android.server.am.ActivityManagerService.checkBroadcastFromSystem(ActivityManagerService.java:16109)
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16922)
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16124)
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentWithFeature(ActivityManagerService.java:17101)
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntent(ActivityManagerService.java:17079)
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:2688)
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:3135)
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at android.os.Binder.execTransactInternal(Binder.java:1321)
+12-07 01:51:46.415  1198  5286 E ActivityManager: 	at android.os.Binder.execTransact(Binder.java:1280)
+12-07 01:51:46.418  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:46.419  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:46.419  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:46.419  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_PDN_FAILED
+12-07 01:51:46.419  2141  2385 I RegiMgr-NetEvtCtr: slot[1]: onPdnFailed: NOT_DEFINED
+12-07 01:51:46.420  2141  2385 E #IMSCR  : 12-07 01:51:46 0x1101000A:1,PDN FAIL:NOT_DEFINED
+12-07 01:51:46.420  2141  2385 I RegiGvnBase<1>: onPdnRequestFailed: NOT_DEFINED
+12-07 01:51:46.420  2141  2385 I RegiGvnEur<1>: onPdnRequestFailed ignore in non LTE/NR
+12-07 01:51:46.420  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:46.420  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:46.420  2141  2385 I SimManager: mSimState:LOADED, mIsimLoaded:false, hasIsim():false
+12-07 01:51:46.420  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:46.420  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:46.420  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_TRY_REGISTER
+12-07 01:51:46.420  2141  2385 I RegiMgr<0>: tryRegister:
+12-07 01:51:46.420  2141  2385 I RegiMgr<0>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:46.420  2141  2385 I RegiMgr<1>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:46.420  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:46.420  2141  2385 I RegisterTask: isSuspended: mSuspended(false) mSuspendByIrat(false)
+12-07 01:51:46.420  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkForTryRegister id: 122
+12-07 01:51:46.421  2141  2385 I RegiMgr : isPdnConnected: false, PdnType: 11
+12-07 01:51:46.421 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:46.423  2141  2385 I PdnController: getDefaultNetworkBearer:  WIFI
+12-07 01:51:46.423  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:46.423  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:46.423  2141  2385 I RegiMgr-Utils<0>: Not found best network in IWLAN - NetworkAvailable: false - OOS: true
+12-07 01:51:46.424  1198  4194 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:46.424  2141  2385 I RegiGvnBase<0>: isReadyToDualRegister : true
+12-07 01:51:46.425  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:46.426  1717  2650 I System.out: Broadcast completed: result=0
+12-07 01:51:46.427  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkInitialRegistrationIsReady: APM ON [true], Roamimg [false]
+12-07 01:51:46.427  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:46.427  2141  2385 I ImsProfile: isRttSupportByCallApp : false ttyType : 1
+12-07 01:51:46.427  2141  2385 I RegiMgr-Utils<0>: getPriorityRegiedTask : isPriority  High? true
+12-07 01:51:46.428  2141  2385 I RegiGvnBase: checkRegiStatus: getState()=CONNECTING mIsUpdateRegistering=false
+12-07 01:51:46.429  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:46.430  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:46.431  2141  2385 I RegiGvnBase[0]: isDelayedDeregisterTimerRunning [false]
+12-07 01:51:46.455  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.071421616]
+12-07 01:51:46.456  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.04130942]
+12-07 01:51:46.456  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.86256635]
+12-07 01:51:46.456  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.29977 msecs
+12-07 01:51:46.458  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 2.418808 msecs
+12-07 01:51:46.461  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.012462 msecs
+12-07 01:51:46.937  4315  4315 I SDHMS:LOAD: type: LoadsFreqs, value: 0:0:0:612560:1378000:546000:1085499:2314000:507000:0:0:0
+12-07 01:51:46.962  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.28742573]
+12-07 01:51:46.964  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.032404937]
+12-07 01:51:46.964  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.6814737]
+12-07 01:51:46.964  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.175654 msecs
+12-07 01:51:46.969  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 4.140846 msecs
+12-07 01:51:46.972  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.955192 msecs
+12-07 01:51:47.229  1198  2700 D FreecessController: org.bxkr.octodiary.debug(10530) is important[!isUidIdle]
+12-07 01:51:47.310  1198  5286 D CompatibilityChangeReporter: Compat change id reported: 182734110; UID 10310; state: ENABLED
+12-07 01:51:47.473  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.529953]
+12-07 01:51:47.474  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.128927]
+12-07 01:51:47.475  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.38429317]
+12-07 01:51:47.475  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.491769 msecs
+12-07 01:51:47.478  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.349538 msecs
+12-07 01:51:47.481  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.21673 msecs
+12-07 01:51:47.537 21729 22213 V U.Notification: Posting new notification, elapsed=16033
+12-07 01:51:47.538  1198  5286 D ApplicationPolicy: isStatusBarNotificationAllowedAsUser: packageName = com.digibites.accubattery,userId = 0
+12-07 01:51:47.539  1198  5286 D ApplicationPolicy: isStatusBarNotificationAllowedAsUser: packageName = com.digibites.accubattery,userId = 0
+12-07 01:51:47.540  1198  5286 E NotificationService: Suppressing notification from package com.digibites.accubattery by user request.
+12-07 01:51:47.742  1198  2700 D FreecessController: com.android.vending(15010225) is important[!isUidIdle]
+12-07 01:51:47.982  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.32380992]
+12-07 01:51:47.984  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.14112869]
+12-07 01:51:47.984  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.43167672]
+12-07 01:51:47.984  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.207962 msecs
+12-07 01:51:47.989  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 4.185731 msecs
+12-07 01:51:47.993  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 3.755384 msecs
+12-07 01:51:48.103   552   552 D io_stats: !@   8,0 r 37173581 595187980 w 25505301 216623244 d 10734808 137176388 f 0 0 iot 16052876 0 th 0 0 0 pt 0 inp 0 0 276806.720
+12-07 01:51:48.632   862  1002 I EDEN    : [Exynos][EDEN][v1.6.23][SERVICE] processAliveMointorMain:253: Try to check pid=(823)...
+12-07 01:51:48.706  1198  5286 D SGM:GameManager: identifyForegroundApp. org.bxkr.octodiary.debug, mCurrentUserId: 0, callerUserId: 0
+12-07 01:51:48.707  1198  5286 D SGM:PkgDataHelper: getGamePkgData(). org.bxkr.octodiary.debug
+12-07 01:51:48.707 23117 23319 I PolicyManager: [#CMH#] Is foreground game app: false
+12-07 01:51:48.809  1198  3205 D SemWifiUsabilityStatsMonitor: onWifiUsabilityStats - seqNum 55313, isSameBssidAndFreq true
+12-07 01:51:48.812  1736  1736 D NetworkController.WifiSignalController: notifyListener: visible=true, connected=true, inetCondition=1, isDefault=true, wifiTestReported=true, receivedInetCondition=-1, hideDuringMobileSwitching=false
+12-07 01:51:48.815  1198  1632 I SemWifiLinkQualityMonitor: Link Qos Query: 0,039 ms / 204,153 Mbps (780 / 0,019 / 1,353)
+12-07 01:51:48.836   879   977 I VSyncReactor: Current= 60, TransitioningTo= 60, Distance= 61
+12-07 01:51:48.955  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.7281506]
+12-07 01:51:48.957  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.1606724]
+12-07 01:51:48.957  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.42348382]
+12-07 01:51:48.957  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.28677 msecs
+12-07 01:51:48.961  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.794693 msecs
+12-07 01:51:48.964  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.910616 msecs
+12-07 01:51:49.439  1717  1717 I TelephonyProvider: D/TelephonyProvider: subIdString = 2 subId = 2
+12-07 01:51:49.439  1717  1717 I TelephonyProvider: D/TelephonyProvider: getPreferredApnIdFromApn: for subId 2
+12-07 01:51:49.465  1198  5286 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:49.465  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:49.465  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:49.465  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:49.466  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.7545108]
+12-07 01:51:49.467  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.24665424]
+12-07 01:51:49.467  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.59861326]
+12-07 01:51:49.467  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.207231 msecs
+12-07 01:51:49.467 28225 28244 I eris    : 16[KNL] interface epdg4 activated
+12-07 01:51:49.470 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:49.470 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_DEFINE_PDP_CONTEXT Param: Suppressed
+12-07 01:51:49.471  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.426308 msecs
+12-07 01:51:49.471 14628 15055 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:49.472  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:49.472 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:49.472 14628 15055 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:49.472  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 1.431654 msecs
+12-07 01:51:49.472  1198  1630 I SemWifiServiceDetector: NSD results: [0, 1, 0, 1, 0, 0, -1, 1, 0] Traff. type 1 Thr 0
+12-07 01:51:49.472 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:49.472 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:49.472 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:49.473 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:49.473  1198  1633 D SemWifiOptimizer: enable=1 state=0x10 prev=0x00 new=0x10 force=0 mode=0
+12-07 01:51:49.476  1717  2188 I TelephonyProvider: D/TelephonyProvider: Using old permission behavior for telephony provider compat
+12-07 01:51:49.477  1717  2188 I TelephonyProvider: D/TelephonyProvider: URL_TELEPHONY uid = 1000, pid= 14628
+12-07 01:51:49.483 14628 15055 E EPDG -- SIM1 [UTILS]: getApnTypeByName() : no apn type matched. check it with remoteuri.
+12-07 01:51:49.484 14628 15055 E EPDG -- SIM1 [UTILS]: getApnTypeByName() failed for : ims
+12-07 01:51:49.484 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: handleIPSecConnectionInitRequest getApnTypeByName apnType: null apnName : ims
+12-07 01:51:49.484 14628 15055 I EPDG -- SIM1 [RILSHAREDDATA]: getIWlanState(): returning state 0for cid 4
+12-07 01:51:49.484 14628 15055 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GEN_CMD Sub: IPC_GEN_PHONE_RES Cmd Type: IPC_CMD_RESP Param: 0D 01 03 00 80 
+12-07 01:51:49.484 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:49.484 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: RX [IPC_GPRS_DEFINE_PDP_CONTEXT] -- RESPONSE -- true -- Received Values: Cid: 5APNName: imsv4: Suppressedv6: Suppressedpcscfreq: 3
+12-07 01:51:49.485 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:49.487 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_PDP_CONTEXT Param: 03 05 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+12-07 01:51:49.487 14628 15055 I EPDG -- SIM1 [RILSHAREDDATA]: getIWlanState(): returning state 0for cid 4
+12-07 01:51:49.487 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: RX [IPC_GPRS_PDP_CONTEXT] for connect -- RESPONSE -- true-- (cid : 5)
+12-07 01:51:49.487 14628 15055 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GEN_CMD Sub: IPC_GEN_PHONE_RES Cmd Type: IPC_CMD_RESP Param: 0D 04 03 00 80 
+12-07 01:51:49.487 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:49.488 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Event received: RIL_CONNECT_REQ cid - 0
+12-07 01:51:49.488 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Event: APN_ATTACH_REQ
+12-07 01:51:49.488 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM_HP]: setIsHandOver : false
+12-07 01:51:49.488 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Connect request is received for cid: 5 apnName: ims
+12-07 01:51:49.488 14628 28074 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:49.489 14628 28074 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:49.490  1717  2650 I TelephonyProvider: D/TelephonyProvider: Using old permission behavior for telephony provider compat
+12-07 01:51:49.490  1717  2650 I TelephonyProvider: D/TelephonyProvider: URL_TELEPHONY uid = 1000, pid= 14628
+12-07 01:51:49.498 14628 28074 E EPDG -- SIM1 [UTILS]: getApnTypeByName() : no apn type matched. check it with remoteuri.
+12-07 01:51:49.499 14628 28074 E EPDG -- SIM1 [UTILS]: getApnTypeByName() failed for : ims
+12-07 01:51:49.499 14628 28074 E EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Failed find apntype by apnname. 
+12-07 01:51:49.499 14628 28074 E EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Send failure connection status to RIL
+12-07 01:51:49.499 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Event received: SM_UPDATE_CONN_STATUS cid - 0
+12-07 01:51:49.499 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Update apn connection status for cid: 5apnType: null
+12-07 01:51:49.499 14628 28074 I EPDG -- SIM1 [UTILS]: isEpdgNotAvailableRequired apnType: null
+12-07 01:51:49.499 14628 28074 I EPDG -- SIM1 [EpdgHandler]: isPermanentFail : false
+12-07 01:51:49.500 14628 28074 I EPDG -- SIM1 [UTILS]: isAttachApn: Received CID is: 5 returning result as: true
+12-07 01:51:49.500 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND CALL STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:49.500 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_CALL_STATUS Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:49.500 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND GPRS EPDG STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:49.500 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:49.500 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: Unknown: 22 Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:49.500 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:49.502 28225 28246 I eris    : 12[KNL] interface epdg4 deactivated
+12-07 01:51:49.505 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:49.505 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:49.506 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:49.506 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:49.529  1717  1811 I System.out: Broadcasting: Intent { act=android.intent.action.EXCLUDE_IMS_PACKET_COUNT (has extras) }
+12-07 01:51:49.532  1198  5157 E ActivityManager: Sending non-protected broadcast android.intent.action.EXCLUDE_IMS_PACKET_COUNT from system uid 1001 pkg null
+12-07 01:51:49.532  1198  5157 E ActivityManager: java.lang.Throwable
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.checkBroadcastFromSystem(ActivityManagerService.java:16109)
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16922)
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16124)
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentWithFeature(ActivityManagerService.java:17101)
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntent(ActivityManagerService.java:17079)
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:2688)
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:3135)
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at android.os.Binder.execTransactInternal(Binder.java:1321)
+12-07 01:51:49.532  1198  5157 E ActivityManager: 	at android.os.Binder.execTransact(Binder.java:1280)
+12-07 01:51:49.534  1717  2188 I System.out: Broadcast completed: result=0
+12-07 01:51:49.543  1198  4104 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:49.543  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:49.545  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:49.547 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:49.550  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:49.550  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:49.551  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_PDN_FAILED
+12-07 01:51:49.551  2141  2385 I RegiMgr-NetEvtCtr: slot[1]: onPdnFailed: NOT_DEFINED
+12-07 01:51:49.551  1198  2700 D FreecessController: com.samsung.android.oneconnect(10384) is important[!isUidIdle]
+12-07 01:51:49.553  2141  2385 E #IMSCR  : 12-07 01:51:49 0x1101000A:1,PDN FAIL:NOT_DEFINED
+12-07 01:51:49.554  2141  2385 I RegiGvnBase<1>: onPdnRequestFailed: NOT_DEFINED
+12-07 01:51:49.554  2141  2385 I RegiGvnEur<1>: onPdnRequestFailed ignore in non LTE/NR
+12-07 01:51:49.554  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:49.554  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:49.555  2141  2385 I SimManager: mSimState:LOADED, mIsimLoaded:false, hasIsim():false
+12-07 01:51:49.555  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:49.555  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:49.555  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_TRY_REGISTER
+12-07 01:51:49.555  2141  2385 I RegiMgr<0>: tryRegister:
+12-07 01:51:49.556  2141  2385 I RegiMgr<0>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:49.556  2141  2385 I RegiMgr<1>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:49.556  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:49.556  2141  2385 I RegisterTask: isSuspended: mSuspended(false) mSuspendByIrat(false)
+12-07 01:51:49.556  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkForTryRegister id: 122
+12-07 01:51:49.556  2141  2385 I RegiMgr : isPdnConnected: false, PdnType: 11
+12-07 01:51:49.560  2141  2385 I PdnController: getDefaultNetworkBearer:  WIFI
+12-07 01:51:49.561  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:49.561  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:49.561  2141  2385 I RegiMgr-Utils<0>: Not found best network in IWLAN - NetworkAvailable: false - OOS: true
+12-07 01:51:49.563  2141  2385 I RegiGvnBase<0>: isReadyToDualRegister : true
+12-07 01:51:49.567  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkInitialRegistrationIsReady: APM ON [true], Roamimg [false]
+12-07 01:51:49.567  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:49.567  2141  2385 I ImsProfile: isRttSupportByCallApp : false ttyType : 1
+12-07 01:51:49.567  2141  2385 I RegiMgr-Utils<0>: getPriorityRegiedTask : isPriority  High? true
+12-07 01:51:49.567  2141  2385 I RegiGvnBase: checkRegiStatus: getState()=CONNECTING mIsUpdateRegistering=false
+12-07 01:51:49.568  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:49.569  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:49.570  2141  2385 I RegiGvnBase[0]: isDelayedDeregisterTimerRunning [false]
+12-07 01:51:49.861 21729 21792 I S.FlushReqestGen: Queueing async flush of data to disk for 2 listeners.
+12-07 01:51:49.894 21729 21772 I S.FlushReqestGen: Async flush done.
+12-07 01:51:49.894 21729 21772 D U/AsyncTaskHelper: setDebugUserGeography$5@e13694d finished, thread=ATH-5. Queue time: 0ms. Run real=32 cpu=23 ms
+12-07 01:51:49.912  1736  1736 D SecPowerUI.Notification: showChargingNotice oldChargingType : 8 / currentChargingType : 8, oldChargingTime : 17091000 / mChargingTime : 17091000
+12-07 01:51:49.912  1736  1736 D SecPowerUI.Notification: There is no change about charging status, so return!
+12-07 01:51:49.974  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.67944694]
+12-07 01:51:49.980  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.021387104]
+12-07 01:51:49.980  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.66790545]
+12-07 01:51:49.980  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 5.982769 msecs
+12-07 01:51:49.984  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.453423 msecs
+12-07 01:51:49.987  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.962577 msecs
+12-07 01:51:50.105   552   552 D io_stats: !@   8,0 r 37173581 595187980 w 25505429 216624108 d 10734808 137176388 f 0 0 iot 16052904 0 th 0 0 0 pt 0 inp 0 0 276808.723
+12-07 01:51:50.422  6165 29212 D DelayedNotifier: notify for scanItem.
+12-07 01:51:50.428 23117 23338 I BaseThreadPoolExecutor: [#CMH#] Task o.e@f15967d is submitted
+12-07 01:51:50.490  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.42209372]
+12-07 01:51:50.491  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.039155547]
+12-07 01:51:50.491  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.6193204]
+12-07 01:51:50.491  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.524346 msecs
+12-07 01:51:50.497  4315  6287 I SDHMS:D : SIOP:: AP:392 BAT:380 USB:363 CHG:392 PA:427 CP:396 WIFI:406 SKIN:385 SKINF:384 SKINB:384 LRP:385 LRF:384 LRB:384 BLRF:385 BLRB:383 
+12-07 01:51:50.498 23117 20214 I MediaContentSyncTask: [#CMH#] No of Row (SEC MP :  3558, Max Id : 2147526505) (CMH : 3558, Max Id : 2147526505) - Time :23
+12-07 01:51:50.499  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 7.360269 msecs
+12-07 01:51:50.501  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.037077 msecs
+12-07 01:51:50.543 23117 20214 I MediaContentSyncTask: [#CMH#] MP time stamp :  1765061505397, CMH time stamp : 1765061505397
+12-07 01:51:50.543 23117 20214 I MediaContentSyncTask: [#CMH#] Update ITEM :  0
+12-07 01:51:50.566 23117 20214 I BaseThreadPoolExecutor: [#CMH#] afterExecute FutureTask
+12-07 01:51:50.570 23117 20214 I ControllerEventHandler: [#CMH#] Alive Privacy Ignored Policy Called:  false
+12-07 01:51:50.589  5178 17625 I NearbyMediums: No BLE Fast/GATT advertisements found in the latest cycle.
+12-07 01:51:50.589 23117 23318 I ControllerEventHandler: [#CMH#] POI pending item is  0
+12-07 01:51:50.589  5178 17625 I NearbyMediums: Current Tracked Scanning Clients are : {NearbyConnections.EnvironmentMonitor, NearbyConnections.TxAdvertisement}
+12-07 01:51:50.643 23117 23179 W samsung.cmh:CMH: Reducing the number of considered missed Gc histogram windows from 284 to 100
+12-07 01:51:50.930   738   738 E audit   : type=1400 audit(1765061510.923:76312): avc:  denied  { write } for  pid=14932 comm="ThreadPoolForeg" name="traced_producer" dev="tmpfs" ino=25331 scontext=u:r:gmscore_app:s0:c662,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 SEPF_SM-G988B_12_0001 audit_filtered
+12-07 01:51:50.931   738   738 E audit   : type=1300 audit(1765061510.923:76312): arch=c00000b7 syscall=203 success=no exit=-13 a0=57 a1=781bef4620 a2=1e a3=ffffffff96cf85c2 items=0 ppid=764 pid=14932 auid=4294967295 uid=15010224 gid=15010224 euid=15010224 suid=15010224 fsuid=15010224 egid=15010224 sgid=15010224 fsgid=15010224 tty=(none) ses=4294967295 comm="ThreadPoolForeg" exe="/system/bin/app_process64" subj=u:r:gmscore_app:s0:c662,c768 key=(null)
+12-07 01:51:50.931   738   738 E audit   : type=1327 audit(1765061510.923:76312): proctitle="com.google.android.gms.persistent"
+12-07 01:51:51.003  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.45600232]
+12-07 01:51:51.004  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.03821021]
+12-07 01:51:51.005  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.663245]
+12-07 01:51:51.005  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.310115 msecs
+12-07 01:51:51.009  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 4.14 msecs
+12-07 01:51:51.013  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 4.056269 msecs
+12-07 01:51:51.463  1198  2700 D FreecessController: app.lawnchair.play(10440) is important[!isUidIdle]
+12-07 01:51:51.482  1198  4104 D CustomizedBinderCallsStatsInternal: reportCpuUsage() : 2%
+12-07 01:51:51.483  1198  1301 I BinderCallsStats: Collected cpu time : 0us, collected call count : 0 for 60174 ms
+12-07 01:51:51.769  1198  1496 D ActivityTaskManager: SafeActivityOptions created, mOriginalCallingPid=1198, mOriginalCallingUid=1000, options=ActivityOptions(196008326), mPackageName=null, mAnimationType=-1, mStartX=0, mStartY=0, mWidth=0, mHeight=0, caller=com.android.server.am.PendingIntentRecord.sendInner:486 com.android.server.am.ActivityManagerService.sendIntentSender:6624 com.android.server.am.ActivityManagerService.sendIntentSender:6613 android.app.PendingIntent.sendAndReturnResult:1029 android.app.PendingIntent.send:1000 com.android.server.alarm.AlarmManagerService$DeliveryTracker.deliverLocked:6377 com.android.server.alarm.AlarmManagerService.deliverAlarmsLocked:5218 
+12-07 01:51:51.783  1198  1496 D ActivityManager: Received BROADCAST intent 0x5b36dda Key{broadcastIntent pkg=com.samsung.android.rubin.app intent=act=com.samsung.android.rubin.alarm.ACTION_PENDING_INTENT cat=[fa.k0.ALARM] cmp=com.samsung.android.rubin.app/com.samsung.android.rubin.pendingintent.PendingIntentReceiver flags=0x4000000 u=0} requestCode=0 sent=0 from uid 1000
+12-07 01:51:51.787  1198  1302 D CompatibilityChangeReporter: Compat change id reported: 168419799; UID 5010; state: DISABLED
+12-07 01:51:51.793  1198  1496 D ActivityTaskManager: SafeActivityOptions created, mOriginalCallingPid=1198, mOriginalCallingUid=1000, options=ActivityOptions(3795572), mPackageName=null, mAnimationType=-1, mStartX=0, mStartY=0, mWidth=0, mHeight=0, caller=com.android.server.am.PendingIntentRecord.sendInner:486 com.android.server.am.ActivityManagerService.sendIntentSender:6624 com.android.server.am.ActivityManagerService.sendIntentSender:6613 android.app.PendingIntent.sendAndReturnResult:1029 android.app.PendingIntent.send:1000 com.android.server.alarm.AlarmManagerService$DeliveryTracker.deliverLocked:6377 com.android.server.alarm.AlarmManagerService.deliverAlarmsLocked:5218 
+12-07 01:51:51.793  1198  1496 D ActivityManager: Received BROADCAST intent 0x1963a22 Key{broadcastIntent pkg=org.bxkr.octodiary.debug intent=cmp=org.bxkr.octodiary.debug/org.bxkr.octodiary.UpdateReceiver flags=0x4000000 u=0} requestCode=0 sent=0 from uid 1000
+12-07 01:51:51.796  1198  1496 D ActivityTaskManager: SafeActivityOptions created, mOriginalCallingPid=1198, mOriginalCallingUid=1000, options=ActivityOptions(131095453), mPackageName=null, mAnimationType=-1, mStartX=0, mStartY=0, mWidth=0, mHeight=0, caller=com.android.server.am.PendingIntentRecord.sendInner:486 com.android.server.am.ActivityManagerService.sendIntentSender:6624 com.android.server.am.ActivityManagerService.sendIntentSender:6613 android.app.PendingIntent.sendAndReturnResult:1029 android.app.PendingIntent.send:1000 com.android.server.alarm.AlarmManagerService$DeliveryTracker.deliverLocked:6377 com.android.server.alarm.AlarmManagerService.deliverAlarmsLocked:5218 
+12-07 01:51:51.801  1198  5157 D CompatibilityChangeReporter: Compat change id reported: 168419799; UID 10530; state: DISABLED
+12-07 01:51:51.804  1198  1496 D ActivityManager: Received BROADCAST intent 0xa36e0e Key{broadcastIntent pkg=com.radolyn.ayugram intent=cmp=com.radolyn.ayugram/org.telegram.messenger.NotificationsService flags=0x2000000 u=0} requestCode=0 sent=0 from uid 1000
+12-07 01:51:51.814 19905 19905 D Notifications: Listening for new marks...
+12-07 01:51:51.832 19905 20111 I okhttp.OkHttpClient: --> GET https://school.mos.ru/api/family/mobile/v1/subject_marks/short?student_id=0
+12-07 01:51:51.832 19905 20111 I okhttp.OkHttpClient: auth-token: eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIyNDU4NjE4Iiwic2NwIjoib3BlbmlkIHByb2ZpbGUiLCJtc2giOiI4ZjhkMmI5ZC1kNjc4LTRiNDMtODA4Ny00ZjcwNDY3ODJkNGEiLCJpc3MiOiJodHRwczpcL1wvc2Nob29sLm1vcy5ydSIsInJvbCI6IiIsInNzbyI6ImVhM2FjNDZmLTEyMDMtNDJkMC04N2M3LTYzZDUwYzc0YjU4MyIsIm5iZiI6MTc2NTA1MTY1NywiYXRoIjoic3VkaXIiLCJybHMiOiJ7MTpbMjA6MjpbXSwzMDo0OltdLDQwOjE6W10sMTgzOjE2OltdLDIxMToxOTpbXSw1MjU6NDQ6W10sNTMzOjQ4OltdLDY0MDo3ODpbXV19IiwicmduIjoiNzciLCJleHAiOjE3NjU5MTU2NTcsImlhdCI6MTc2NTA1MTY1NywianRpIjoiNzQ3MjIxMDEtZDJiNi00M2QxLWIyMjEtMDFkMmI2ZjNkMTIwIn0.Qx0DWsCStXi_DKUwUY5zggB4IlIqmXvmYhOSqKHgSQH2gjonHnaonlImK92pGJdUr-xsrglhZ74fsGajbVl52gyrh8g9Vo3Pd-9qwOUfjmgoLfjpN6iP81u6FBE7xAP2wO7eNKiiArczCl4Mj4VhIFO4frDWwXMvQKQNM3QLZ2d6XyHggfusRXBgI6GtpIpvDAr8AlZr6eWKhmTsuNCyOeJJJrloisne77UNvW3PYt176pKrAj8GUAtLjBUfLctJKvXUv5AkbvvfcFxkquYc84fLPkryU5_REtRBqiHgRgbsaZXFhnJQljuZ5orKZfYPPZXTiLUrHd0KmdsJiBdMhA
+12-07 01:51:51.832 19905 20111 I okhttp.OkHttpClient: X-Mes-Subsystem: familymp
+12-07 01:51:51.832 19905 20111 I okhttp.OkHttpClient: Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIyNDU4NjE4Iiwic2NwIjoib3BlbmlkIHByb2ZpbGUiLCJtc2giOiI4ZjhkMmI5ZC1kNjc4LTRiNDMtODA4Ny00ZjcwNDY3ODJkNGEiLCJpc3MiOiJodHRwczpcL1wvc2Nob29sLm1vcy5ydSIsInJvbCI6IiIsInNzbyI6ImVhM2FjNDZmLTEyMDMtNDJkMC04N2M3LTYzZDUwYzc0YjU4MyIsIm5iZiI6MTc2NTA1MTY1NywiYXRoIjoic3VkaXIiLCJybHMiOiJ7MTpbMjA6MjpbXSwzMDo0OltdLDQwOjE6W10sMTgzOjE2OltdLDIxMToxOTpbXSw1MjU6NDQ6W10sNTMzOjQ4OltdLDY0MDo3ODpbXV19IiwicmduIjoiNzciLCJleHAiOjE3NjU5MTU2NTcsImlhdCI6MTc2NTA1MTY1NywianRpIjoiNzQ3MjIxMDEtZDJiNi00M2QxLWIyMjEtMDFkMmI2ZjNkMTIwIn0.Qx0DWsCStXi_DKUwUY5zggB4IlIqmXvmYhOSqKHgSQH2gjonHnaonlImK92pGJdUr-xsrglhZ74fsGajbVl52gyrh8g9Vo3Pd-9qwOUfjmgoLfjpN6iP81u6FBE7xAP2wO7eNKiiArczCl4Mj4VhIFO4frDWwXMvQKQNM3QLZ2d6XyHggfusRXBgI6GtpIpvDAr8AlZr6eWKhmTsuNCyOeJJJrloisne77UNvW3PYt176pKrAj8GUAtLjBUfLctJKvXUv5AkbvvfcFxkquYc84fLPkryU5_REtRBqiHgRgbsaZXFhnJQljuZ5orKZfYPPZXTiLUrHd0KmdsJiBdMhA
+12-07 01:51:51.832 19905 20111 I okhttp.OkHttpClient: --> END GET
+12-07 01:51:51.865  1198  3205 D SemWifiUsabilityStatsMonitor: onWifiUsabilityStats - seqNum 55314, isSameBssidAndFreq true
+12-07 01:51:51.866  1198  1632 I SemWifiLinkQualityMonitor: Link Qos Query: 0,033 ms / 242,666 Mbps (780 / 0,014 / 1,333)
+12-07 01:51:51.929 19905 20111 I okhttp.OkHttpClient: <-- 500 Internal Server Error https://school.mos.ru/api/family/mobile/v1/subject_marks/short?student_id=0 (96ms)
+12-07 01:51:51.930 19905 20111 I okhttp.OkHttpClient: Server: nginx
+12-07 01:51:51.930 19905 20111 I okhttp.OkHttpClient: Date: Sat, 06 Dec 2025 22:51:52 GMT
+12-07 01:51:51.930 19905 20111 I okhttp.OkHttpClient: Content-Type: application/json
+12-07 01:51:51.930 19905 20111 I okhttp.OkHttpClient: Transfer-Encoding: chunked
+12-07 01:51:51.931 19905 20111 I okhttp.OkHttpClient: Connection: keep-alive
+12-07 01:51:51.931 19905 20111 I okhttp.OkHttpClient: X-Gravitee-Transaction-Id: 98d9507b-3c27-4fe7-9950-7b3c272fe716
+12-07 01:51:51.931 19905 20111 I okhttp.OkHttpClient: X-Gravitee-Request-Id: 98d9507b-3c27-4fe7-9950-7b3c272fe716
+12-07 01:51:51.932 19905 20111 I okhttp.OkHttpClient: x-envoy-upstream-service-time: 33
+12-07 01:51:51.932 19905 20111 I okhttp.OkHttpClient: x-envoy-decorator-operation: family-service.mes-family.svc.cluster.local:80/*
+12-07 01:51:51.937 19905 20111 I okhttp.OkHttpClient: {"code":"RestClientException","message":"Внутренняя ошибка сервера при обмене данными между сервисами","payload":"Status: 403 FORBIDDEN | Request: GET /ej/report_family_v1/progress/json?academic_year_id=13&student_profile_id=0 (profile-id = 3462429; profile is not null) | Response: {\n  \"code\" : 403,\n  \"message\" : \"You don't have permission to access this report.\",\n  \"error_text\" : \"You don't have permission to access this report.\"\n}","debug":"com.ezd.mobile.service.DownloadService.getProgressReport(): 238","trace_id":"5241abb4e5a753d8cbf9976a6f033e8b"}
+12-07 01:51:51.937 19905 20111 I okhttp.OkHttpClient: <-- END HTTP (625-byte body)
+12-07 01:51:51.941 19905 19905 E Notifications: Error occurred! Trace:
+12-07 01:51:51.941 19905 19905 E Notifications: 500: {"code":"RestClientException","message":"Внутренняя ошибка сервера при обмене данными между сервисами","payload":"Status: 403 FORBIDDEN | Request: GET /ej/report_family_v1/progress/json?academic_year_id=13&student_profile_id=0 (profile-id = 3462429; profile is not null) | Response: {\n  \"code\" : 403,\n  \"message\" : \"You don't have permission to access this report.\",\n  \"error_text\" : \"You don't have permission to access this report.\"\n}","debug":"com.ezd.mobile.service.DownloadService.getProgressReport(): 238","trace_id":"5241abb4e5a753d8cbf9976a6f033e8b"}
+12-07 01:51:51.949  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.5476359]
+12-07 01:51:51.950  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.029792551]
+12-07 01:51:51.950  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.8631625]
+12-07 01:51:51.951  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.838808 msecs
+12-07 01:51:51.955  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.978808 msecs
+12-07 01:51:51.959  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 3.692769 msecs
+12-07 01:51:51.959  1198  1630 I SemWifiServiceDetector: NSD results: [1, 1, 0, 1, 0, 1, -1, 1, 0] Traff. type 1 Thr 12
+12-07 01:51:51.961  1198  1633 D SemWifiOptimizer: enable=1 state=0x10 prev=0x10 new=0x10 force=0 mode=0
+12-07 01:51:52.107   552   552 D io_stats: !@ 179,0 r 18319 1315368 w 12794 218911 d 0 0 f 0 0 iot 140580 0 th 0 0 0 pt 0 inp 0 0 276810.725
+12-07 01:51:52.107   552   552 D io_stats: !@   8,0 r 37173590 595188140 w 25505431 216624116 d 10734808 137176388 f 0 0 iot 16052908 0 th 0 0 0 pt 0 inp 0 0 276810.725
+12-07 01:51:52.462  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.1365514]
+12-07 01:51:52.463  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.016623355]
+12-07 01:51:52.463  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.9301756]
+12-07 01:51:52.463  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.684923 msecs
+12-07 01:51:52.466  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.096269 msecs
+12-07 01:51:52.469  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.687538 msecs
+12-07 01:51:52.525   738   738 E audit   : type=1400 audit(1765061512.515:76313): avc:  denied  { write } for  pid=15182 comm="PerfettoTrace" name="traced_producer" dev="tmpfs" ino=25331 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 SEPF_SM-G988B_12_0001 audit_filtered
+12-07 01:51:52.526   738   738 E audit   : type=1300 audit(1765061512.515:76313): arch=c00000b7 syscall=203 success=no exit=-13 a0=6 a1=72008461c0 a2=1e a3=ffffffff96cf85c2 items=0 ppid=764 pid=15182 auid=4294967295 uid=10224 gid=10224 euid=10224 suid=10224 fsuid=10224 egid=10224 sgid=10224 fsgid=10224 tty=(none) ses=4294967295 comm="PerfettoTrace" exe="/system/bin/app_process64" subj=u:r:gmscore_app:s0:c512,c768 key=(null)
+12-07 01:51:52.526   738   738 E audit   : type=1327 audit(1765061512.515:76313): proctitle="com.google.android.gms.ui"
+12-07 01:51:52.562  1717  1717 I TelephonyProvider: D/TelephonyProvider: subIdString = 2 subId = 2
+12-07 01:51:52.563  1717  1717 I TelephonyProvider: D/TelephonyProvider: getPreferredApnIdFromApn: for subId 2
+12-07 01:51:52.580  1198  5157 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:52.580  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:52.581 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:52.582  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:52.582  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:52.583  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:52.589 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:52.589 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_DEFINE_PDP_CONTEXT Param: Suppressed
+12-07 01:51:52.590 14628 15055 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:52.590 28225 28241 I eris    : 07[KNL] interface epdg4 activated
+12-07 01:51:52.595 14628 15055 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:52.596 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:52.596 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:52.597 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:52.597 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:52.601  1717  2188 I TelephonyProvider: D/TelephonyProvider: Using old permission behavior for telephony provider compat
+12-07 01:51:52.601  1717  2188 I TelephonyProvider: D/TelephonyProvider: URL_TELEPHONY uid = 1000, pid= 14628
+12-07 01:51:52.609 14628 15055 E EPDG -- SIM1 [UTILS]: getApnTypeByName() : no apn type matched. check it with remoteuri.
+12-07 01:51:52.610 14628 15055 E EPDG -- SIM1 [UTILS]: getApnTypeByName() failed for : ims
+12-07 01:51:52.610 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: handleIPSecConnectionInitRequest getApnTypeByName apnType: null apnName : ims
+12-07 01:51:52.610 14628 15055 I EPDG -- SIM1 [RILSHAREDDATA]: getIWlanState(): returning state 0for cid 4
+12-07 01:51:52.610 14628 15055 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GEN_CMD Sub: IPC_GEN_PHONE_RES Cmd Type: IPC_CMD_RESP Param: 0D 01 03 00 80 
+12-07 01:51:52.610 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:52.611 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: RX [IPC_GPRS_DEFINE_PDP_CONTEXT] -- RESPONSE -- true -- Received Values: Cid: 5APNName: imsv4: Suppressedv6: Suppressedpcscfreq: 3
+12-07 01:51:52.612 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:52.614 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_PDP_CONTEXT Param: 03 05 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+12-07 01:51:52.614 14628 15055 I EPDG -- SIM1 [RILSHAREDDATA]: getIWlanState(): returning state 0for cid 4
+12-07 01:51:52.614 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: RX [IPC_GPRS_PDP_CONTEXT] for connect -- RESPONSE -- true-- (cid : 5)
+12-07 01:51:52.614 14628 15055 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GEN_CMD Sub: IPC_GEN_PHONE_RES Cmd Type: IPC_CMD_RESP Param: 0D 04 03 00 80 
+12-07 01:51:52.615 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:52.615 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Event received: RIL_CONNECT_REQ cid - 0
+12-07 01:51:52.615 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Event: APN_ATTACH_REQ
+12-07 01:51:52.615 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM_HP]: setIsHandOver : false
+12-07 01:51:52.615 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Connect request is received for cid: 5 apnName: ims
+12-07 01:51:52.615 14628 28074 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:52.616 14628 28074 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:52.618  1717  2650 I TelephonyProvider: D/TelephonyProvider: Using old permission behavior for telephony provider compat
+12-07 01:51:52.618  1717  2650 I TelephonyProvider: D/TelephonyProvider: URL_TELEPHONY uid = 1000, pid= 14628
+12-07 01:51:52.629 14628 28074 E EPDG -- SIM1 [UTILS]: getApnTypeByName() : no apn type matched. check it with remoteuri.
+12-07 01:51:52.630 14628 28074 E EPDG -- SIM1 [UTILS]: getApnTypeByName() failed for : ims
+12-07 01:51:52.630 14628 28074 E EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Failed find apntype by apnname. 
+12-07 01:51:52.631 14628 28074 E EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Send failure connection status to RIL
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Event received: SM_UPDATE_CONN_STATUS cid - 0
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Update apn connection status for cid: 5apnType: null
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [UTILS]: isEpdgNotAvailableRequired apnType: null
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [EpdgHandler]: isPermanentFail : false
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [UTILS]: isAttachApn: Received CID is: 5 returning result as: true
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND CALL STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_CALL_STATUS Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND GPRS EPDG STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:52.631 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: Unknown: 22 Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:52.632 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:52.632 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:52.636 28225 28239 I eris    : 06[KNL] interface epdg4 deactivated
+12-07 01:51:52.638 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:52.639 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:52.639 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:52.639 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:52.664  1717  1811 I System.out: Broadcasting: Intent { act=android.intent.action.EXCLUDE_IMS_PACKET_COUNT (has extras) }
+12-07 01:51:52.666  1198  4194 E ActivityManager: Sending non-protected broadcast android.intent.action.EXCLUDE_IMS_PACKET_COUNT from system uid 1001 pkg null
+12-07 01:51:52.666  1198  4194 E ActivityManager: java.lang.Throwable
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at com.android.server.am.ActivityManagerService.checkBroadcastFromSystem(ActivityManagerService.java:16109)
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16922)
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16124)
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentWithFeature(ActivityManagerService.java:17101)
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntent(ActivityManagerService.java:17079)
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:2688)
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:3135)
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at android.os.Binder.execTransactInternal(Binder.java:1321)
+12-07 01:51:52.666  1198  4194 E ActivityManager: 	at android.os.Binder.execTransact(Binder.java:1280)
+12-07 01:51:52.671  1717  2650 I System.out: Broadcast completed: result=0
+12-07 01:51:52.675  1198  1523 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:52.675  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:52.675  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:52.675  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:52.675  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_PDN_FAILED
+12-07 01:51:52.676  2141  2385 I RegiMgr-NetEvtCtr: slot[1]: onPdnFailed: NOT_DEFINED
+12-07 01:51:52.677 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:52.677  2141  2385 E #IMSCR  : 12-07 01:51:52 0x1101000A:1,PDN FAIL:NOT_DEFINED
+12-07 01:51:52.677  2141  2385 I RegiGvnBase<1>: onPdnRequestFailed: NOT_DEFINED
+12-07 01:51:52.677  2141  2385 I RegiGvnEur<1>: onPdnRequestFailed ignore in non LTE/NR
+12-07 01:51:52.677  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:52.677  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:52.678  2141  2385 I SimManager: mSimState:LOADED, mIsimLoaded:false, hasIsim():false
+12-07 01:51:52.678  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:52.678  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:52.678  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_TRY_REGISTER
+12-07 01:51:52.678  2141  2385 I RegiMgr<0>: tryRegister:
+12-07 01:51:52.678  2141  2385 I RegiMgr<0>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:52.679  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:52.679  2141  2385 I RegiMgr<1>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:52.679  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:52.679  2141  2385 I RegisterTask: isSuspended: mSuspended(false) mSuspendByIrat(false)
+12-07 01:51:52.680  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkForTryRegister id: 122
+12-07 01:51:52.680  2141  2385 I RegiMgr : isPdnConnected: false, PdnType: 11
+12-07 01:51:52.683  2141  2385 I PdnController: getDefaultNetworkBearer:  WIFI
+12-07 01:51:52.683  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:52.683  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:52.683  2141  2385 I RegiMgr-Utils<0>: Not found best network in IWLAN - NetworkAvailable: false - OOS: true
+12-07 01:51:52.684  2141  2385 I RegiGvnBase<0>: isReadyToDualRegister : true
+12-07 01:51:52.688  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkInitialRegistrationIsReady: APM ON [true], Roamimg [false]
+12-07 01:51:52.688  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:52.688  2141  2385 I ImsProfile: isRttSupportByCallApp : false ttyType : 1
+12-07 01:51:52.688  2141  2385 I RegiMgr-Utils<0>: getPriorityRegiedTask : isPriority  High? true
+12-07 01:51:52.689  2141  2385 I RegiGvnBase: checkRegiStatus: getState()=CONNECTING mIsUpdateRegistering=false
+12-07 01:51:52.689  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:52.691  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:52.693  2141  2385 I RegiGvnBase[0]: isDelayedDeregisterTimerRunning [false]
+12-07 01:51:52.971  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.12715338]
+12-07 01:51:52.972  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.037683558]
+12-07 01:51:52.972  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.9480621]
+12-07 01:51:52.972  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.806846 msecs
+12-07 01:51:52.976  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.933692 msecs
+12-07 01:51:52.980  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 3.16923 msecs
+12-07 01:51:53.272   793   793 I Sensors : batch(19) - light_cct_sensor try to batching with 200000000
+12-07 01:51:53.274   793   793 I Sensors : LightCCT_Sensor old sensor_state 67387392, new sensor_state : 1444779821121536 en : 1
+12-07 01:51:53.279   793   793 I Sensors : enable:: light_cct_sensor(19)
+12-07 01:51:53.279  1198  2015 D SensorManager: registerListener :: 33, TMD4910 RGB Sensor, 200000, 0, com.samsung.android.displaysolution.EyeComfortSolutionService$2@47e706f
+12-07 01:51:53.358  8743  8743 I wpa_supplicant: Heartbeat 43
+12-07 01:51:53.421   793  1465 I Sensors : lux = 4, CCT = 1666, r = 12, g = 0, b = 12, c = 0, atime = 12, again = 2048, lux_raw = 4, brightness = 0, time = 294479735299483
+12-07 01:51:53.424  1198  2015 D SensorService: Calling activate off 33
+12-07 01:51:53.425   793   793 I Sensors : LightCCT_Sensor old sensor_state 67387392, new sensor_state : 1444775526154240 en : 0
+12-07 01:51:53.429   793   793 I Sensors : disable:: light_cct_sensor(19)
+12-07 01:51:53.430  1198  2015 D SensorManager: unregisterListener :: com.samsung.android.displaysolution.EyeComfortSolutionService$2@47e706f
+12-07 01:51:53.481  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.5246359]
+12-07 01:51:53.482  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.16272324]
+12-07 01:51:53.483  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.8204589]
+12-07 01:51:53.483  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.953192 msecs
+12-07 01:51:53.487  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.893616 msecs
+12-07 01:51:53.491  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 3.781 msecs
+12-07 01:51:53.570  1198  1523 D SGM:GameManager: identifyForegroundApp. org.bxkr.octodiary.debug, mCurrentUserId: 0, callerUserId: 0
+12-07 01:51:53.570  1198  1523 D SGM:PkgDataHelper: getGamePkgData(). org.bxkr.octodiary.debug
+12-07 01:51:53.571 23117 23319 I PolicyManager: [#CMH#] Is foreground game app: false
+12-07 01:51:53.634   862  1002 I EDEN    : [Exynos][EDEN][v1.6.23][SERVICE] processAliveMointorMain:253: Try to check pid=(823)...
+12-07 01:51:53.992  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.45406988]
+12-07 01:51:53.994  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.04131852]
+12-07 01:51:53.994  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.7871968]
+12-07 01:51:53.994  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.361654 msecs
+12-07 01:51:53.999  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.977769 msecs
+12-07 01:51:54.003  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 3.980269 msecs
+12-07 01:51:54.003  1198  1630 I SemWifiServiceDetector: NSD results: [0, 1, 2, 0, 0, 1, -1, 1, 0] Traff. type 1 Thr 3
+12-07 01:51:54.006  1198  1633 D SemWifiOptimizer: enable=0 state=0x10 prev=0x10 new=0x00 force=0 mode=0
+12-07 01:51:54.109   552   552 D io_stats: !@   8,0 r 37173590 595188140 w 25505437 216624140 d 10734808 137176388 f 0 0 iot 16052912 0 th 0 0 0 pt 0 inp 0 0 276812.727
+12-07 01:51:54.191   738   738 E audit   : type=1400 audit(1765061514.187:76314): avc:  denied  { write } for  pid=13140 comm="ThreadPoolForeg" name="traced_producer" dev="tmpfs" ino=25331 scontext=u:r:gmscore_app:s0:c512,c768 tcontext=u:object_r:traced_producer_socket:s0 tclass=sock_file permissive=0 SEPF_SM-G988B_12_0001 audit_filtered
+12-07 01:51:54.192   738   738 E audit   : type=1300 audit(1765061514.187:76314): arch=c00000b7 syscall=203 success=no exit=-13 a0=81 a1=781bf6b210 a2=1e a3=ffffffff96cf85c2 items=0 ppid=764 pid=13140 auid=4294967295 uid=10224 gid=10224 euid=10224 suid=10224 fsuid=10224 egid=10224 sgid=10224 fsgid=10224 tty=(none) ses=4294967295 comm="ThreadPoolForeg" exe="/system/bin/app_process64" subj=u:r:gmscore_app:s0:c512,c768 key=(null)
+12-07 01:51:54.192   738   738 E audit   : type=1327 audit(1765061514.187:76314): proctitle="com.google.android.gms"
+12-07 01:51:54.955  1198  3205 D SemWifiUsabilityStatsMonitor: onWifiUsabilityStats - seqNum 55315, isSameBssidAndFreq true
+12-07 01:51:54.960  1736  1736 D NetworkController.WifiSignalController: notifyListener: visible=true, connected=true, inetCondition=1, isDefault=true, wifiTestReported=true, receivedInetCondition=-1, hideDuringMobileSwitching=false
+12-07 01:51:54.962  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.5187941]
+12-07 01:51:54.963  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.07352184]
+12-07 01:51:54.963  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.72766864]
+12-07 01:51:54.963  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.850846 msecs
+12-07 01:51:54.963  1198  1632 I SemWifiLinkQualityMonitor: Link Qos Query: 0,030 ms / 267,144 Mbps (780 / 0,010 / 1,476)
+12-07 01:51:54.967  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.200308 msecs
+12-07 01:51:54.969  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.835039 msecs
+12-07 01:51:54.970  1198  1630 I SemWifiServiceDetector: NSD results: [1, 1, 0, 1, 0, 1, -1, 1, 0] Traff. type 1 Thr 4
+12-07 01:51:54.971  1198  1633 D SemWifiOptimizer: enable=1 state=0x10 prev=0x00 new=0x10 force=0 mode=0
+12-07 01:51:54.986   879   977 I VSyncReactor: Current= 60, TransitioningTo= 60, Distance= 60
+12-07 01:51:55.078   787   787 I android.hardware.health@2.1-service-samsung: updateLrpSysfs: write: 385
+12-07 01:51:55.080  1198  1300 D BatteryService: Sending ACTION_BATTERY_CHANGED: level:65, status:2, health:2, ac:false, usb:true, wireless:false, pogo:false, misc:0xf0000, charge_type:2, charger_type:0, voltage:3906, temperature:379, online:4, current_avg:40, ps:false, hvc:false, capacity:280000, current_event:0x20008000, current_now:5, mcc:0, mcv:0, cc:1184400, present:true, scale:100, technology:Li-ion
+12-07 01:51:55.083  1198  1515 D MotionRecognitionService: [SAR]  onReceive : ACTION_BATTERY_CHANGED, Plugged: 2
+12-07 01:51:55.083  1198  1666 I DeviceBatteryInfoService: action: android.intent.action.BATTERY_CHANGED
+12-07 01:51:55.083  1198  1666 I DeviceBatteryInfoService: phone battery level: 65
+12-07 01:51:55.083  1198  1666 I DeviceBatteryInfoService: phone battery status: 2
+12-07 01:51:55.084  1717  1717 D SemBigDataInfoController: Intent: android.intent.action.BATTERY_CHANGED
+12-07 01:51:55.085  1717  1717 D SemBigDataInfoController: Intent: android.intent.action.BATTERY_CHANGED
+12-07 01:51:55.086  1198  1198 D PhoneWindowManagerExt: ACTION_BATTERY_CHANGED - Level=65, status=2
+12-07 01:51:55.087  1198  1198 D AdaptiveBrightnessLongtermModelBuilder: Received android.intent.action.BATTERY_CHANGED
+12-07 01:51:55.087  1198  1198 D SemWifiApBroadcastReceiver: Received : android.intent.action.BATTERY_CHANGED
+12-07 01:51:55.087  1198  1491 D SEP_UNION_SemDeviceInfoManagerService: onReceive : android.intent.action.BATTERY_CHANGED, userId = 0 
+12-07 01:51:55.088  1736  1736 D SamsungBatteryMeterDrawable: onBatteryLevelChanged isSomethingChanged: false
+12-07 01:51:55.088  1198  1491 D ActivityTaskManager: SafeActivityOptions created, mOriginalCallingPid=1198, mOriginalCallingUid=1000, options=null, caller=com.android.server.am.PendingIntentRecord.sendInner:486 com.android.server.am.ActivityManagerService.sendIntentSender:6624 com.android.server.am.ActivityManagerService.sendIntentSender:6613 android.app.PendingIntent.sendAndReturnResult:1029 android.app.PendingIntent.send:1000 android.app.PendingIntent.send:908 com.android.server.sepunion.SemDeviceInfoManagerService.sendIntentAction:197 
+12-07 01:51:55.088  1736  1736 D SamsungBatteryMeterDrawable: onBatteryLevelChanged isSomethingChanged: false
+12-07 01:51:55.089  1736  1736 D SamsungBatteryMeterDrawable: onBatteryLevelChanged isSomethingChanged: false
+12-07 01:51:55.089  1736  1736 D SamsungBatteryMeterDrawable: onBatteryLevelChanged isSomethingChanged: false
+12-07 01:51:55.089  1736  1736 I PowerUI : mBootCompleted = true |  mFullyConnected = true
+12-07 01:51:55.089  1736  1736 I PowerUI : BATTERY_HEALTH_CHECK extraHealth=2 mBatteryMiscEvent=983040
+12-07 01:51:55.090  1736  1736 W PowerUI : Plug reason
+12-07 01:51:55.090  1736  1736 W PowerUI : Skip charging animation - by plug status
+12-07 01:51:55.090  1736  1736 D PowerUI : priorPlugType = 2 mPlugType = 2 priorBatteryStatus = 2 mBatteryStatus = 2
+12-07 01:51:55.090  1736  1736 W PowerUI : Plug reason
+12-07 01:51:55.090  1736  1736 W PowerUI : Skip charging sound - by plug status
+12-07 01:51:55.090  1736  1736 I PowerUI : oldMisalign : false, curMisalign : false
+12-07 01:51:55.091  1736  3534 D SecPowerUI.Notification: dismissing low battery warning: level=65
+12-07 01:51:55.091  1736  3534 D SecPowerUI.Notification: updateNotification mWarning=false mPlaySound=false
+12-07 01:51:55.091  1736  3534 D SecPowerUI.Notification: SecBatteryStatsSnapshot{batteryLevel=65, currentBatteryMode=1, chargingTime=17091000, chargingType=8, batteryHealth=2, automaticTestMode=false, isHiccupState=false}
+12-07 01:51:55.093  1736  1736 D SecPowerUI.Notification: showChargingNotice oldChargingType : 8 / currentChargingType : 8, oldChargingTime : 17091000 / mChargingTime : 17041000
+12-07 01:51:55.093  1736  1736 D SecPowerUI.Notification: showChargingNotification()
+12-07 01:51:55.093  1736  1736 D SecPowerUI.Notification: SecBatteryStatsSnapshot{batteryLevel=65, currentBatteryMode=1, chargingTime=17041000, chargingType=8, batteryHealth=2, automaticTestMode=false, isHiccupState=false}
+12-07 01:51:55.093  1198  1491 W ProcessStats: Tracking association SourceState{5e6fca9 system/1000 BTopFgs #1661959} whose proc state 2 is better than process ProcessState{3033ebd com.arlosoft.macrodroid/10306 pkg=com.arlosoft.macrodroid} proc state 3 (31 skipped)
+12-07 01:51:55.095  1198  1491 D ActivityManager: Received SERVICE intent 0x5879f3a Key{startService pkg=com.samsung.android.app.routines intent=act=com.samsung.android.app.routine.ACTION_CONDITION_STATE_CHANGED cmp=com.samsung.android.app.routines/.domainmodel.service.RoutineService flags=0x2000000 u=0} requestCode=14 from uid 1000
+12-07 01:51:55.095  1198  1491 D SEP_UNION_SemDeviceInfoManagerService: sendIntentAction() action = android.intent.action.BATTERY_CHANGED, tag = battery_condition 
+12-07 01:51:55.095  1736  3534 D SecPowerUI.Notification: 1. restoreScreenTimeOut - saved_value : :
+12-07 01:51:55.095  1736  3534 E SecPowerUI.Notification: no saved value, so we do nothing !!
+12-07 01:51:55.096 20013 20013 I [SCPMV2][SystemMonitorReceiver]: onReceive: android.intent.action.BATTERY_CHANGED
+12-07 01:51:55.097  1198  5157 D ApplicationPolicy: isStatusBarNotificationAllowedAsUser: packageName = com.android.systemui,userId = 0
+12-07 01:51:55.097  1198  5157 D ApplicationPolicy: isStatusBarNotificationAllowedAsUser: packageName = com.android.systemui,userId = -1
+12-07 01:51:55.097  1198  5157 D ApplicationPolicy: isStatusBarNotificationAllowedAsUser: converting userId from USER_ALLto 0
+12-07 01:51:55.099 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onCreate
+12-07 01:51:55.099  1198  1308 W libprocessgroup: Failed to open /dev/blkio//cgroup.procs: No such file or directory
+12-07 01:51:55.100 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onStartCommand: com.samsung.android.app.routine.ACTION_CONDITION_STATE_CHANGED
+12-07 01:51:55.100 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onConditionStateChanged: packageName=com.samsung.android.app.routines, tag =battery_condition
+12-07 01:51:55.101 17383 17919 I Routine@Core[4.2.01.2]: COORD/CoordinatorRequestHandler: onCallReceive - method: condition_state_changed
+12-07 01:51:55.101 17383 17516 I Routine@Core[4.2.01.2]: COORD/CoordinatorRequestHandler: threadHandler.handleMessage - message: CONDITION_STATE_CHANGED
+12-07 01:51:55.102  1736  1736 D PowerUI : Battery swelling mode - priorBatterySwellingMode = 0 mBatterySwellingMode = 0 mBatteryStatus = 2
+12-07 01:51:55.102  1736  1736 I PowerUI : mBatteryMiscEvent = 983040
+12-07 01:51:55.102  1736  1736 D KeyguardUpdateMonitor: received broadcast android.intent.action.BATTERY_CHANGED
+12-07 01:51:55.102  1736  1736 I AODBatteryManager: updateBatteryData: ACTION_BATTERY_CHANGED
+12-07 01:51:55.103  1736  1736 I AODBatteryManager: saveBatteryData : AOD BatteryData [mBatteryLevel=65, mBatteryStatus=CHARGING, mBatteryPlugType=USB, mBatteryPlugged=true, mRemainingChargeTime=17041000, mBatteryChargingType=1, mBatteryChargerType=NORMAL, mBatteryOnline=USB, mBatterySwellingMode=NONE, mBatteryProtectMode=false]
+12-07 01:51:55.103  1736  1736 I ChargingInfoManager: updateChargingInfo: newState = AOD ChargingInfo [mState=BATTERY_AND_REMAIN_TIME, mIsCharging=true, mIsFullyCharged=false, mIsBatteryProtectMode=false], oldState = AOD ChargingInfo [mState=BATTERY_AND_REMAIN_TIME, mIsCharging=true, mIsFullyCharged=false, mIsBatteryProtectMode=false]
+12-07 01:51:55.104  1736  1736 D KeyguardUpdateMonitor: handleBatteryUpdate
+12-07 01:51:55.106  1736  1736 D KeyguardSecIndicationController: addIndicationTimeout() returned - unlocking
+12-07 01:51:55.106  1736  1736 D KeyguardSecIndicationController: addIndication() returned - unlocking
+12-07 01:51:55.106  1736  1736 D KeyguardSecIndicationController: addIndication() returned - unlocking
+12-07 01:51:55.106  1736  1736 D KeyguardSecIndicationController: addBatteryAndOwnerInfoIndication() battery status = BatteryStatus{status=2,level=65,plugged=2,health=2,maxChargingWattage=-1,remaining=17041000ultraFastCharger=0}
+12-07 01:51:55.107 17383 17516 I Routine@Core[4.2.01.2]: COORD/ConditionStateHandlerImpl: onConditionStateChanged: packageName=com.samsung.android.app.routines, tag=battery_condition, size=1
+12-07 01:51:55.108 17383 17516 I Routine@Core[4.2.01.2]: ENGINE/BasicConditionController: handleConditions: conditions.size=1
+12-07 01:51:55.108 17383 17516 I Routine@Core[4.2.01.2]: ENGINE/BasicConditionController: handleConditions: condition=RoutineCondition(meta=ConditionMeta(id=14, tag=battery_condition, packageName=com.samsung.android.app.routines, componentName=com.samsung.android.app.routines/.preloadproviders.provider.PreloadRoutineConditionProvider, componentType=provider, labelResourceId=2131820760, subLabelResourceId=-1, enabledLabelResourceId=2131820759, negativeEnabledLabelResourceId=-1, _isSupportNegative=0, descriptionResourceId=0, iconResourceId=2131230948, configActivity=com.samsung.android.app.routines/.preloadproviders.system.conditions.batterylevel.BatteryLevelConfigActivity, category=null, defaultParameter=null, defaultParameterLabel=null, uri=null, correctParam=null, supportState=1, attributes=null, version=1), _instance=ConditionInstance(id=2, uuid=5124649005392154005, routineId=2, isNegative=-1, timestamp=1765041445646, validState=0, extra=, _triggerStatus=0))
+12-07 01:51:55.115 17383 17516 I Routine@Core[4.2.01.2]: TASKD/ConditionTaskDispatcherImpl: getConditionValidity: conditionId=battery_condition(id=2, uuid=512464, routineId=2)
+12-07 01:51:55.116 17383 17516 I Routine@Core[4.2.01.2]: TASKD/ConditionTaskAdapterFactory: createConditionTaskAdapter - metaId=battery_condition(id=14)
+12-07 01:51:55.118 17383 17516 I Routine@Core[4.2.01.2]: PreloadRoutineConditionProvider: isValid: result=0, tag=battery_condition, isNegative=false - ($)
+12-07 01:51:55.118 17383 17516 I Routine@Core[4.2.01.2]: TASKD/ConditionTaskDispatcherImpl: isSatisfied: conditionId=battery_condition(id=2, uuid=512464, routineId=2)
+12-07 01:51:55.119 17383 17516 I Routine@Core[4.2.01.2]: TASKD/ConditionTaskAdapterFactory: createConditionTaskAdapter - metaId=battery_condition(id=14)
+12-07 01:51:55.120 17383 17516 I Routine@Core[4.2.01.2]: BatteryLevelCondition: isSatisfied, param : 16;0, isNegative : falsecurrent percent : 65, goal : 16
+12-07 01:51:55.120 17383 17516 I Routine@Core[4.2.01.2]: PreloadRoutineConditionProvider: isSatisfied: result=false, tag=battery_condition, isNegative : false - ($)
+12-07 01:51:55.121 17383 17516 I Routine@Core[4.2.01.2]: ENGINE/BasicConditionController: handleConditions: isSatisfied=false (conditionId=battery_condition(id=2, uuid=512464, routineId=2))
+12-07 01:51:55.126 17383 17516 I Routine@Core[4.2.01.2]: ENGINE/BasicConditionController: isConditionOfLifestyleMode: routineId=2(uuid=726203, name=Low battery announcement)[READY], isLifestyleModeRoutine=false, conditionId=battery_condition(id=2, uuid=512464, routineId=2)
+12-07 01:51:55.132 17383 17516 I Routine@Core[4.2.01.2]: COORD/ConditionProgressCallback: doTriggerOff: routineState=READY (routineId=2(uuid=726203, name=Low battery announcement)[READY]) (conditionId=battery_condition(id=2, uuid=512464, routineId=2))
+12-07 01:51:55.132 17383 17516 W Routine@Core[4.2.01.2]: COORD/ConditionProgressCallback: doTriggerOff: not handled status. routineState=READY
+12-07 01:51:55.132 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onConditionStateChanged.onComplete: tag=battery_condition
+12-07 01:51:55.132 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onStartCommand.onConditionStateChanged: result=true
+12-07 01:51:55.136 17383 17383 I Routine@Core[4.2.01.2]: RoutineService: onDestroy
+12-07 01:51:55.287  1198  1298 E Watchdog: !@Sync: 9223 heap: 151 / 163 FD: 1194 [2025-12-07 01:51:55.286]
+12-07 01:51:55.308  1198  1198 I Telecom:SamsungTelecomServiceImpl: isInManagedCall - callingPackage : android
+12-07 01:51:55.343  4776  4776 I NotificationListener: [Service]v6.1.9-eap01 Received new notification
+12-07 01:51:55.344  4776  5882 I NotificationPipeline: Processing new notification: -1|com.android.systemui|2131428972|charging_state|10044
+12-07 01:51:55.344  4776  5882 I Notification4Watch6_NB: NotificationChecker.checkIgnoreCase - onGoing
+12-07 01:51:55.345  4776  5882 W Notification4Watch6_NB: NotificationBridgeCallback.onNotificationPosted-Ignored package : [-1] com.android.systemui
+12-07 01:51:55.345  4776  5882 I NotificationPipeline: Discarding notification: -1|com.android.systemui|2131428972|charging_state|10044
+12-07 01:51:55.472  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.3460653]
+12-07 01:51:55.473  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.13328765]
+12-07 01:51:55.474  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.58583933]
+12-07 01:51:55.474  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.820654 msecs
+12-07 01:51:55.478  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.989077 msecs
+12-07 01:51:55.481  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.947154 msecs
+12-07 01:51:55.526  1736  1736 D BubblesManager: onEntryUpdated : shouldBubbleUp=false ,key=-1|com.android.systemui|2131428972|charging_state|10044
+12-07 01:51:55.551  1736  1736 I FaceWidgetPositionAlgorithm: getClockContainerHeight() supplier = 683, bottom margin = 0, real height = 705
+12-07 01:51:55.551  1736  1736 I ClockInfoManager: isClockFaceType: type = 2 clockFaceType = 0
+12-07 01:51:55.551  1736  1736 D FaceWidgetPositionAlgorithm: getTopMargin scale = 1.2, clockContainerHeight = 683, scaleMarginY = -56
+12-07 01:51:55.552  1736  1736 I FaceWidgetPositionAlgorithm: getClockContainerHeight() supplier = 683, bottom margin = 63, real height = 705
+12-07 01:51:55.552  1736  1736 I FaceWidgetPositionAlgorithm: getMediaContainerHeight() height = 456 container Visibility = 8, isValid = false, mIsDozing = false, fraction = 1.0, source = 0, target = 0
+12-07 01:51:55.552  1736  1736 I FaceWidgetPositionAlgorithm: getMediaContainerHeight() supplier = 0
+12-07 01:51:55.564   783   980 D gralloc : [mali_gralloc_allocate] begin
+12-07 01:51:55.564   783   980 D gralloc : buffer_descriptor: wh(63 63) usage_pc(0x100 0x100) hal_format(0x1) layer_count(1) sizes(0 0 0) strde(0) byte_stride(0) alloc_wh(0 0) internal_format(0x0) alloc_format(0x0) fd_count(1) plane_count(0)
+12-07 01:51:55.565   783   980 D gralloc : [mali_gralloc_allocate] allocation successful
+12-07 01:51:55.574  4176  6004 I BugleRcsEngine: delay time out, reset attempts 1 and process SIM event [CONTEXT thread_id=88 ]
+12-07 01:51:55.579  4176  6004 I BugleRcsEngine: process intent: android.intent.action.SIM_STATE_CHANGED [CONTEXT log_prefix="(Sim)" thread_id=88 ]
+12-07 01:51:55.584 12477 13772 I BugleRcsEngine: delay time out, reset attempts 1 and process SIM event [CONTEXT thread_id=14844 ]
+12-07 01:51:55.587 12477 13772 I BugleRcsEngine: process intent: android.intent.action.SIM_STATE_CHANGED [CONTEXT log_prefix="(Sim)" thread_id=14844 ]
+12-07 01:51:55.606   783   980 D gralloc : [mali_gralloc_allocate] begin
+12-07 01:51:55.606   783   980 D gralloc : buffer_descriptor: wh(63 63) usage_pc(0x100 0x100) hal_format(0x1) layer_count(1) sizes(0 0 0) strde(0) byte_stride(0) alloc_wh(0 0) internal_format(0x0) alloc_format(0x0) fd_count(1) plane_count(0)
+12-07 01:51:55.607   783   980 D gralloc : [mali_gralloc_allocate] allocation successful
+12-07 01:51:55.611  4176  6004 I BugleRcsEngine: Processing an intent [CONTEXT log_prefix="(Sim)" thread_id=88 ]
+12-07 01:51:55.611  4176  6004 I BugleRcsEngine: Ignoring duplicate SIM state: LOADED [CONTEXT log_prefix="(Sim)" thread_id=88 ]
+12-07 01:51:55.613 12477 13772 I BugleRcsEngine: Processing an intent [CONTEXT log_prefix="(Sim)" thread_id=14844 ]
+12-07 01:51:55.614 12477 13772 I BugleRcsEngine: Ignoring duplicate SIM state: LOADED [CONTEXT log_prefix="(Sim)" thread_id=14844 ]
+12-07 01:51:55.622  1736  1736 I FaceWidgetPositionAlgorithm: getClockContainerHeight() supplier = 683, bottom margin = 0, real height = 705
+12-07 01:51:55.622  1736  1736 I ClockInfoManager: isClockFaceType: type = 2 clockFaceType = 0
+12-07 01:51:55.622  1736  1736 D FaceWidgetPositionAlgorithm: getTopMargin scale = 1.2, clockContainerHeight = 683, scaleMarginY = -56
+12-07 01:51:55.623  1736  1736 I FaceWidgetPositionAlgorithm: getClockContainerHeight() supplier = 683, bottom margin = 63, real height = 705
+12-07 01:51:55.623  1736  1736 I FaceWidgetPositionAlgorithm: getMediaContainerHeight() height = 456 container Visibility = 8, isValid = false, mIsDozing = false, fraction = 1.0, source = 0, target = 0
+12-07 01:51:55.623  1736  1736 I FaceWidgetPositionAlgorithm: getMediaContainerHeight() supplier = 0
+12-07 01:51:55.641  1736  1736 I FaceWidgetPositionAlgorithm: getClockContainerHeight() supplier = 683, bottom margin = 0, real height = 705
+12-07 01:51:55.641  1736  1736 I ClockInfoManager: isClockFaceType: type = 2 clockFaceType = 0
+12-07 01:51:55.641  1736  1736 D FaceWidgetPositionAlgorithm: getTopMargin scale = 1.2, clockContainerHeight = 683, scaleMarginY = -56
+12-07 01:51:55.642  1736  1736 I FaceWidgetPositionAlgorithm: getClockContainerHeight() supplier = 683, bottom margin = 63, real height = 705
+12-07 01:51:55.642  1736  1736 I FaceWidgetPositionAlgorithm: getMediaContainerHeight() height = 456 container Visibility = 8, isValid = false, mIsDozing = false, fraction = 1.0, source = 0, target = 0
+12-07 01:51:55.642  1736  1736 I FaceWidgetPositionAlgorithm: getMediaContainerHeight() supplier = 0
+12-07 01:51:55.685  1717  1717 I TelephonyProvider: D/TelephonyProvider: subIdString = 2 subId = 2
+12-07 01:51:55.686  1717  1717 I TelephonyProvider: D/TelephonyProvider: getPreferredApnIdFromApn: for subId 2
+12-07 01:51:55.700  1198  5157 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:55.700  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:55.700  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:55.700  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:55.700 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:55.701  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:55.706 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:55.706 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_DEFINE_PDP_CONTEXT Param: Suppressed
+12-07 01:51:55.707 14628 15055 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:55.707 28225 28249 I eris    : 14[KNL] interface epdg4 activated
+12-07 01:51:55.711 14628 15055 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:55.711 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:55.712 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:55.712 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:55.712 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:55.717  1717  2650 I TelephonyProvider: D/TelephonyProvider: Using old permission behavior for telephony provider compat
+12-07 01:51:55.717  1717  2650 I TelephonyProvider: D/TelephonyProvider: URL_TELEPHONY uid = 1000, pid= 14628
+12-07 01:51:55.732 14628 15055 E EPDG -- SIM1 [UTILS]: getApnTypeByName() : no apn type matched. check it with remoteuri.
+12-07 01:51:55.733 14628 15055 E EPDG -- SIM1 [UTILS]: getApnTypeByName() failed for : ims
+12-07 01:51:55.733 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: handleIPSecConnectionInitRequest getApnTypeByName apnType: null apnName : ims
+12-07 01:51:55.733 14628 15055 I EPDG -- SIM1 [RILSHAREDDATA]: getIWlanState(): returning state 0for cid 4
+12-07 01:51:55.733 14628 15055 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GEN_CMD Sub: IPC_GEN_PHONE_RES Cmd Type: IPC_CMD_RESP Param: 0D 01 03 00 80 
+12-07 01:51:55.734 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: RX [IPC_GPRS_DEFINE_PDP_CONTEXT] -- RESPONSE -- true -- Received Values: Cid: 5APNName: imsv4: Suppressedv6: Suppressedpcscfreq: 3
+12-07 01:51:55.734 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:55.736 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:55.737 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_PDP_CONTEXT Param: 03 05 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+12-07 01:51:55.737 14628 15055 I EPDG -- SIM1 [RILSHAREDDATA]: getIWlanState(): returning state 0for cid 4
+12-07 01:51:55.737 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: RX [IPC_GPRS_PDP_CONTEXT] for connect -- RESPONSE -- true-- (cid : 5)
+12-07 01:51:55.737 14628 15055 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GEN_CMD Sub: IPC_GEN_PHONE_RES Cmd Type: IPC_CMD_RESP Param: 0D 04 03 00 80 
+12-07 01:51:55.738 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:55.739 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Event received: RIL_CONNECT_REQ cid - 0
+12-07 01:51:55.739 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Event: APN_ATTACH_REQ
+12-07 01:51:55.739 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM_HP]: setIsHandOver : false
+12-07 01:51:55.739 14628 28074 I EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Connect request is received for cid: 5 apnName: ims
+12-07 01:51:55.739 14628 28074 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:55.740 14628 28074 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:55.743  1717  2188 I TelephonyProvider: D/TelephonyProvider: Using old permission behavior for telephony provider compat
+12-07 01:51:55.743  1717  2188 I TelephonyProvider: D/TelephonyProvider: URL_TELEPHONY uid = 1000, pid= 14628
+12-07 01:51:55.753 14628 28074 E EPDG -- SIM1 [UTILS]: getApnTypeByName() : no apn type matched. check it with remoteuri.
+12-07 01:51:55.754 14628 28074 E EPDG -- SIM1 [UTILS]: getApnTypeByName() failed for : ims
+12-07 01:51:55.754 14628 28074 E EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Failed find apntype by apnname. 
+12-07 01:51:55.754 14628 28074 E EPDG -- SIM1 [IPSECDATACONNSM][4]: InactiveState[ ] Send failure connection status to RIL
+12-07 01:51:55.754 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Event received: SM_UPDATE_CONN_STATUS cid - 0
+12-07 01:51:55.754 14628 28074 I EPDG -- SIM1 [EpdgHandler]: Update apn connection status for cid: 5apnType: null
+12-07 01:51:55.754 14628 28074 I EPDG -- SIM1 [UTILS]: isEpdgNotAvailableRequired apnType: null
+12-07 01:51:55.754 14628 28074 I EPDG -- SIM1 [EpdgHandler]: isPermanentFail : false
+12-07 01:51:55.754 14628 28074 I EPDG -- SIM1 [UTILS]: isAttachApn: Received CID is: 5 returning result as: true
+12-07 01:51:55.754 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND CALL STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:55.755 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_CALL_STATUS Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:55.755 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:55.755 14628 28074 I EPDG -- SIM1 [EPDG-->RIL]: SEND GPRS EPDG STATUS <-> Cid: 5, Connection Status : false
+12-07 01:51:55.755 14628 28074 I EPDG -- SIM1 [IPCDISPATCHER]: [Tx]: Main: IPC_GPRS_CMD Sub: Unknown: 22 Cmd Type: IPC_CMD_NOTI Param: 05 00 00 00 00 00 00 00 00 
+12-07 01:51:55.755 14628 28260 I EPDG -- : EpdgModemSender(): send
+12-07 01:51:55.758 28225 28247 I eris    : 11[KNL] interface epdg4 deactivated
+12-07 01:51:55.761 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:55.761 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:55.761 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:55.761 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:55.784  1717  1811 I System.out: Broadcasting: Intent { act=android.intent.action.EXCLUDE_IMS_PACKET_COUNT (has extras) }
+12-07 01:51:55.786  1198  5157 E ActivityManager: Sending non-protected broadcast android.intent.action.EXCLUDE_IMS_PACKET_COUNT from system uid 1001 pkg null
+12-07 01:51:55.786  1198  5157 E ActivityManager: java.lang.Throwable
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.checkBroadcastFromSystem(ActivityManagerService.java:16109)
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16922)
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentLocked(ActivityManagerService.java:16124)
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntentWithFeature(ActivityManagerService.java:17101)
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.broadcastIntent(ActivityManagerService.java:17079)
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:2688)
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at com.android.server.am.ActivityManagerService.onTransact(ActivityManagerService.java:3135)
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at android.os.Binder.execTransactInternal(Binder.java:1321)
+12-07 01:51:55.786  1198  5157 E ActivityManager: 	at android.os.Binder.execTransact(Binder.java:1280)
+12-07 01:51:55.790  1717  2188 I System.out: Broadcast completed: result=0
+12-07 01:51:55.791  1198  5157 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:55.792  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:55.792  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:55.792  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:55.792  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_PDN_FAILED
+12-07 01:51:55.792  2141  2385 I RegiMgr-NetEvtCtr: slot[1]: onPdnFailed: NOT_DEFINED
+12-07 01:51:55.793  2141  2385 E #IMSCR  : 12-07 01:51:55 0x1101000A:1,PDN FAIL:NOT_DEFINED
+12-07 01:51:55.793  2141  2385 I RegiGvnBase<1>: onPdnRequestFailed: NOT_DEFINED
+12-07 01:51:55.793  2141  2385 I RegiGvnEur<1>: onPdnRequestFailed ignore in non LTE/NR
+12-07 01:51:55.793  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:55.793  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:55.793  2141  2385 I SimManager: mSimState:LOADED, mIsimLoaded:false, hasIsim():false
+12-07 01:51:55.793  2141  2385 I SimManager: getRilSimOperator: ETC
+12-07 01:51:55.793  2141  2385 I SimManager<0>: hasIsim: [false]
+12-07 01:51:55.793  2141  2385 I RegiMgr-Handler: handleMessage: EVENT_TRY_REGISTER
+12-07 01:51:55.793  2141  2385 I RegiMgr<0>: tryRegister:
+12-07 01:51:55.793  2141  2385 I RegiMgr<0>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:55.794  2141  2385 I RegiMgr<1>: RegisterTask(s): TELE2 Russia IMS (CONNECTING)
+12-07 01:51:55.794  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:55.794  2141  2385 I RegisterTask: isSuspended: mSuspended(false) mSuspendByIrat(false)
+12-07 01:51:55.794  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkForTryRegister id: 122
+12-07 01:51:55.794  2141  2385 I RegiMgr : isPdnConnected: false, PdnType: 11
+12-07 01:51:55.794 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: DISCONNECTED, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NAS_SIGNALLING(0xe)
+12-07 01:51:55.795  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:55.797  2141  2385 I PdnController: getDefaultNetworkBearer:  WIFI
+12-07 01:51:55.797  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:55.797  2141  2385 I PdnController<0>: isNetworkAvailable: isEpdgConnected=false getDataNetworkType()=0
+12-07 01:51:55.797  2141  2385 I RegiMgr-Utils<0>: Not found best network in IWLAN - NetworkAvailable: false - OOS: true
+12-07 01:51:55.798  2141  2385 I RegiGvnBase<0>: isReadyToDualRegister : true
+12-07 01:51:55.799  2141  2385 I RegiMgr<0>: [TELE2 Russia IMS|CONNECTING] checkInitialRegistrationIsReady: APM ON [true], Roamimg [false]
+12-07 01:51:55.799  2141  2385 I RcsPolicyMgr<0>: pendingRcsRegister: mActiveDataPhoneId = 0
+12-07 01:51:55.799  2141  2385 I ImsProfile: isRttSupportByCallApp : false ttyType : 1
+12-07 01:51:55.799  2141  2385 I RegiMgr-Utils<0>: getPriorityRegiedTask : isPriority  High? true
+12-07 01:51:55.799  2141  2385 I RegiGvnBase: checkRegiStatus: getState()=CONNECTING mIsUpdateRegistering=false
+12-07 01:51:55.800  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:55.800  2141  2385 I RegiMgr<0>: getTelephonyCallStatus:
+12-07 01:51:55.801  2141  2385 I RegiGvnBase[0]: isDelayedDeregisterTimerRunning [false]
+12-07 01:51:55.983  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.27477127]
+12-07 01:51:55.984  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.23059152]
+12-07 01:51:55.985  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.73009145]
+12-07 01:51:55.985  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.999 msecs
+12-07 01:51:55.988  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.184385 msecs
+12-07 01:51:55.991  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.93673 msecs
+12-07 01:51:55.991  1198  1630 I SemWifiServiceDetector: NSD results: [0, 1, 2, 0, 0, 1, -1, 1, 0] Traff. type 1 Thr 0
+12-07 01:51:55.994  1198  1633 D SemWifiOptimizer: enable=0 state=0x10 prev=0x10 new=0x00 force=0 mode=0
+12-07 01:51:56.112   552   552 D io_stats: !@   8,0 r 37173591 595188144 w 25505451 216624196 d 10734808 137176388 f 0 0 iot 16052928 0 th 0 0 0 pt 0 inp 0 0 276814.730
+12-07 01:51:56.495  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.528371]
+12-07 01:51:56.496  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.14129014]
+12-07 01:51:56.497  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.5656509]
+12-07 01:51:56.497  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.303692 msecs
+12-07 01:51:56.501  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.934384 msecs
+12-07 01:51:56.504  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 3.190538 msecs
+12-07 01:51:56.505  1198  1630 I SemWifiServiceDetector: NSD results: [1, 1, 0, 1, 0, 1, -1, 1, 0] Traff. type 1 Thr 1
+12-07 01:51:56.508  1198  1633 D SemWifiOptimizer: enable=1 state=0x10 prev=0x00 new=0x10 force=0 mode=0
+12-07 01:51:57.010  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.5177008]
+12-07 01:51:57.012  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.27872682]
+12-07 01:51:57.012  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.30309904]
+12-07 01:51:57.012  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.224808 msecs
+12-07 01:51:57.017  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 4.230346 msecs
+12-07 01:51:57.020  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 3.628924 msecs
+12-07 01:51:57.085  4315  4315 I SDHMS:LOAD: type: LoadsFreqs, value: 0:0:0:546000:546000:546000:589160:2002000:507000:7:377:0
+12-07 01:51:57.237  1198  2700 D FreecessController: org.bxkr.octodiary.debug(10530) is important[!isUidIdle]
+12-07 01:51:57.744  1198  2700 D FreecessController: com.android.vending(15010225) is important[!isUidIdle]
+12-07 01:51:57.823 19650 19748 I dhoh    : (REDACTED) Scheduling(%s) voice interaction service reliability check.
+12-07 01:51:57.825 19650 19748 I dhoh    : (REDACTED) Scheduling(%s) voice interaction service reliability check.
+12-07 01:51:57.825 19650 19748 I dhoh    : (REDACTED) Scheduling(%s) voice interaction service reliability check.
+12-07 01:51:57.828 19650 19748 I dhoh    : (REDACTED) Scheduling(%s) voice interaction service reliability check.
+12-07 01:51:57.830 19650 19748 I dhoh    : (REDACTED) Scheduling(%s) voice interaction service reliability check.
+12-07 01:51:57.831 19650 19748 I dhoh    : (REDACTED) Scheduling(%s) voice interaction service reliability check.
+12-07 01:51:57.969  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.28752846]
+12-07 01:51:57.970  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.085826494]
+12-07 01:51:57.970  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.57299316]
+12-07 01:51:57.970  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 2.055808 msecs
+12-07 01:51:57.974  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.31077 msecs
+12-07 01:51:57.976  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.444193 msecs
+12-07 01:51:58.061  1198  1308 W libprocessgroup: Failed to open /dev/blkio//cgroup.procs: No such file or directory
+12-07 01:51:58.074  1198  3205 D SemWifiUsabilityStatsMonitor: onWifiUsabilityStats - seqNum 55316, isSameBssidAndFreq true
+12-07 01:51:58.076  1736  1736 D NetworkController.WifiSignalController: notifyListener: visible=true, connected=true, inetCondition=1, isDefault=true, wifiTestReported=true, receivedInetCondition=-1, hideDuringMobileSwitching=false
+12-07 01:51:58.076  1198  1632 I SemWifiLinkQualityMonitor: Link Qos Query: 0,023 ms / 343,953 Mbps (780 / 0,011 / 1,105)
+12-07 01:51:58.111   879   977 I VSyncReactor: Current= 60, TransitioningTo= 60, Distance= 60
+12-07 01:51:58.477  1198  1630 D SemNscXgbMsL1: Probability - Cloud gaming: [0.42647427]
+12-07 01:51:58.478  1198  1630 D SemNscXgbMsL1: Probability - Real time: [0.19373046]
+12-07 01:51:58.479  1198  1630 D SemNscXgbMsL1: Probability - Non real time: [0.61098474]
+12-07 01:51:58.479  1198  1630 D SemNscXgbMsL1: 1 sample inference time: 1.850885 msecs
+12-07 01:51:58.482  1198  1630 D SemNscXgbL2Rt: L2 RT 1 sample inference time: 3.296115 msecs
+12-07 01:51:58.485  1198  1630 D SemNscXgbL2Nrt: L2 NRT 1 sample inference time: 2.696154 msecs
+12-07 01:51:58.636   862  1002 I EDEN    : [Exynos][EDEN][v1.6.23][SERVICE] processAliveMointorMain:253: Try to check pid=(823)...
+12-07 01:51:58.813  1717  1717 I TelephonyProvider: D/TelephonyProvider: subIdString = 2 subId = 2
+12-07 01:51:58.813  1717  1717 I TelephonyProvider: D/TelephonyProvider: getPreferredApnIdFromApn: for subId 2
+12-07 01:51:58.830  1198  4104 W ContextImpl: Calling a method in the system process without a qualified user: android.app.ContextImpl.sendBroadcastMultiplePermissions:1335 android.content.Context.sendBroadcastMultiplePermissions:2285 com.android.server.TelephonyRegistry.broadcastDataConnectionStateChanged:3329 com.android.server.TelephonyRegistry.notifyDataConnectionForSubscriber:2065 com.android.internal.telephony.ITelephonyRegistry$Stub.onTransact:578 
+12-07 01:51:58.831 14628 14628 I EPDG -- SIM1 [NetController]: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:58.831  2141  2385 I PhoneStateTracker<1>: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:58.831  2141  2385 I RegiMgr-Handler<1>: onPreciseDataConnectionStateChanged
+12-07 01:51:58.833  1198  1302 W BroadcastQueue: Appop Denial: receiving Intent { act=android.intent.action.ANY_DATA_STATE flg=0x10 (has extras) } to ProcessRecord{9b37da4 1717:com.android.phone/1001} (pid=1717, uid=1001) excludes appop android:read_phone_state due to sender android (uid 1001)
+12-07 01:51:58.835  2141  2525 I VolteServiceModule: onPreciseDataConnectionStateChanged: state= state: CONNECTING, transport: WWAN, id: -1, network type: IWLAN, APN Setting: [ApnSetting] DEFAULT IMS, 0, null, ims, null, null, null, null, null, 0, ims, IPV4V6, IPV4V6, true, 0, false, 0, 0, 0, 0, 0, null, null, false, UNKNOWN, UNKNOWN, -1, -1, -1, false, link properties: {LinkAddresses: [ ] DnsAddresses: [ ] Domains: null MTU: 0 Routes: [ ]}, fail cause: NONE(0x0)
+12-07 01:51:58.838 14628 15055 I EPDG -- EpdgIpcMessageFactory: ipcMainCmd: 13
+12-07 01:51:58.839 14628 15055 I EPDG -- SIM1 [RILRECEIVER]: [Rx]: Main: IPC_GPRS_CMD Sub: IPC_GPRS_DEFINE_PDP_CONTEXT Param: Suppressed
+12-07 01:51:58.840 14628 15055 I EPDG -- SIM1 [UTILS]: getApnTypeByName apnName: ims
+12-07 01:51:58.840 14628 15055 I EPDG -- SIM1 [Operator]: getSubId(): subID is : 2
+12-07 01:51:58.840 28225 28242 I eris    : 08[KNL] interface epdg4 activated
+12-07 01:51:58.842 14628 14628 I EPDG -- SIM1 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:58.842 14628 28050 I EPDG -- SIM0 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event
+12-07 01:51:58.842 14628 14628 I EPDG -- SIM0 [EpdgIntfCont]: Not Mobile Interface. Ignoring Event
+12-07 01:51:58.842 14628 28074 I EPDG -- SIM1 [EpdgNetworkMgmtObserver]: Not Mobile Interface. Ignoring Interface State Change Event

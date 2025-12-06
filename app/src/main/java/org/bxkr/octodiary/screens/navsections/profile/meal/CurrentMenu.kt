@@ -34,6 +34,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
@@ -57,7 +58,7 @@ import org.bxkr.octodiary.models.mealsmenucomplexes.MealsMenuComplexes
 import java.util.Date
 import kotlin.math.roundToInt
 
-private val complexesLive = MutableLiveData(DataService.mealsMenuComplexes)
+private val complexesLive = MutableLiveData<MealsMenuComplexes?>()
 private val dateLive = MutableLiveData<Date?>(null)
 private val loadedLive = MutableLiveData(false)
 
@@ -65,17 +66,18 @@ private val loadedLive = MutableLiveData(false)
 fun CurrentMenu(onMenuItemClick: (item: Item) -> Unit) {
     val date by dateLive.observeAsState(null)
     val loaded by loadedLive.observeAsState(false)
-    val complexes by complexesLive.observeAsState(DataService.mealsMenuComplexes)
+    val complexes: MealsMenuComplexes? by DataService.mealsMenuComplexes.collectAsState(initial = null)
     var chooserShown by remember { mutableStateOf(false) }
     val isDemo = LocalContext.current.isDemo
     LaunchedEffect(date) {
         if (date != null && !isDemo) {
             loadedLive.value = false
-            DataService.getMealsMenuComplexes(date ?: Date()) {
-                complexesLive.value = it
+            DataService.updateMealsMenuComplexes { // Now updates the StateFlow
                 loadedLive.value = true
             }
-        } else if (isDemo) loadedLive.value = true
+        } else if (isDemo) {
+            loadedLive.value = true
+        }
     }
     Box {
         AnimatedVisibility(chooserShown) {
@@ -85,7 +87,7 @@ fun CurrentMenu(onMenuItemClick: (item: Item) -> Unit) {
             }
         }
         AnimatedVisibility((date == null) || loaded) {
-            complexes.MenuItems(date, onMenuItemClick) { chooserShown = true }
+            complexes?.MenuItems(date, onMenuItemClick) { chooserShown = true }
         }
         AnimatedVisibility((date != null) && !loaded) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

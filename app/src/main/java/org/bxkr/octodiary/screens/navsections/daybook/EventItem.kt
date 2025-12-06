@@ -51,6 +51,7 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.R
 import android.util.Log
 import org.bxkr.octodiary.components.MarkComp
@@ -82,7 +83,7 @@ fun EventItem(event: Event, index: Int = -1, showLessonNumbers: Boolean = true) 
     var lessonError by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(isExpanded) {
         if (isExpanded && event.source in listOf("AE", "CE", "PLAN")) {
-            org.bxkr.octodiary.DataService.getLessonInfo(event.id, { lessonError = it }) {
+            DataService.getLessonInfo(event.id, { lessonError = it }) {
                 lessonInfo = it
             }
         }

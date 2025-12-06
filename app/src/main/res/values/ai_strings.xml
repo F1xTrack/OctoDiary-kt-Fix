@@ -3,12 +3,12 @@
     <!-- AI Features -->
     <string name="ai_helper">AI Помощник</string>
     <string name="ai_chat">AI Чат</string>
-    <string name="ai_dashboard">AI Дашборд</string>
+    <string name="ai_dashboard">AI Сводка</string>
     <string name="homework_helper">Помощь с ДЗ</string>
     <string name="study_plan">План учёбы</string>
     <string name="smart_vocabulary">Умный словарь</string>
     <string name="lecture_notes">Конспекты</string>
-    <string name="streaks">Стрики</string>
+    <string name="streaks">Серии</string>
     <string name="achievements">Достижения</string>
     
     <!-- API Settings -->

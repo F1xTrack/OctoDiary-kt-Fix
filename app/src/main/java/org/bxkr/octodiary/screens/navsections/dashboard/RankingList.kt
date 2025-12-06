@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastJoinToString
@@ -14,18 +16,24 @@ import org.bxkr.octodiary.components.RankingMemberCard
 
 @Composable
 fun RankingList() {
+    val ranking by DataService.ranking.collectAsState()
+    val profile by DataService.profile.collectAsState()
+    val classMembers by DataService.classMembers.collectAsState()
+    val currentProfile by DataService.currentProfile.collectAsState()
+    
     LazyColumn(
         Modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        items(DataService.ranking) { rankingMember ->
+        items(ranking) { rankingMember ->
             val memberName = remember {
-                if (rankingMember.personId != DataService.profile.children[DataService.currentProfile].contingentGuid) {
-                    DataService.classMembers.firstOrNull { classMember ->
+                val child = profile?.children?.get(currentProfile)
+                if (rankingMember.personId != child?.contingentGuid) {
+                    classMembers.firstOrNull { classMember ->
                         rankingMember.personId == classMember.personId
                     }?.fio
-                } else DataService.profile.children[DataService.currentProfile].run {
+                } else child?.run {
                     listOf(
                         lastName,
                         firstName,
@@ -37,7 +45,7 @@ fun RankingList() {
                 rankPlace = rankingMember.rank.rankPlace,
                 average = rankingMember.rank.averageMarkFive,
                 memberName = memberName ?: rankingMember.personId,
-                highlighted = DataService.run { rankingMember.personId == profile.children[currentProfile].contingentGuid },
+                highlighted = rankingMember.personId == profile?.children?.get(currentProfile)?.contingentGuid,
                 isAnonymized = memberName == null
             )
         }

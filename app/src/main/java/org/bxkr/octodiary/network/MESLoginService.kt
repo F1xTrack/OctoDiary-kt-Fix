@@ -151,7 +151,7 @@ object MESLoginService {
                         "subsystem" to Diary.MES.ordinal,
                         "access_token" to token
                     )
-                    DataService.token = token // Update DataService.token immediately
+                    DataService.updateToken(token) // Update DataService.token immediately
                 }
                 true
             } else {
@@ -212,7 +212,8 @@ object MESLoginService {
                 exchangeCall.baseEnqueue { body ->
                     authPrefs.save("mos_refresh_token" to body.refreshToken)
                     mosToMesToken(this@refreshToken, body.accessToken, onSet = {
-                        DataService.token = authPrefs.get<String>("access_token")!!
+                        val newToken = authPrefs.get<String>("access_token")!!
+                        DataService.updateToken(newToken)
                         DataService.authRepository.updateUserId { // For token to start working
                             DataService.pushUserSettings(
                                 "od_auth",
@@ -220,7 +221,7 @@ object MESLoginService {
                                     clientId = getString("client_id", "")!!,
                                     clientSecret = getString("client_secret", "")!!,
                                     refreshToken = body.refreshToken,
-                                    accessToken = DataService.token
+                                    accessToken = newToken
                                 )
                             ) {
                                 onUpdated()
@@ -262,7 +263,7 @@ object MESLoginService {
                                 clientId = clientId,
                                 clientSecret = clientSecret,
                                 refreshToken = body.refreshToken,
-                                accessToken = DataService.token
+                                accessToken = DataService.tokenFlow.value!!
                             )
                         ) {}
                         return@run true

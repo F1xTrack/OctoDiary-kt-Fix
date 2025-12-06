@@ -101,6 +101,7 @@ import org.bxkr.octodiary.network.interfaces.MainSchoolAPI
 import org.bxkr.octodiary.network.interfaces.SchoolSessionAPI
 import org.bxkr.octodiary.network.interfaces.SecondaryAPI
 import org.bxkr.octodiary.notificationPrefs
+import org.bxkr.octodiary.raw
 import org.bxkr.octodiary.save
 import org.bxkr.octodiary.screenLive
 import org.bxkr.octodiary.sumLists
@@ -141,7 +142,7 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
 
         Surface(modifier.fillMaxSize()) {
             if (mainPrefs.get<Boolean>("has_pin") != true || pinFinished.value) {
-                DataService.token = authPrefs.get<String>("access_token")!!
+                DataService.updateToken(authPrefs.get<String>("access_token")!!)
 
                 DataService.subsystem = Diary.values()[authPrefs.get<Int>("subsystem")!!]
 
@@ -171,16 +172,12 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
                         (System.currentTimeMillis() - lastRefreshTime) > 30000) {
                         val refreshStart = System.currentTimeMillis()
                         Log.d("Performance", "Pull-to-refresh started")
-                        if (!isDemo) {
-                            DataService.loadedEverything.value = false
-                            DataService.loadingStarted = false
-                            DataService.updateAll(context)
-                            duringRefresh = true
-                            lastRefreshTime = refreshStart
-                        } else {
-                            refreshState.endRefresh()
-                            Log.d("Performance", "Pull-to-refresh completed (demo) in ${System.currentTimeMillis() - refreshStart}ms")
-                        }
+                        
+                        DataService.loadedEverything.value = false
+                        // DataService.loadingStarted = false
+                        DataService.updateAll()
+                        duringRefresh = true
+                        lastRefreshTime = refreshStart
                     } else if (refreshState.isRefreshing && (System.currentTimeMillis() - lastRefreshTime) <= 30000) {
                         // Слишком частое обновление - отменяем
                         refreshState.endRefresh()
@@ -263,12 +260,16 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
                     DataService.onSingleItemInUpdateAllLoadedHandler = { name, progressParam ->
                         coroutineScope.launch { progress = progressParam }
                         // Оптимизация: кэшируем только критически важные данные
-                        if (name in listOf("profile", "marksSubject", "homeworks", "schedule")) {
-                            cachePrefs.save(
-                                name to Gson().toJson(
-                                    DataService::class.java.getDeclaredField(name).get(DataService)
-                                )
-                            )
+                        val valueToSave = when (name) {
+                            "profile" -> DataService.profile.value
+                            "marksSubjectFlow" -> DataService.marksSubjectFlow.value
+                            "homeworksFlow" -> DataService.homeworksFlow.value
+                            "eventCalendar" -> DataService.eventCalendar.value
+                            else -> null
+                        }
+                        
+                        if (valueToSave != null) {
+                            cachePrefs.save(name to Gson().toJson(valueToSave))
                         }
                         cachePrefs.save("age" to System.currentTimeMillis())
                     }
@@ -282,19 +283,15 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
                         if (cachedAge != null) {
                             val isFresh = (System.currentTimeMillis() - cachedAge) < 86400000
                             if (!online || isFresh) {
-                                DataService.loadingStarted = true
+                                // DataService.loadingStarted = true
                                 DataService.subsystem = Diary.values()[authPrefs.get<Int>("subsystem") ?: 0]
-                                DataService.loadFromCache { cachePrefs.get<String>(it) ?: "" }
+                                DataService.loadFromCache { cachePrefs.raw.getString(it, "") ?: "" }
                                 DataService.loadedEverything.value = true
                             } else {
-                                DataService.updateAll(context)
+                                DataService.updateAll()
                             }
-                        } else if (isDemo) {
-                            DataService.subsystem = Diary.MES
-                            DataService.run { loadDemoCache() }
-                            DataService.loadedEverything.value = true
                         } else if (online) {
-                            DataService.updateAll(context)
+                            DataService.updateAll()
                         }
                     }
                     Column(
@@ -333,9 +330,9 @@ private fun FragmentActivity.registerNotifier() {
     val context = this
     if (notificationPrefs.get<Long>("student_id") == null) {
         notificationPrefs.save(
-            "student_id" to DataService.profile.children[DataService.currentProfile].studentId,
+            "student_id" to (DataService.profile.value?.children?.get(DataService.currentProfile.value)?.studentId ?: 0L),
             "mark_ids" to Gson().toJson(sumLists(
-                DataService.marksSubject.map { it.currentPeriod?.marks?.map { it.id } }
+                DataService.marksSubjectFlow.value.map { it.currentPeriod?.marks?.map { it.id } }
             )),
             "total_count" to 0
         )

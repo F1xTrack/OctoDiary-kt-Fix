@@ -20,30 +20,31 @@ class AuthRepository(private val context: Context, private val dataService: Data
     private val schoolSessionApi: SchoolSessionAPI by lazy { NetworkService.schoolSessionApi(NetworkService.BaseUrl.MOS_SCHOOL) } // Need to cast this for MESLoginService
 
     fun updateUserId(onUpdated: () -> Unit) {
-        dataService.dSchoolApi.profilesId(dataService.token)
+        if (dataService.tokenFlow.value == null) {
+            onUpdated()
+            return
+        }
+        dataService.dSchoolApi.profilesId(dataService.tokenFlow.value!!)
             .baseEnqueue(dataService::baseErrorFunction, dataService::baseInternalExceptionFunction) { body ->
                 if (body.size == 0) {
                     dataService.tokenExpirationHandler?.invoke()
                 } else {
-                    dataService.userId = body
-                    dataService.hasUserId = true
+                    dataService.setUserId(body)
                     onUpdated()
                 }
             }
     }
 
     fun updateSessionUser(onUpdated: () -> Unit) {
-        dataService.sessionUser = SessionUser("a") // Dummy data, actual logic might be elsewhere
-        dataService.hasSessionUser = true
+        dataService.setSessionUser(SessionUser("a")) // Dummy data
         onUpdated()
     }
 
     fun refreshToken(onUpdated: () -> Unit) {
 
         if (dataService.subsystem == Diary.MES) { // Assuming DataService.subsystem is still accessible
-            context.refreshToken { // This is MESLoginService.refreshToken extension function
-                // The onUpdated callback needs to be handled after the refresh is complete
-                // DataService.token will be updated by MESLoginService.performTokenRefreshSync
+            context.refreshToken {
+                // Token is updated internally by MESLoginService
                 onUpdated()
             }
         } else {

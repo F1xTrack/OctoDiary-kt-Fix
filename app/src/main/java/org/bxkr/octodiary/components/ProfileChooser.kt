@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.collectAsState
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import org.bxkr.octodiary.DataService
@@ -38,7 +39,10 @@ fun ProfileChooser() {
             style = MaterialTheme.typography.titleLarge
         )
         val context = LocalContext.current
-        DataService.profile.children.forEachIndexed { index, it ->
+        val profile = DataService.profile.collectAsState(DataService.profile.value).value
+        val currentProfile = DataService.currentProfile.collectAsState(DataService.currentProfile.value).value
+        
+        profile?.children?.forEachIndexed { index, it ->
             OutlinedCard(
                 Modifier
                     .padding(bottom = 16.dp)
@@ -46,12 +50,12 @@ fun ProfileChooser() {
                     .clip(CardDefaults.outlinedShape)
                     .clickable {
                         modalDialogStateLive.value = false
-                        DataService.currentProfile = index
+                        DataService.setCurrentProfile(index)
                         DataService.loadedEverything.value = false
-                        DataService.loadingStarted = false
-                        DataService.updateAll(context)
+                        // DataService.loadingStarted = false
+                        DataService.updateAll()
                     },
-                border = if (DataService.currentProfile == index) {
+                border = if (currentProfile == index) {
                     BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
                 } else CardDefaults.outlinedCardBorder()
             ) {

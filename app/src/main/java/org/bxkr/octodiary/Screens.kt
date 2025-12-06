@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
 import androidx.compose.material.icons.automirrored.rounded.TrendingUp
 import androidx.compose.material.icons.rounded.Dashboard
+import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.HomeWork
 import androidx.compose.material.icons.rounded.Nfc
 import androidx.compose.material.icons.rounded.Person
@@ -38,8 +39,7 @@ enum class NavSection(
 ) {
     Daybook(Icons.AutoMirrored.Rounded.MenuBook, R.string.diary, "daybook", { ScheduleScreen() }),
     Homeworks(Icons.Rounded.HomeWork, R.string.homeworks, "homeworks", { HomeworksScreen() }),
-    Dashboard(Icons.Rounded.Dashboard, R.string.dashboard, "dashboard", { DashboardScreen() }),
+    Dashboard(Icons.Rounded.Home, R.string.dashboard, "dashboard", { DashboardScreen() }),
     Marks(Icons.AutoMirrored.Rounded.TrendingUp, R.string.marks, "marks", { MarksScreen() }),
-    Access(Icons.Rounded.Nfc, R.string.access, "access", { AccessScreen() }),
     Profile(Icons.Rounded.Person, R.string.profile, "profile", { ProfileScreen2() })
 }

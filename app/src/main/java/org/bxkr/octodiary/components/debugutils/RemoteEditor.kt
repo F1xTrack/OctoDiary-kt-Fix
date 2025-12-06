@@ -107,7 +107,7 @@ private fun Editor(key: String) {
 
     LaunchedEffect(Unit) {
         DataService.mainSchoolApi.pullUserSettingsRaw(
-            DataService.token,
+            DataService.tokenFlow.value!!,
             key
         ).baseEnqueue { response ->
             if (response.isNotBlank()) {
@@ -226,10 +226,10 @@ private fun sendStorage(key: String, storage: Map<String, Any>, coroutineScope: 
             snackbarHostStateLive.value?.showSnackbar("Cannot push storage! Code: $code")
         }
     }
-    DataService.mainSchoolApi.pushUserSettings(
-        DataService.token,
-        key,
-        Gson().toJsonTree(storage).asJsonObject
+            DataService.mainSchoolApi.pushUserSettings(
+                DataService.tokenFlow.value!!,
+                key,
+                Gson().toJsonTree(storage).asJsonObject
     ).baseEnqueue(errorFunction = { _, httpCode, _ ->
         errorFn(httpCode.toString())
     }, noConnectionFunction = { _, _ -> errorFn("no_connection") }) {}

@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,7 +23,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastJoinToString
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.bxkr.octodiary.DataService
+import org.bxkr.octodiary.viewmodels.MarksViewModel
+import org.bxkr.octodiary.viewmodels.MarksViewModelFactory
+import org.bxkr.octodiary.models.profile.ProfileResponse
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.components.ErrorMessage
 import org.bxkr.octodiary.components.RankingMemberCard
@@ -32,6 +39,14 @@ import org.bxkr.octodiary.models.rankingforsubject.RankingForSubject
 
 @Composable
 fun SubjectRatingBottomSheet(subjectId: Long, subjectName: String) {
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: MarksViewModel = viewModel(
+        factory = MarksViewModelFactory(application, DataService)
+    )
+    val classMembers by viewModel.classMembers.collectAsState()
+    val profile by viewModel.profile.collectAsState()
+    val currentProfileIndex by viewModel.currentProfileIndex.collectAsState()
+
     var ranking by remember { mutableStateOf<List<RankingForSubject>?>(null) }
     var errorText by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
@@ -66,7 +81,7 @@ fun SubjectRatingBottomSheet(subjectId: Long, subjectName: String) {
                 }
                 items(ranking!!) {
                     val memberName = remember {
-                        DataService.classMembers.firstOrNull { classMember ->
+                        classMembers.firstOrNull { classMember ->
                             it.personId == classMember.personId
                         }?.user?.run {
                             listOf(
@@ -82,7 +97,7 @@ fun SubjectRatingBottomSheet(subjectId: Long, subjectName: String) {
                         rankPlace = it.rank.rankPlace,
                         average = it.rank.averageMarkFive,
                         memberName = memberName ?: it.personId,
-                        highlighted = DataService.run { it.personId == profile.children[currentProfile].contingentGuid },
+                        highlighted = it.personId == profile?.children?.get(currentProfileIndex)?.contingentGuid,
                         isAnonymized = memberName == null
                     )
                 }

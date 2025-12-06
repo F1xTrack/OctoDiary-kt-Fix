@@ -15,7 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import android.app.Application
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.bxkr.octodiary.DataService
+import org.bxkr.octodiary.viewmodels.MarksViewModel
+import org.bxkr.octodiary.viewmodels.MarksViewModelFactory
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import org.bxkr.octodiary.R
 import org.bxkr.octodiary.contentDependentActionLive
 import org.bxkr.octodiary.formatToDay
@@ -26,9 +34,15 @@ import org.bxkr.octodiary.parseSimpleLongDate
 
 @Composable
 fun MarksByDate() {
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: MarksViewModel = viewModel(
+        factory = MarksViewModelFactory(application, DataService)
+    )
+    val marksDate by viewModel.marksDate.collectAsState()
+
     val filterState = remember { mutableStateOf(DateMarkFilterType.ByUpdated) }
     contentDependentActionLive.value = { DateMarkFilter(state = filterState) }
-    val daySplitMarks = DataService.marksDate.payload.sortedByDescending {
+    val daySplitMarks = (marksDate?.payload ?: emptyList()).sortedByDescending {
         when (filterState.value) {
             DateMarkFilterType.ByUpdated -> it.updatedAt.parseSimpleLongDate()
             DateMarkFilterType.ByLessonDate -> it.lessonDate.parseFromDay()

@@ -16,15 +16,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
@@ -40,13 +44,25 @@ import org.bxkr.octodiary.ui.theme.exitTransition
 
 @Composable
 fun Documents() {
+    val personDataState by DataService.personData.collectAsState(initial = null)
+    val personData = personDataState
+    val profile by DataService.profile.collectAsState()
+    val currentProfile by DataService.currentProfile.collectAsState()
+
+    if (personData == null) {
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
     Column(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth()
     ) {
         val clipboardManager = LocalClipboardManager.current
-        with(DataService.personData) {
+        with(personData) {
             Text(stringResource(R.string.documents), style = MaterialTheme.typography.titleMedium)
             LazyColumn(
                 modifier = Modifier
@@ -55,14 +71,14 @@ fun Documents() {
                 item {
                     Row {
                         Text(stringResource(R.string.snils_t))
-                        val snils = DataService.profile.children[DataService.currentProfile].snils
+                        val snils = profile?.children?.get(currentProfile)?.snils ?: ""
                         Text(
                             snils,
                             Modifier.clickable { clipboardManager.setText(AnnotatedString(snils)) })
                     }
                 }
-                items(documents) {
-                    DocumentCard(document = it)
+                items(items = documents) { document ->
+                    DocumentCard(document = document)
                 }
             }
         }

@@ -16,10 +16,10 @@ object PerformanceAnalyzer {
      * Получить текущую успеваемость ученика
      */
     fun getCurrentPerformance(): StudentPerformance? {
-        if (!DataService.hasMarksSubject) return null
+        if (DataService.marksSubjectFlow.value.isEmpty()) return null
         
         val allMarks = mutableListOf<Pair<String, Double>>()
-        for (subject in DataService.marksSubject) {
+        for (subject in DataService.marksSubjectFlow.value) {
             val currentPeriod = subject.currentPeriod
             if (currentPeriod != null) {
                 for (mark in currentPeriod.marks) {

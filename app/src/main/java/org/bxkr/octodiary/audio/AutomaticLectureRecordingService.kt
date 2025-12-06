@@ -153,7 +153,7 @@ class AutomaticLectureRecordingService : Service(), CoroutineScope {
     }
 
     private fun findCurrentLecture(currentTime: Long): Event? {
-        if (!DataService.hasEventCalendar) {
+        if (DataService.eventCalendar.value.isEmpty()) {
             Log.d(TAG, "No event calendar available")
             return null
         }

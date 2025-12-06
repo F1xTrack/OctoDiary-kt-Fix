@@ -2,6 +2,7 @@ package org.bxkr.octodiary.components.ai
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -66,9 +67,12 @@ fun AiQuickAccessCard() {
             }
             
             Text(
-                "Умный чат, анализ ДЗ, персональный план, стрики",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                "Умный чат, анализ ДЗ, персональный план, серии",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier.padding(bottom = 4.dp),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
             
             HorizontalDivider()
@@ -100,7 +104,7 @@ fun AiQuickAccessCard() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Icon(Icons.Rounded.Mic, null, Modifier.size(20.dp))
+                        Icon(Icons.Rounded.Description, null, Modifier.size(20.dp)) // Changed to Description icon
                         Text("Конспекты", style = MaterialTheme.typography.labelSmall)
                     }
                 }
@@ -114,7 +118,7 @@ fun AiQuickAccessCard() {
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Icon(Icons.Rounded.Dashboard, null, Modifier.size(20.dp))
-                        Text("Дашборд", style = MaterialTheme.typography.labelSmall)
+                        Text("Сводка", style = MaterialTheme.typography.labelSmall)
                     }
                 }
             }

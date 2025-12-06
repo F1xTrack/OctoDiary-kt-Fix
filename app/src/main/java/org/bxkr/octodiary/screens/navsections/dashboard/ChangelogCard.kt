@@ -100,8 +100,12 @@ fun ChangelogCard(context: Context) {
                             .padding(vertical = 4.dp)
                             .background(DividerDefaults.color, shape = CircleShape)
                     )
-                    Column(Modifier.padding(start = 8.dp)) {
-                        Text(stringResource(changelog.shortDescription))
+                    Column(Modifier.padding(start = 12.dp).weight(1f)) { // Increased padding
+                        Text(
+                            stringResource(changelog.shortDescription),
+                            Modifier.padding(vertical = 2.dp),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
                 }
                 if (changelog.elements != null)
