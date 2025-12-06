@@ -161,7 +161,8 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
                         context.registerNotifier()
                     }
                 }
-                AnimatedVisibility(DataService.loadedEverything.value) {
+                
+                Box(Modifier.fillMaxSize()) {
                     val pullToRefreshStart = System.currentTimeMillis()
                     val refreshState = rememberPullToRefreshState()
                     var duringRefresh by rememberSaveable { mutableStateOf(false) }
@@ -202,7 +203,8 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
                     }
                     NavHost(
                         navController = navController!!,
-                        startDestination = startDestinationRoute
+                        startDestination = startDestinationRoute,
+                        modifier = Modifier.zIndex(0f)
                     ) {
                         NavSection.values().forEach {
                             composable(it.route) { _ ->
@@ -250,66 +252,76 @@ fun NavScreen(modifier: Modifier, pinFinished: MutableState<Boolean>) {
                         composable("theme_creator") { ThemeCreatorScreen() }
                         composable("comparison") { ComparisonScreen() }
                     }
-                }
-                AnimatedVisibility(!DataService.loadedEverything.value) {
-                    var progress by remember { mutableFloatStateOf(0f) }
-                    val progressAnimated by animateFloatAsState(
-                        progress, tween(200), label = "progress_anim"
-                    )
-                    val coroutineScope = rememberCoroutineScope()
-                    DataService.onSingleItemInUpdateAllLoadedHandler = { name, progressParam ->
-                        coroutineScope.launch { progress = progressParam }
-                        // Оптимизация: кэшируем только критически важные данные
-                        val valueToSave = when (name) {
-                            "profile" -> DataService.profile.value
-                            "marksSubjectFlow" -> DataService.marksSubjectFlow.value
-                            "homeworksFlow" -> DataService.homeworksFlow.value
-                            "eventCalendar" -> DataService.eventCalendar.value
-                            else -> null
+
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = !DataService.loadedEverything.value,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                        modifier = Modifier.zIndex(1f)
+                    ) {
+                        var progress by remember { mutableFloatStateOf(0f) }
+                        val progressAnimated by animateFloatAsState(
+                            progress, tween(200), label = "progress_anim"
+                        )
+                        val coroutineScope = rememberCoroutineScope()
+                        DataService.onSingleItemInUpdateAllLoadedHandler = { name, progressParam ->
+                            coroutineScope.launch { progress = progressParam }
+                            // Оптимизация: кэшируем только критически важные данные
+                            val valueToSave = when (name) {
+                                "profile" -> DataService.profile.value
+                                "marksSubjectFlow" -> DataService.marksSubjectFlow.value
+                                "homeworksFlow" -> DataService.homeworksFlow.value
+                                "eventCalendar" -> DataService.eventCalendar.value
+                                else -> null
+                            }
+                            
+                            if (valueToSave != null) {
+                                cachePrefs.save(name to Gson().toJson(valueToSave))
+                            }
+                            cachePrefs.save("age" to System.currentTimeMillis())
                         }
-                        
-                        if (valueToSave != null) {
-                            cachePrefs.save(name to Gson().toJson(valueToSave))
+                        val activity = LocalActivity.current
+                        DataService.tokenExpirationHandler = {
+                            activity.logOut("Performed from token expiration handler")
                         }
-                        cachePrefs.save("age" to System.currentTimeMillis())
-                    }
-                    val activity = LocalActivity.current
-                    DataService.tokenExpirationHandler = {
-                        activity.logOut("Performed from token expiration handler")
-                    }
-                    if (!DataService.loadingStarted) {
-                        val cachedAge = cachePrefs.get<Long>("age")
-                        val online = activity.isOnline()
-                        if (cachedAge != null) {
-                            val isFresh = (System.currentTimeMillis() - cachedAge) < 86400000
-                            if (!online || isFresh) {
-                                // DataService.loadingStarted = true
-                                DataService.subsystem = Diary.values()[authPrefs.get<Int>("subsystem") ?: 0]
-                                DataService.loadFromCache { cachePrefs.raw.getString(it, "") ?: "" }
-                                DataService.loadedEverything.value = true
-                            } else {
+                        if (!DataService.loadingStarted) {
+                            val cachedAge = cachePrefs.get<Long>("age")
+                            val online = activity.isOnline()
+                            if (cachedAge != null) {
+                                val isFresh = (System.currentTimeMillis() - cachedAge) < 86400000
+                                if (!online || isFresh) {
+                                    // DataService.loadingStarted = true
+                                    DataService.subsystem = Diary.values()[authPrefs.get<Int>("subsystem") ?: 0]
+                                    DataService.loadFromCache { cachePrefs.raw.getString(it, "") ?: "" }
+                                    DataService.loadedEverything.value = true
+                                } else {
+                                    DataService.updateAll()
+                                }
+                            } else if (online) {
                                 DataService.updateAll()
                             }
-                        } else if (online) {
-                            DataService.updateAll()
                         }
-                    }
-                    Column(
-                        Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        LinearProgressIndicator(
-                            progress = { progressAnimated },
-                        )
-                        val showOffline = !LocalActivity.current.isOnline()
-                        if (showOffline) {
-                            Spacer(Modifier.size(12.dp))
-                            Text(
-                                text = stringResource(id = R.string.offline_mode),
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.alpha(0.8f)
+                        
+                        // Loader UI with background to hide content underneath
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .background(MaterialTheme.colorScheme.background),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            LinearProgressIndicator(
+                                progress = { progressAnimated },
                             )
+                            val showOffline = !LocalActivity.current.isOnline()
+                            if (showOffline) {
+                                Spacer(Modifier.size(12.dp))
+                                Text(
+                                    text = stringResource(id = R.string.offline_mode),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.alpha(0.8f)
+                                )
+                            }
                         }
                     }
                 }
