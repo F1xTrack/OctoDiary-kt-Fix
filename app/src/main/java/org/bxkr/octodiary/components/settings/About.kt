@@ -227,7 +227,8 @@ private fun RowScope.DevelopersGridItem(developer: Developer) {
                 color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.padding(bottom = 8.dp),
                 minLines = 2,
-                maxLines = 2
+                maxLines = 3, // Increased lines
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis // Added overflow
             )
             Row {
                 if (developer.githubLink != null) {
