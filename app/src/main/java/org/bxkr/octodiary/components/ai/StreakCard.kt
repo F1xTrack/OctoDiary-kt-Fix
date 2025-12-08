@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
+import org.bxkr.octodiary.R
 import org.bxkr.octodiary.ai.StreakManager
 
 /**
@@ -70,9 +72,9 @@ fun StreakCard(type: String, title: String, icon: androidx.compose.ui.graphics.v
                     )
                     Text(
                         if (currentStreak > 0) {
-                            "$currentStreak ${getDayWord(currentStreak)} подряд 🔥"
+                            stringResource(R.string.streak_fire_format, currentStreak, getDayWord(context, currentStreak))
                         } else {
-                            "Стрик потерян"
+                            stringResource(R.string.streak_lost)
                         },
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (currentStreak > 0) {
@@ -87,7 +89,7 @@ fun StreakCard(type: String, title: String, icon: androidx.compose.ui.graphics.v
             if (longestStreak > 0) {
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        "Рекорд",
+                        stringResource(R.string.longest_streak),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -152,13 +154,13 @@ private fun StreakInfoDialog(
                 ) {
                     Column(Modifier.padding(12.dp)) {
                         Text(
-                            "Что это?",
+                            stringResource(R.string.what_is_it),
                             style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                         Spacer(Modifier.height(4.dp))
                         Text(
-                            getStreakExplanation(type),
+                            getStreakExplanation(type, context),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
@@ -179,7 +181,7 @@ private fun StreakInfoDialog(
                             color = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            "Текущий",
+                            stringResource(R.string.current_streak),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -190,7 +192,7 @@ private fun StreakInfoDialog(
                             color = MaterialTheme.colorScheme.tertiary
                         )
                         Text(
-                            "Рекорд",
+                            stringResource(R.string.longest_streak),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -200,7 +202,7 @@ private fun StreakInfoDialog(
                 
                 // Настройки
                 Text(
-                    "Настройки",
+                    stringResource(R.string.settings),
                     style = MaterialTheme.typography.titleSmall
                 )
                 
@@ -210,7 +212,7 @@ private fun StreakInfoDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Цель (дней)")
+                    Text(stringResource(R.string.goal_days))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -244,7 +246,7 @@ private fun StreakInfoDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Напоминания")
+                    Text(stringResource(R.string.reminders))
                     Switch(
                         checked = remindersEnabled,
                         onCheckedChange = {
@@ -258,7 +260,7 @@ private fun StreakInfoDialog(
                 if (currentStreak > 0) {
                     Column {
                         Text(
-                            "Прогресс к цели: $currentStreak / $goalDays",
+                            stringResource(R.string.goal_progress, currentStreak, goalDays),
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(Modifier.height(4.dp))
@@ -272,29 +274,29 @@ private fun StreakInfoDialog(
         },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("Закрыть")
+                Text(stringResource(R.string.close))
             }
         }
     )
 }
 
-private fun getStreakExplanation(type: String): String {
+private fun getStreakExplanation(type: String, context: android.content.Context): String {
     return when (type) {
-        "homework" -> "Отслеживает сколько дней подряд ты выполняешь все домашние задания. Помогает выработать привычку делать ДЗ вовремя!"
-        "diary" -> "Считает дни ведения дневника. Регулярное использование помогает оставаться организованным!"
-        "ai_usage" -> "Показывает сколько дней подряд ты пользуешься AI помощником. Умный помощник делает учёбу эффективнее!"
-        else -> "Следит за регулярностью выполнения задач. Чем длиннее стрик, тем лучше твои привычки!"
+        "homework" -> context.getString(R.string.streak_homework_desc)
+        "diary" -> context.getString(R.string.streak_diary_desc)
+        "ai_usage" -> context.getString(R.string.streak_ai_usage_desc)
+        else -> context.getString(R.string.streak_default_desc)
     }
 }
 
-private fun getDayWord(count: Int): String {
+private fun getDayWord(context: android.content.Context, count: Int): String {
     val lastDigit = count % 10
     val lastTwoDigits = count % 100
     
     return when {
-        lastTwoDigits in 11..19 -> "дней"
-        lastDigit == 1 -> "день"
-        lastDigit in 2..4 -> "дня"
-        else -> "дней"
+        lastTwoDigits in 11..19 -> context.getString(R.string.day_many)
+        lastDigit == 1 -> context.getString(R.string.day_1)
+        lastDigit in 2..4 -> context.getString(R.string.day_2_4)
+        else -> context.getString(R.string.day_many)
     }
 }

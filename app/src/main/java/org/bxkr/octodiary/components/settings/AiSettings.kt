@@ -23,6 +23,8 @@ import org.bxkr.octodiary.get
 import org.bxkr.octodiary.mainPrefs
 import org.bxkr.octodiary.save
 
+import androidx.compose.ui.res.stringResource
+
 /**
  * Настройки AI в главном меню настроек
  */
@@ -136,7 +138,7 @@ fun AiSettings() {
     Column(Modifier.padding(vertical = 8.dp)) {
         // Заголовок
         Text(
-            "Настройки AI",
+            stringResource(org.bxkr.octodiary.R.string.ai_settings_title),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -144,8 +146,8 @@ fun AiSettings() {
         
         // Включение AI
         SwitchPreference(
-            title = "AI помощник",
-            description = "Умный чат, анализ ДЗ, персональный план учёбы",
+            title = stringResource(org.bxkr.octodiary.R.string.ai_assistant_title),
+            description = stringResource(org.bxkr.octodiary.R.string.ai_assistant_desc),
             listenState = aiEnabled
         ) {
             aiEnabled.value = it
@@ -158,7 +160,7 @@ fun AiSettings() {
                 
                 // Выбор провайдера
                 Text(
-                    "Провайдер AI",
+                    stringResource(org.bxkr.octodiary.R.string.ai_provider),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
@@ -171,7 +173,7 @@ fun AiSettings() {
                         .padding(horizontal = 16.dp)
                 ) {
                     OutlinedTextField(
-                        value = providers.find { it.first == selectedProvider.value }?.second ?: "Не выбрано",
+                        value = providers.find { it.first == selectedProvider.value }?.second ?: stringResource(org.bxkr.octodiary.R.string.not_selected),
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = providerExpanded) },
@@ -221,15 +223,15 @@ fun AiSettings() {
                     ) {
                         Column(Modifier.padding(16.dp)) {
                             Text(
-                                "Локальная GGUF модель",
+                                stringResource(org.bxkr.octodiary.R.string.local_gguf_model),
                                 style = MaterialTheme.typography.titleSmall
                             )
                             Spacer(Modifier.height(8.dp))
                             Text(
                                 if (localModelPath.isEmpty()) 
-                                    "Модель не выбрана. Нажмите \"Выбрать\" для загрузки GGUF файла."
+                                    stringResource(org.bxkr.octodiary.R.string.model_not_selected)
                                 else 
-                                    "Модель: ${localModelPath.substringAfterLast("/")}",
+                                    stringResource(org.bxkr.octodiary.R.string.model_selected, localModelPath.substringAfterLast("/")),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -242,13 +244,12 @@ fun AiSettings() {
                                     // Открываем file picker для выбора любых файлов (включая .gguf)
                                     filePickerLauncher.launch("*/*")
                                 }) {
-                                    Text("Выбрать файл")
+                                    Text(stringResource(org.bxkr.octodiary.R.string.select_file))
                                 }
                             }
                             HorizontalDivider(Modifier.padding(vertical = 8.dp))
                             Text(
-                                "⚠️ Локальный инференс работает напрямую на устройстве через llama.cpp. " +
-                                "Требуется модель в формате GGUF (рекомендуется quantized Q4_K_M для баланса скорости и качества).",
+                                stringResource(org.bxkr.octodiary.R.string.local_inference_warning),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -274,7 +275,7 @@ fun AiSettings() {
                         ) {
                             Column(Modifier.weight(1f)) {
                                 Text(
-                                    "Модель",
+                                    stringResource(org.bxkr.octodiary.R.string.ai_model),
                                     style = MaterialTheme.typography.titleSmall
                                 )
                                 Text(
@@ -284,7 +285,7 @@ fun AiSettings() {
                                 )
                             }
                             TextButton(onClick = { showCustomModelDialog = true }) {
-                                Text("Изменить")
+                                Text(stringResource(org.bxkr.octodiary.R.string.change))
                             }
                         }
                     }
@@ -309,17 +310,17 @@ fun AiSettings() {
                         ) {
                             Column(Modifier.weight(1f)) {
                                 Text(
-                                    "API URL",
+                                    stringResource(org.bxkr.octodiary.R.string.api_url),
                                     style = MaterialTheme.typography.titleSmall
                                 )
                                 Text(
-                                    customApiUrl.value.ifEmpty { "Не задан" },
+                                    customApiUrl.value.ifEmpty { stringResource(org.bxkr.octodiary.R.string.not_set) },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                             TextButton(onClick = { showCustomApiUrlDialog = true }) {
-                                Text("Изменить")
+                                Text(stringResource(org.bxkr.octodiary.R.string.change))
                             }
                         }
                     }
@@ -350,21 +351,21 @@ fun AiSettings() {
                             ) {
                                 Column(Modifier.weight(1f)) {
                                     Text(
-                                        if (apiKey.isEmpty()) "API ключ не установлен" else "API ключ установлен",
+                                        if (apiKey.isEmpty()) stringResource(org.bxkr.octodiary.R.string.api_key_not_set) else stringResource(org.bxkr.octodiary.R.string.api_key_set),
                                         style = MaterialTheme.typography.titleSmall
                                     )
                                     Text(
                                         if (apiKey.isEmpty()) {
-                                            "Получите бесплатный ключ на ai.google.dev"
+                                            stringResource(org.bxkr.octodiary.R.string.get_api_key_hint)
                                         } else {
-                                            "Ключ: ${apiKey.take(10)}..."
+                                            stringResource(org.bxkr.octodiary.R.string.key_prefix, apiKey.take(10))
                                         },
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                                 TextButton(onClick = { showApiKeyDialog = true }) {
-                                    Text("Изменить")
+                                    Text(stringResource(org.bxkr.octodiary.R.string.change))
                                 }
                             }
                         }
@@ -377,7 +378,7 @@ fun AiSettings() {
                 
                 // Дополнительные настройки
                 Text(
-                    "Дополнительно",
+                    stringResource(org.bxkr.octodiary.R.string.additional),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
@@ -392,8 +393,8 @@ fun AiSettings() {
                     )
                 ) {
                     ListItem(
-                        headlineContent = { Text("Время отхода ко сну") },
-                        supportingContent = { Text("Для составления персонального плана") },
+                        headlineContent = { Text(stringResource(org.bxkr.octodiary.R.string.bed_time)) },
+                        supportingContent = { Text(stringResource(org.bxkr.octodiary.R.string.bed_time_desc)) },
                         leadingContent = {
                             Icon(Icons.Rounded.Bedtime, null)
                         },
@@ -407,8 +408,8 @@ fun AiSettings() {
                 }
                 
                 SwitchPreference(
-                    title = "Автозапись уроков",
-                    description = "Создавать конспекты автоматически (экспериментально)",
+                    title = stringResource(org.bxkr.octodiary.R.string.auto_record),
+                    description = stringResource(org.bxkr.octodiary.R.string.auto_record_desc),
                     listenState = autoRecordLectures
                 ) {
                     if (it) {
@@ -455,15 +456,13 @@ fun AiSettings() {
                         )
                         Column {
                             Text(
-                                "О AI помощнике",
+                                stringResource(org.bxkr.octodiary.R.string.about_ai),
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
-                                "AI помощник использует Google Gemini для помощи с домашними заданиями, " +
-                                "анализа успеваемости и составления персонального плана учёбы. " +
-                                "Все данные обрабатываются через защищённое соединение.",
+                                stringResource(org.bxkr.octodiary.R.string.about_ai_desc),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                             )
@@ -480,18 +479,18 @@ fun AiSettings() {
         
         AlertDialog(
             onDismissRequest = { showCustomApiUrlDialog = false },
-            title = { Text("Кастомный API URL") },
+            title = { Text(stringResource(org.bxkr.octodiary.R.string.custom_api_url)) },
             text = {
                 Column {
                     Text(
-                        "Введите полный URL вашего AI API (например, https://api.yourserver.com/v1)",
+                        stringResource(org.bxkr.octodiary.R.string.enter_api_url_hint),
                         style = MaterialTheme.typography.bodySmall
                     )
                     Spacer(Modifier.height(16.dp))
                     OutlinedTextField(
                         value = newUrl,
                         onValueChange = { newUrl = it },
-                        label = { Text("API URL") },
+                        label = { Text(stringResource(org.bxkr.octodiary.R.string.api_url)) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
                         placeholder = { Text("https://...") }
@@ -504,12 +503,12 @@ fun AiSettings() {
                     activity.mainPrefs.save("ai_custom_api_url" to newUrl)
                     showCustomApiUrlDialog = false
                 }) {
-                    Text("Сохранить")
+                    Text(stringResource(org.bxkr.octodiary.R.string.save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showCustomApiUrlDialog = false }) {
-                    Text("Отмена")
+                    Text(stringResource(org.bxkr.octodiary.R.string.cancel))
                 }
             }
         )
@@ -521,14 +520,14 @@ fun AiSettings() {
         
         AlertDialog(
             onDismissRequest = { showCustomModelDialog = false },
-            title = { Text("Модель ${providers.find { it.first == selectedProvider.value }?.second}") },
+            title = { Text("${stringResource(org.bxkr.octodiary.R.string.ai_model)} ${providers.find { it.first == selectedProvider.value }?.second}") },
             text = {
                 Column {
                     Text(
                         when (selectedProvider.value) {
-                            "google" -> "Например: gemini-2.0-flash-exp, gemini-exp-1206, gemini-1.5-pro-002"
-                            "openai" -> "Например: gpt-4o, gpt-4-turbo, gpt-3.5-turbo"
-                            else -> "Укажите название модели для вашего API"
+                            "google" -> stringResource(org.bxkr.octodiary.R.string.model_name_hint)
+                            "openai" -> "Example: gpt-4o, gpt-4-turbo, gpt-3.5-turbo"
+                            else -> "Specify model name for your API"
                         },
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -536,7 +535,7 @@ fun AiSettings() {
                     OutlinedTextField(
                         value = newModel,
                         onValueChange = { newModel = it },
-                        label = { Text("Модель") },
+                        label = { Text(stringResource(org.bxkr.octodiary.R.string.ai_model)) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -548,12 +547,12 @@ fun AiSettings() {
                     activity.mainPrefs.save("ai_custom_model" to newModel)
                     showCustomModelDialog = false
                 }) {
-                    Text("Сохранить")
+                    Text(stringResource(org.bxkr.octodiary.R.string.save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showCustomModelDialog = false }) {
-                    Text("Отмена")
+                    Text(stringResource(org.bxkr.octodiary.R.string.cancel))
                 }
             }
         )
@@ -572,7 +571,7 @@ fun AiSettings() {
         
         AlertDialog(
             onDismissRequest = { showBedTimeDialog = false },
-            title = { Text("Время отхода ко сну") },
+            title = { Text(stringResource(org.bxkr.octodiary.R.string.bed_time)) },
             text = {
                 Row(
                     Modifier.fillMaxWidth(),
@@ -630,12 +629,12 @@ fun AiSettings() {
                     activity.mainPrefs.save("ai_bed_time_minute" to tempMinute)
                     showBedTimeDialog = false
                 }) {
-                    Text("Сохранить")
+                    Text(stringResource(org.bxkr.octodiary.R.string.save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showBedTimeDialog = false }) {
-                    Text("Отмена")
+                    Text(stringResource(org.bxkr.octodiary.R.string.cancel))
                 }
             }
         )
@@ -647,15 +646,15 @@ fun AiSettings() {
         
         AlertDialog(
             onDismissRequest = { showApiKeyDialog = false },
-            title = { Text("API ключ Gemini") },
+            title = { Text(stringResource(org.bxkr.octodiary.R.string.gemini_api_key)) },
             text = {
                 Column {
-                    Text("Получите бесплатный ключ на ai.google.dev")
+                    Text(stringResource(org.bxkr.octodiary.R.string.get_api_key_hint))
                     Spacer(Modifier.height(16.dp))
                     OutlinedTextField(
                         value = newKey,
                         onValueChange = { newKey = it },
-                        label = { Text("API ключ") },
+                        label = { Text(stringResource(org.bxkr.octodiary.R.string.ai_api_key)) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -667,12 +666,12 @@ fun AiSettings() {
                     apiKey = newKey
                     showApiKeyDialog = false
                 }) {
-                    Text("Сохранить")
+                    Text(stringResource(org.bxkr.octodiary.R.string.save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showApiKeyDialog = false }) {
-                    Text("Отмена")
+                    Text(stringResource(org.bxkr.octodiary.R.string.cancel))
                 }
             }
         )

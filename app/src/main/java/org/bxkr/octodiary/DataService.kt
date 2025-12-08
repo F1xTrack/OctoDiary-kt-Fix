@@ -1311,99 +1311,156 @@ object DataService {
                 when (name) {
                     "userIdFlow" -> {
                         val type = object : TypeToken<ProfilesId>() {}.type
-                        val value = Gson().fromJson<ProfilesId>(get(name), type)
-                        _userIdMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<ProfilesId>(json, type)
+                            _userIdMutable.value = value
+                        }
                     }
                     "sessionUserFlow" -> {
                         val type = object : TypeToken<SessionUser>() {}.type
-                        val value = Gson().fromJson<SessionUser>(get(name), type)
-                        _sessionUserMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<SessionUser>(json, type)
+                            _sessionUserMutable.value = value
+                        }
                     }
                     "profile" -> {
                         val type = object : TypeToken<ProfileResponse>() {}.type
-                        val value = Gson().fromJson<ProfileResponse>(get(name), type)
-                        _profileMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<ProfileResponse>(json, type)
+                            _profileMutable.value = value
+                        }
                     }
                     "classMembers" -> {
                         val type = object : TypeToken<List<ClassMember>>() {}.type
-                        val value = Gson().fromJson<List<ClassMember>>(get(name), type)
-                        _classMembersMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<List<ClassMember>>(json, type)
+                            _classMembersMutable.value = value
+                        }
                     }
                     "ranking" -> {
                         val type = object : TypeToken<List<RankingMember>>() {}.type
-                        val value = Gson().fromJson<List<RankingMember>>(get(name), type)
-                        _rankingMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<List<RankingMember>>(json, type)
+                            _rankingMutable.value = value
+                        }
                     }
                     "visits" -> {
                         val type = object : TypeToken<VisitsResponse>() {}.type
-                        val value = Gson().fromJson<VisitsResponse>(get(name), type)
-                        _visitsMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<VisitsResponse>(json, type)
+                            _visitsMutable.value = value
+                        }
                     }
                     "eventsRange" -> {
                         val type = object : TypeToken<List<Long>>() {}.type
-                        val value = Gson().fromJson<List<Long>>(get(name), type)
-                        _eventsRangeMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<List<Long>>(json, type)
+                            _eventsRangeMutable.value = value
+                        }
                     }
                     "mealBalance" -> {
                         val type = object : TypeToken<MealBalance>() {}.type
-                        val value = Gson().fromJson<MealBalance>(get(name), type)
-                        _mealBalanceMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<MealBalance>(json, type)
+                            _mealBalanceMutable.value = value
+                        }
                     }
                     "schoolInfo" -> {
                         val type = object : TypeToken<SchoolInfo>() {}.type
-                        val value = Gson().fromJson<SchoolInfo>(get(name), type)
-                        _schoolInfoMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<SchoolInfo>(json, type)
+                            _schoolInfoMutable.value = value
+                        }
                     }
                     "personData" -> {
                         val type = object : TypeToken<PersonData>() {}.type
-                        val value = Gson().fromJson<PersonData>(get(name), type)
-                        _personDataMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<PersonData>(json, type)
+                            _personDataMutable.value = value
+                        }
                     }
                     "daysBalanceInfo" -> {
                         val type = object : TypeToken<DaysBalanceInfo>() {}.type
-                        val value = Gson().fromJson<DaysBalanceInfo>(get(name), type)
-                        _daysBalanceInfoMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<DaysBalanceInfo>(json, type)
+                            _daysBalanceInfoMutable.value = value
+                        }
                     }
                     "mealsMenuComplexes" -> {
                         val type = object : TypeToken<MealsMenuComplexes>() {}.type
-                        val value = Gson().fromJson<MealsMenuComplexes>(get(name), type)
-                        _mealsMenuComplexesMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<MealsMenuComplexes>(json, type)
+                            _mealsMenuComplexesMutable.value = value
+                        }
                     }
                     "govExamsFlow" -> {
                         val type = object : TypeToken<GovExamsResponse>() {}.type
-                        val value = Gson().fromJson<GovExamsResponse>(get(name), type)
-                        _govExamsMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<GovExamsResponse>(json, type)
+                            _govExamsMutable.value = value
+                        }
                     }
                     "marksDateFlow" -> {
                         val type = object : TypeToken<MarkListDate>() {}.type
-                        val value = Gson().fromJson<MarkListDate>(get(name), type)
-                        _marksDateMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<MarkListDate>(json, type)
+                            _marksDateMutable.value = value
+                        }
                     }
                     "marksSubjectFlow" -> {
                         val type = object : TypeToken<List<MarkListSubjectItem>>() {}.type
-                        val value = Gson().fromJson<List<MarkListSubjectItem>>(get(name), type)
-                        _marksSubjectMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<List<MarkListSubjectItem>>(json, type)
+                            _marksSubjectMutable.value = value
+                        }
                     }
                     "homeworksFlow" -> {
                         val type = object : TypeToken<List<org.bxkr.octodiary.models.homeworks2.Homework>>() {}.type
-                        val value = Gson().fromJson<List<org.bxkr.octodiary.models.homeworks2.Homework>>(get(name), type)
-                        _homeworksMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<List<org.bxkr.octodiary.models.homeworks2.Homework>>(json, type)
+                            _homeworksMutable.value = value
+                        }
                     }
                     "avatarsFlow" -> {
                         val type = object : TypeToken<List<Avatar>>() {}.type
-                        val value = Gson().fromJson<List<Avatar>>(get(name), type)
-                        _avatarsMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<List<Avatar>>(json, type)
+                            _avatarsMutable.value = value
+                        }
                     }
                     "subjectRanking" -> {
                         val type = object : TypeToken<List<SubjectRanking>>() {}.type
-                        val value = Gson().fromJson<List<SubjectRanking>>(get(name), type)
-                        _subjectRankingMutable.value = value
+                        val json = get(name)
+                        if (json != null) {
+                            val value = Gson().fromJson<List<SubjectRanking>>(json, type)
+                            _subjectRankingMutable.value = value
+                        }
                     }
                     else -> {
-                        javaClass.getDeclaredField(name).let { field ->
-                            val type = field.genericType
-                            val value = Gson().fromJson<Any?>(get(name), TypeToken.get(type).type)
-                            field.set(this, value)
+                        val json = get(name)
+                        if (json != null) {
+                            javaClass.getDeclaredField(name).let { field ->
+                                val type = field.genericType
+                                val value = Gson().fromJson<Any?>(json, TypeToken.get(type).type)
+                                field.set(this, value)
+                            }
                         }
                     }
                 }

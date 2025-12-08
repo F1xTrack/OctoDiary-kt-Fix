@@ -90,7 +90,7 @@ fun HomeworkDetailScreen(entryStudentId: Long) {
                 FloatingActionButton(
                     onClick = { showAiChat = true }
                 ) {
-                    Icon(Icons.Rounded.Chat, "AI помощник")
+                    Icon(Icons.Rounded.Chat, stringResource(R.string.ai_helper))
                 }
             }
         }

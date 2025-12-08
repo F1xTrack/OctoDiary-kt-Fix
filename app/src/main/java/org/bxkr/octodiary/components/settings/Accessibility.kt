@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import org.bxkr.octodiary.LocalActivity
 import org.bxkr.octodiary.components.SwitchPreference
 import org.bxkr.octodiary.get
@@ -51,7 +52,7 @@ fun AccessibilitySettings() {
         
         // Заголовок секции
         Text(
-            "Специальные возможности",
+            stringResource(org.bxkr.octodiary.R.string.accessibility),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -59,8 +60,8 @@ fun AccessibilitySettings() {
         
         // Режим дислексии
         SwitchPreference(
-            title = "Режим для дислексии",
-            description = "Увеличенный интервал между буквами, жирный текст",
+            title = stringResource(org.bxkr.octodiary.R.string.dyslexia_mode),
+            description = stringResource(org.bxkr.octodiary.R.string.dyslexia_mode_desc),
             listenState = dyslexiaMode
         ) {
             dyslexiaMode.value = it
@@ -89,7 +90,7 @@ fun AccessibilitySettings() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    "Масштаб текста",
+                    stringResource(org.bxkr.octodiary.R.string.text_scale),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
@@ -116,7 +117,7 @@ fun AccessibilitySettings() {
             )
             
             Text(
-                "От 80% до 150%",
+                stringResource(org.bxkr.octodiary.R.string.text_scale_desc),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
             )
@@ -126,8 +127,8 @@ fun AccessibilitySettings() {
         
         // Жирный текст
         SwitchPreference(
-            title = "Жирный текст",
-            description = "Увеличенная толщина шрифта для лучшей читаемости",
+            title = stringResource(org.bxkr.octodiary.R.string.bold_text),
+            description = stringResource(org.bxkr.octodiary.R.string.bold_text_desc),
             listenState = boldText
         ) {
             boldText.value = it
@@ -136,8 +137,8 @@ fun AccessibilitySettings() {
         
         // Высокая контрастность
         SwitchPreference(
-            title = "Высокая контрастность",
-            description = "Усиленный контраст цветов",
+            title = stringResource(org.bxkr.octodiary.R.string.high_contrast),
+            description = stringResource(org.bxkr.octodiary.R.string.high_contrast_desc),
             listenState = highContrast
         ) {
             highContrast.value = it
@@ -146,8 +147,8 @@ fun AccessibilitySettings() {
         
         // Упрощенная навигация
         SwitchPreference(
-            title = "Упрощенная навигация",
-            description = "Крупные элементы управления, меньше деталей",
+            title = stringResource(org.bxkr.octodiary.R.string.simplified_nav),
+            description = stringResource(org.bxkr.octodiary.R.string.simplified_nav_desc),
             listenState = simplifiedNav
         ) {
             simplifiedNav.value = it
@@ -156,8 +157,8 @@ fun AccessibilitySettings() {
         
         // Увеличенные кнопки
         SwitchPreference(
-            title = "Увеличенные кнопки",
-            description = "Большие области нажатия для удобства",
+            title = stringResource(org.bxkr.octodiary.R.string.large_buttons),
+            description = stringResource(org.bxkr.octodiary.R.string.large_buttons_desc),
             listenState = largeButtons
         ) {
             largeButtons.value = it
@@ -188,13 +189,13 @@ fun AccessibilitySettings() {
                 )
                 Column {
                     Text(
-                        "О специальных возможностях",
+                        stringResource(org.bxkr.octodiary.R.string.about_accessibility),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Эти настройки помогают сделать приложение удобнее для людей с особенностями зрения, дислексией и другими потребностями. Все изменения применяются сразу после перезапуска приложения.",
+                        stringResource(org.bxkr.octodiary.R.string.about_accessibility_desc),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                     )

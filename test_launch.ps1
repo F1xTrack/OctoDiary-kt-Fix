@@ -1,59 +1,49 @@
-$adb = "G:\AndroidStudio\platform-tools\adb.exe"
-$package = "org.bxkr.octodiary.debug"
-$activity = "org.bxkr.octodiary.MainActivity"
-$outputDir = "test_results"
+$ErrorActionPreference = "Stop"
 
-if (!(Test-Path $outputDir)) {
-    New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
+Write-Host "=== STEP 1: Killing running emulators ===" -ForegroundColor Cyan
+adb emu kill
+Start-Sleep -Seconds 5
+
+Write-Host "=== STEP 2: Starting Emulator (Pixel_6_Pro_x86-64) with 3GB RAM limit ===" -ForegroundColor Cyan
+# Запускаем эмулятор в фоне этого процесса
+Start-Process "G:\AndroidStudio\emulator\emulator.exe" -ArgumentList "-avd", "Pixel_6_Pro_x86-64", "-memory", "3072", "-no-snapshot-load" -NoNewWindow
+
+Write-Host "Waiting for ADB connection..." -ForegroundColor Yellow
+adb wait-for-device
+
+Write-Host "=== STEP 3: Waiting for Android System Boot ===" -ForegroundColor Cyan
+$booted = $false
+$timeout = [DateTime]::Now.AddMinutes(5)
+
+while (-not $booted) {
+    if ([DateTime]::Now -gt $timeout) {
+        Write-Error "Timeout waiting for emulator to boot!"
+        exit 1
+    }
+    
+    try {
+        $status = adb shell getprop sys.boot_completed 2>$null
+        if ($status -like "*1*") {
+            $booted = $true
+            Write-Host "`nAndroid Booted!" -ForegroundColor Green
+        } else {
+            Write-Host -NoNewline "."
+            Start-Sleep -Seconds 3
+        }
+    } catch {
+        Write-Host -NoNewline "!"
+        Start-Sleep -Seconds 3
+    }
 }
 
-Function Test-Launch {
-    param (
-        [string]$Name,
-        [string]$Command
-    )
-    
-    Write-Host "Testing: $Name"
-    
-    # Clear logcat
-    & $adb logcat -c
-    
-    # Start Logcat capture in background
-    $logFile = "$outputDir\log_$Name.txt"
-    $logProcess = Start-Process -FilePath $adb -ArgumentList "logcat -v time" -RedirectStandardOutput $logFile -PassThru -NoNewWindow
-    
-    # Launch App
-    Invoke-Expression "& `"$adb`" shell $Command"
-    
-    # Wait for launch
-    Start-Sleep -Seconds 15
-    
-    # Take Screenshot
-    $screenshotPath = "/sdcard/screen_$Name.png"
-    & $adb shell screencap -p $screenshotPath
-    & $adb pull $screenshotPath "$outputDir\screen_$Name.png"
-    & $adb shell rm $screenshotPath
-    
-    # Stop Logcat
-    Stop-Process -Id $logProcess.Id -Force
-    
-    # Force stop app to clean state
-    & $adb shell am force-stop $package
-    
-    Write-Host "Finished: $Name"
-    Write-Host "--------------------------------------------------"
-}
+# Даем системе продышаться после бута
+Start-Sleep -Seconds 10
 
-# 1. Main Activity Launch
-Test-Launch -Name "MainActivity" -Command "am start -n $package/$activity"
+Write-Host "=== STEP 4: Starting UI Walker (Local LLM) ===" -ForegroundColor Cyan
+Write-Host "Logs will be saved to: debug_local_final.log" -ForegroundColor Gray
 
-# 2. Deep Link: dnevnik-mes
-Test-Launch -Name "DeepLink_Dnevnik" -Command "am start -a android.intent.action.VIEW -d `"dnevnik-mes://test`""
+# Запускаем скрипт, дублируя вывод в консоль и в файл
+python ui_walker.py --instruction_file instruction.txt --max_steps 20 --local | Tee-Object -FilePath "debug_local_final.log"
 
-# 3. Deep Link: octodiary
-Test-Launch -Name "DeepLink_OctoDiary" -Command "am start -a android.intent.action.VIEW -d `"octodiary://debug`""
-
-# 4. Deep Link: rt.schoolboy.app
-Test-Launch -Name "DeepLink_RT" -Command "am start -a android.intent.action.VIEW -d `"rt.schoolboy.app://test`""
-
-Write-Host "All tests completed. Check $outputDir for logs and screenshots."
+Write-Host "`n=== TEST COMPLETED ===" -ForegroundColor Green
+Read-Host "Press Enter to close this window..."

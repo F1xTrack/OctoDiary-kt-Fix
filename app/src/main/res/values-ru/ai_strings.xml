@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AI Features -->
+    <string name="ai_helper">AI Помощник</string>
+    <string name="ai_chat">Умный чат</string>
+    <string name="ai_dashboard">AI Дашборд</string>
+    <string name="homework_helper">Помощь с ДЗ</string>
+    <string name="study_plan">Персональный план</string>
+    <string name="smart_vocabulary">Словарь</string>
+    <string name="lecture_notes">Конспекты</string>
+    <string name="streaks">Серия</string>
+    <string name="achievements">Достижения</string>
+    
+    <!-- API Settings -->
+    <string name="gemini_api_key">Gemini API Key</string>
+    <string name="api_key_not_set">Ключ API не задан</string>
+    <string name="get_free_key">Получить ключ на ai.google.dev</string>
+    <string name="bed_time">Время сна</string>
+    <string name="auto_record_lectures">Автозапись уроков</string>
+    
+    <!-- Streaks -->
+    <string name="streak_homework">ДЗ</string>
+    <string name="streak_grades">Оценки</string>
+    <string name="streak_study">Учёба</string>
+    <string name="current_streak">Текущая серия</string>
+    <string name="longest_streak">Рекорд</string>
+    <string name="streak_lost">Серия прервана</string>
+    <string name="days_in_row">дней подряд</string>
+    
+    <!-- Actions -->
+    <string name="ask_ai">Спросить AI</string>
+    <string name="scan_words">Скан слов</string>
+    <string name="record_lecture">Записать урок</string>
+    <string name="generate_plan">Создать план</string>
+    <string name="analyze_homework">Анализ ДЗ</string>
+    
+    <!-- Messages -->
+    <string name="ai_thinking">Думаю...</string>
+    <string name="generating_plan">Создаю план...</string>
+    <string name="scanning_image">Сканирую...</string>
+    <string name="no_plan_today">На сегодня планов нет</string>
+    <string name="ai_will_help">AI поможет составить план</string>
+    <string name="ai_features_description">Умный чат, анализ ДЗ, персональный план, серии</string>
+    <string name="ai_helper_disabled">AI помощник отключён</string>
+    <string name="enable_ai_helper_hint">Включите AI помощник в настройках приложения</string>
+    <string name="streak_ai_usage_desc">Показывает сколько дней подряд ты пользуешься AI помощником. Умный помощник делает учёбу эффективнее!</string>
+    <string name="percent_hint">Процент (10-100)</string>
+    <string name="chat_n">Чат %d</string>
+    <string name="new_tab">Новая вкладка</string>
+    <string name="tab_settings_desc">Настройки вкладки</string>
+    <string name="manage_tab_title">Управление вкладкой \"%s\"</string>
+    <string name="rename">Переименовать</string>
+    <string name="duplicate">Дублировать</string>
+    <string name="copy_suffix"> (копия)</string>
+    <string name="export_history">Экспорт истории</string>
+    <string name="rename_chat">Переименовать чат</string>
+    <string name="name_field">Название</string>
+    <string name="main_chat">Основной чат</string>
+    <string name="goal_days">Цель (дней)</string>
+    <string name="reminders">Напоминания</string>
+    <string name="goal_progress">Прогресс к цели: %d / %d</string>
+    <string name="streak_homework_desc">Отслеживает сколько дней подряд ты выполняешь все домашние задания. Помогает выработать привычку делать ДЗ вовремя!</string>
+    <string name="streak_diary_desc">Считает дни ведения дневника. Регулярное использование помогает оставаться организованным!</string>
+    <string name="streak_default_desc">Следит за регулярностью выполнения задач. Чем длиннее стрик, тем лучше твои привычки!</string>
+    <string name="day_1">день</string>
+    <string name="day_2_4">дня</string>
+    <string name="day_many">дней</string>
+    <string name="streak_fire_format">%1$d %2$s подряд 🔥</string>
+    <string name="loading">Загрузка...</string>
+    <string name="get_hint">Получить подсказку</string>
+    <string name="screenshot_error">Ошибка создания скриншота</string>
+    <string name="error_message">Ошибка: %s</string>
+    <string name="ai_hint_title">💡 AI Подсказка</string>
+    <string name="ai_analyzing">AI анализирует задание...</string>
+    <string name="get_new_hint">Получить новую подсказку</string>
+    <string name="hint_instructions">Нажмите кнопку, чтобы получить подсказку от AI</string>
+    <string name="hint_disclaimer">AI не будет решать автоматически, а только даст направление</string>
+</resources>

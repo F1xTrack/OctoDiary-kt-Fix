@@ -262,13 +262,13 @@ fun SettingsDialog(onDismissRequest: () -> Unit) {
                             ) { Notifications() }
                             SettingsSection(
                                 Icons.Rounded.Schedule,
-                                "Расписание звонков",
-                                "Уведомления о начале/конце уроков с обратным отсчётом"
+                                stringResource(R.string.bell_schedule),
+                                stringResource(R.string.bell_schedule_desc)
                             ) { BellScheduleSettings() }
                             SettingsSection(
                                 Icons.Rounded.AutoAwesome,
-                                "Настройки AI",
-                                "AI помощник, выбор модели, персональный план"
+                                stringResource(R.string.ai_settings_title),
+                                stringResource(R.string.ai_settings_desc)
                             ) { AiSettings() }
                             SettingsSection(
                                 Icons.Rounded.Brush,
@@ -282,13 +282,13 @@ fun SettingsDialog(onDismissRequest: () -> Unit) {
                             ) { Security() }
                             SettingsSection(
                                 Icons.Rounded.BatteryAlert,
-                                "Экономия батареи",
-                                "Автоматический режим экономии при низком заряде"
+                                stringResource(R.string.battery_saver),
+                                stringResource(R.string.battery_saver_desc)
                             ) { BatterySaverSettings() }
                             SettingsSection(
                                 Icons.Rounded.Accessibility,
-                                "Специальные возможности",
-                                "Режим дислексии, масштаб текста, контрастность"
+                                stringResource(R.string.accessibility),
+                                stringResource(R.string.accessibility_desc)
                             ) { AccessibilitySettings() }
                             SettingsSection(
                                 Icons.Rounded.Info,

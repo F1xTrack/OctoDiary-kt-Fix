@@ -1,5 +1,7 @@
 package org.bxkr.octodiary.components
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.*
@@ -14,11 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.bxkr.octodiary.R
 import org.bxkr.octodiary.ai.AiHintService
 
 /**
@@ -32,8 +34,9 @@ fun WebViewDialog(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val loadingTitle = stringResource(R.string.loading)
     
-    var title by remember { mutableStateOf("Загрузка...") }
+    var title by remember { mutableStateOf(loadingTitle) }
     var webViewRef by remember { mutableStateOf<WebView?>(null) }
     var showHintPanel by remember { mutableStateOf(false) }
     var aiHint by remember { mutableStateOf<String?>(null) }
@@ -53,7 +56,7 @@ fun WebViewDialog(
                     title = { Text(title, maxLines = 1) },
                     navigationIcon = {
                         IconButton(onClick = onDismiss) {
-                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, "Назад")
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, stringResource(R.string.back))
                         }
                     },
                     actions = {
@@ -63,7 +66,7 @@ fun WebViewDialog(
                         ) {
                             Icon(
                                 Icons.Rounded.AutoAwesome,
-                                contentDescription = "Получить подсказку",
+                                contentDescription = stringResource(R.string.get_hint),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -78,7 +81,7 @@ fun WebViewDialog(
                             webViewClient = object : WebViewClient() {
                                 override fun onPageFinished(view: WebView?, url: String?) {
                                     super.onPageFinished(view, url)
-                                    title = view?.title ?: url ?: "Загрузка..."
+                                    title = view?.title ?: url ?: loadingTitle
                                 }
                             }
                             settings.javaScriptEnabled = true
@@ -114,7 +117,7 @@ fun WebViewDialog(
                                 if (screenshot == null) {
                                     android.widget.Toast.makeText(
                                         context,
-                                        "Ошибка создания скриншота",
+                                        context.getString(R.string.screenshot_error),
                                         android.widget.Toast.LENGTH_SHORT
                                     ).show()
                                     isLoadingHint = false
@@ -130,7 +133,7 @@ fun WebViewDialog(
                                 }.onFailure { error ->
                                     android.widget.Toast.makeText(
                                         context,
-                                        "Ошибка: ${error.message}",
+                                        context.getString(R.string.error_message, error.message),
                                         android.widget.Toast.LENGTH_SHORT
                                     ).show()
                                     isLoadingHint = false
@@ -168,11 +171,11 @@ private fun HintPanel(
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
             ) {
                 Text(
-                    "💡 AI Подсказка",
+                    stringResource(R.string.ai_hint_title),
                     style = MaterialTheme.typography.titleMedium
                 )
                 IconButton(onClick = onDismiss, modifier = Modifier.size(24.dp)) {
-                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, "Закрыть")
+                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, stringResource(R.string.close))
                 }
             }
             
@@ -187,7 +190,7 @@ private fun HintPanel(
                         CircularProgressIndicator(Modifier.size(32.dp))
                         Spacer(Modifier.height(12.dp))
                         Text(
-                            "AI анализирует задание...",
+                            stringResource(R.string.ai_analyzing),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -214,21 +217,21 @@ private fun HintPanel(
                         ) {
                             Icon(Icons.Rounded.AutoAwesome, null, Modifier.size(20.dp))
                             Spacer(Modifier.width(8.dp))
-                            Text("Получить новую подсказку")
+                            Text(stringResource(R.string.get_new_hint))
                         }
                     }
                 }
                 else -> {
                     Column {
                         Text(
-                            "Нажмите кнопку, чтобы получить подсказку от AI",
+                            stringResource(R.string.hint_instructions),
                             style = MaterialTheme.typography.bodyMedium
                         )
                         
                         Spacer(Modifier.height(8.dp))
                         
                         Text(
-                            "AI не будет решать автоматически, а только даст направление",
+                            stringResource(R.string.hint_disclaimer),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -241,7 +244,7 @@ private fun HintPanel(
                         ) {
                             Icon(Icons.Rounded.AutoAwesome, null, Modifier.size(20.dp))
                             Spacer(Modifier.width(8.dp))
-                            Text("Получить подсказку")
+                            Text(stringResource(R.string.get_hint))
                         }
                     }
                 }

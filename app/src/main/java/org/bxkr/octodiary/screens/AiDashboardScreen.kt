@@ -45,15 +45,15 @@ fun AiDashboardScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("AI Помощник") },
+                title = { Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.ai_helper)) },
                 navigationIcon = {
                     IconButton(onClick = { nav?.navigateUp() }) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, "Назад")
+                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.back))
                     }
                 },
                 actions = {
                     IconButton(onClick = { /* Open settings */ }) {
-                        Icon(Icons.Rounded.Settings, "Настройки")
+                        Icon(Icons.Rounded.Settings, androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.settings))
                     }
                 }
             )
@@ -76,12 +76,12 @@ fun AiDashboardScreen() {
                 )
                 Spacer(Modifier.height(16.dp))
                 Text(
-                    "Настройте API ключ",
+                    androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.configure_api_key),
                     style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Для работы AI требуется API ключ Google Gemini",
+                    androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.api_key_required),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(Modifier.height(16.dp))
@@ -90,7 +90,7 @@ fun AiDashboardScreen() {
                 OutlinedTextField(
                     value = apiKey,
                     onValueChange = { apiKey = it },
-                    label = { Text("API ключ") },
+                    label = { Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.gemini_api_key)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
@@ -102,11 +102,11 @@ fun AiDashboardScreen() {
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Сохранить")
+                    Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.save))
                 }
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Получите бесплатный ключ на ai.google.dev",
+                    androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.get_free_key),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -120,7 +120,7 @@ fun AiDashboardScreen() {
                 // Заголовок
                 item {
                     Text(
-                        "Твоя статистика",
+                        androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.your_stats),
                         style = MaterialTheme.typography.headlineSmall
                     )
                 }
@@ -128,28 +128,28 @@ fun AiDashboardScreen() {
                 // Стрики
                 item {
                     Text(
-                        "Стрики",
+                        androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.streaks),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
                 item {
                     StreakCard(
                         type = "homework",
-                        title = "Домашние задания",
+                        title = androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.streak_homework),
                         icon = Icons.Rounded.CheckCircle
                     )
                 }
                 item {
                     StreakCard(
                         type = "grades",
-                        title = "Хорошие оценки",
+                        title = androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.streak_grades),
                         icon = Icons.Rounded.Star
                     )
                 }
                 item {
                     StreakCard(
                         type = "study",
-                        title = "Учёба",
+                        title = androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.streak_study),
                         icon = Icons.Rounded.MenuBook
                     )
                 }
@@ -162,7 +162,7 @@ fun AiDashboardScreen() {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            "Персональный план",
+                            androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.study_plan),
                             style = MaterialTheme.typography.titleMedium
                         )
                         if (DataService.homeworksFlow.value.isNotEmpty()) {
@@ -179,7 +179,7 @@ fun AiDashboardScreen() {
                                     isGeneratingPlan = false
                                 }
                             }) {
-                                Text("Сгенерировать")
+                                Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.generate))
                             }
                         }
                     }
@@ -193,7 +193,7 @@ fun AiDashboardScreen() {
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 CircularProgressIndicator(Modifier.size(24.dp))
-                                Text("Составляю план...")
+                                Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.generating_plan))
                             }
                         }
                     }
@@ -205,10 +205,10 @@ fun AiDashboardScreen() {
                     item {
                         Card(Modifier.fillMaxWidth()) {
                             Column(Modifier.padding(16.dp)) {
-                                Text("Нет плана на сегодня")
+                                Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.no_plan_today))
                                 Spacer(Modifier.height(8.dp))
                                 Text(
-                                    "AI составит персональный план с учётом времени сна и сложности заданий",
+                                    androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.ai_will_help),
                                     style = MaterialTheme.typography.bodySmall
                                 )
                             }
@@ -220,7 +220,7 @@ fun AiDashboardScreen() {
                 item {
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        "Автоматическая запись",
+                        androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.auto_record_lectures),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -232,7 +232,7 @@ fun AiDashboardScreen() {
                 item {
                     Spacer(Modifier.height(8.dp))
                     Text(
-                        "Быстрые действия",
+                        androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.quick_actions),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -247,7 +247,7 @@ fun AiDashboardScreen() {
                         ) {
                             Icon(Icons.Rounded.Book, null)
                             Spacer(Modifier.width(8.dp))
-                            Text("Словарь")
+                            Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.smart_vocabulary))
                         }
                         FilledTonalButton(
                             onClick = { /* Открыть конспекты */ },
@@ -255,7 +255,7 @@ fun AiDashboardScreen() {
                         ) {
                             Icon(Icons.Rounded.Mic, null)
                             Spacer(Modifier.width(8.dp))
-                            Text("Конспекты")
+                            Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.lecture_notes))
                         }
                     }
                 }
@@ -266,7 +266,7 @@ fun AiDashboardScreen() {
                     ) {
                         Icon(Icons.Rounded.AutoStories, null)
                         Spacer(Modifier.width(8.dp))
-                        Text("🔍 Извлечение из учебников")
+                        Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.extract_from_textbooks))
                     }
                 }
                 item {
@@ -276,7 +276,7 @@ fun AiDashboardScreen() {
                     ) {
                         Icon(Icons.Rounded.MenuBook, null)
                         Spacer(Modifier.width(8.dp))
-                        Text("📚 Библиотека учебников")
+                        Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.textbook_library))
                     }
                 }
                 item {
@@ -286,7 +286,7 @@ fun AiDashboardScreen() {
                     ) {
                         Icon(Icons.Rounded.PictureAsPdf, null)
                         Spacer(Modifier.width(8.dp))
-                        Text("📄 Извлечь текст из PDF")
+                        Text(androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.extract_pdf))
                     }
                 }
                 
@@ -305,7 +305,7 @@ fun AiDashboardScreen() {
                         Icon(Icons.Rounded.SmartToy, null, Modifier.size(24.dp))
                         Spacer(Modifier.width(12.dp))
                         Text(
-                            "🤖 Общий AI Помощник",
+                            androidx.compose.ui.res.stringResource(org.bxkr.octodiary.R.string.general_ai_assistant),
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
@@ -346,7 +346,7 @@ fun AiDashboardScreen() {
                         // Показываем уведомление об успехе
                         android.widget.Toast.makeText(
                             context,
-                            "Текст успешно извлечен и сохранен в базу знаний",
+                            context.getString(org.bxkr.octodiary.R.string.pdf_extracted_success),
                             android.widget.Toast.LENGTH_SHORT
                         ).show()
  
@@ -354,7 +354,7 @@ fun AiDashboardScreen() {
                         android.util.Log.e("PdfExtractor", "Error saving to database", e)
                         android.widget.Toast.makeText(
                             context,
-                            "Ошибка при извлечении текста: ${e.message}",
+                            context.getString(org.bxkr.octodiary.R.string.pdf_extracted_error, e.message),
                             android.widget.Toast.LENGTH_LONG
                         ).show()
                     }

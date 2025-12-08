@@ -1,36 +1,29 @@
-# Fix Report: Application Crash due to `lateinit var token` & DataService Refactoring
+# Отчет о тестировании (Локализация)
 
-## Status: SUCCESS (Builds, Installs & Runs without Crash)
+**Дата:** 07.12.2025
+**Устройство:** Pixel 6 Pro (Emulator), Android 13
+**Язык системы:** English (US)
 
-The critical architectural refactoring of `DataService` is complete. The application now compiles successfully, installs on the device, and the `IllegalAccessException` crash during login has been resolved by removing reflection-based caching logic in `NavScreen.kt`.
+## Найденные проблемы (Локализация)
 
-## Summary of Changes
+Автоматическое тестирование с использованием локальной LLM (Qwen3-VL-4B) подтвердило наличие непереведенного текста в приложении при английской локали системы.
 
-### 1. `DataService.kt` (Complete Overhaul)
-- **StateFlow Migration**: All data properties (`token`, `profile`, `marks`, etc.) are now `StateFlow` with private `MutableStateFlow` backing fields. This ensures thread safety and reactivity.
-- **Initialization Safety**: Removed all `lateinit var` modifiers. Nullability is handled explicitly via `StateFlow<T?>`.
-- **Removed `has...` Flags**: Boolean flags (`hasProfile`, `hasToken`) replaced by checking `flow.value != null`.
-- **Thread-Safe Updates**: All `update...` methods launch coroutines, check for internet, and handle token refreshing atomically using `Mutex`.
-- **Safe Access**: Added helper methods like `setCurrentProfile`, `setUserId`, `setSessionUser` to safely update state.
-- **Crash Fix**: Updated `loadFromCache` to correctly handle `profile` and `classMembers` deserialization.
+### Подтвержденные проблемы:
+1.  **Экран "Сводка" (Dashboard) / Главный экран:**
+    *   Раздел "Что нового" (What's new) содержит текст на русском языке: `"Поздравляем с новым учебным годом!"` (или аналогичный).
+    *   Заголовки карточек или разделов могут содержать кириллицу (модель детектировала русские символы).
 
-### 2. ViewModel Architecture (MVVM)
-- **New ViewModels**:
-    - `ScheduleViewModel`: For Daybook/Schedule screen.
-    - `HomeworksViewModel`: For Homeworks screen.
-    - `MarksViewModel`: For Marks, Subject Marks, and Finals screens.
-    - `ClassInfoViewModel`: For Class Info and student profile details.
-- **Updated**: `ProfileScreen2ViewModel` adapted to new `DataService`.
+### Ранее выявленные проблемы (требуют ручной проверки):
+*   **Экран "Настройки" (Settings):**
+    *   "Расписание звонков"
+    *   "Настройки AI"
+    *   "Экономия батареи"
+    *   "Специальные возможности"
 
-### 3. UI Components (Reactive Updates)
-- **Screens**: `DaybookScreen`, `HomeworksScreen`, `MarksScreen`, `FinalsScreen`, `ProfileChooser`, `DashboardScreen`, `Documents`, `PersonalData` updated to use `collectAsState()`.
-- **NavScreen Fix**: Removed dangerous reflection code (`DataService::class.java.getDeclaredField(name).get(DataService)`) which caused `IllegalAccessException` on runtime because `StateFlow` properties are compiled to private fields. Replaced with a safe `when` expression to access flow values directly.
+## Технический анализ
+Модель Qwen3-VL-4B успешно распознает наличие кириллических символов на скриншотах, что подтверждает факт неполной локализации. Однако, модель испытывает трудности с навигацией (определением точных координат элементов) на данном разрешении экрана, что затрудняет полный автоматический обход всех экранов.
 
-### 4. Verification
-- **Build**: `BUILD SUCCESSFUL`.
-- **Install**: Successfully installed on physical device.
-- **Runtime**: Ran full automated test suite (`test_launch.ps1`). Logs confirm **NO FATAL EXCEPTIONS** and **NO IllegalAccessException**.
-
-## Recommendations for Future
-- Continue migrating remaining logic to ViewModels to fully decouple UI from DataService.
-- Add Unit Tests for new ViewModels.
+## Рекомендации
+1.  Проверить файлы `res/values/strings.xml` и `res/values-en/strings.xml`.
+2.  Убедиться, что текст "What's new" и содержимое этого блока загружается из локализованных ресурсов, а не приходит с сервера (или если с сервера, то сервер должен поддерживать локализацию).
+3.  Проверить hardcoded строки в Composable функциях.

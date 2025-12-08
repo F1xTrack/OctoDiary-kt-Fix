@@ -21,3 +21,10 @@ test_deep_links.ps1
 test_interactive_monkey.ps1
 .gemini/
 gha-creds-*.json
+/installed_apps/
+debug_sessions/
+*.png
+*.txt
+*.log
+работата.jpg
+export-*.md

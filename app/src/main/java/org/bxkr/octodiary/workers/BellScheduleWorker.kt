@@ -25,7 +25,6 @@ class BellScheduleWorker(
     
     companion object {
         private const val CHANNEL_ID = "bell_schedule_notifications"
-        private const val CHANNEL_NAME = "Расписание звонков"
         
         fun scheduleNotifications(context: Context) {
             val bellScheduleEnabled = context.mainPrefs.get<Boolean>("bell_schedule_enabled") ?: false
@@ -90,8 +89,8 @@ class BellScheduleWorker(
                 if (timeUntilLesson in 1..minutesBefore.toLong()) {
                     showLessonNotification(
                         lesson,
-                        "Урок начнётся через $timeUntilLesson мин",
-                        "Урок ${lesson.lessonNumber}: ${lesson.startTime} - ${lesson.endTime}"
+                        applicationContext.getString(R.string.lesson_starts_in, timeUntilLesson),
+                        applicationContext.getString(R.string.lesson_info, lesson.lessonNumber, lesson.startTime, lesson.endTime)
                     )
                 }
             }
@@ -114,8 +113,9 @@ class BellScheduleWorker(
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance).apply {
-                description = "Уведомления о начале и конце уроков"
+            val channelName = applicationContext.getString(R.string.channel_name_bell_schedule)
+            val channel = NotificationChannel(CHANNEL_ID, channelName, importance).apply {
+                description = applicationContext.getString(R.string.channel_desc_bell_schedule)
             }
             
             val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -133,15 +133,15 @@ class BellScheduleWorker(
         val seconds = duration.seconds % 60
         
         val title = if (isEndCountdown) {
-            "До конца урока ${lesson.lessonNumber}"
+            applicationContext.getString(R.string.until_lesson_end, lesson.lessonNumber)
         } else {
-            "До начала урока ${lesson.lessonNumber}"
+            applicationContext.getString(R.string.until_lesson_start, lesson.lessonNumber)
         }
         
         val text = if (minutes > 0) {
-            "$minutes мин ${seconds} сек"
+            applicationContext.getString(R.string.time_remaining_min_sec, minutes, seconds)
         } else {
-            "$seconds сек"
+            applicationContext.getString(R.string.time_remaining_sec, seconds)
         }
         
         showOngoingNotification(

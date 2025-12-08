@@ -165,6 +165,9 @@ class MainActivity : FragmentActivity() {
         ).show()
         createNotificationChannel()
 
+        val currentLocale = resources.configuration.locales[0]
+        Log.d("LocaleDebug", "Current application locale: $currentLocale")
+
         // Применяем сохранённый масштаб текста
         val textScale = mainPrefs.get<Float>("text_scale") ?: 1.0f
         val config = resources.configuration

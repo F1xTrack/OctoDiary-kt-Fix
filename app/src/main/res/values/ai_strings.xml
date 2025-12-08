@@ -1,43 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- AI Features -->
-    <string name="ai_helper">AI Помощник</string>
-    <string name="ai_chat">AI Чат</string>
-    <string name="ai_dashboard">AI Сводка</string>
-    <string name="homework_helper">Помощь с ДЗ</string>
-    <string name="study_plan">План учёбы</string>
-    <string name="smart_vocabulary">Умный словарь</string>
-    <string name="lecture_notes">Конспекты</string>
-    <string name="streaks">Серии</string>
-    <string name="achievements">Достижения</string>
+    <string name="ai_helper">AI Assistant</string>
+    <string name="ai_chat">AI Chat</string>
+    <string name="ai_dashboard">AI Summary</string>
+    <string name="homework_helper">Homework Help</string>
+    <string name="study_plan">Study Plan</string>
+    <string name="smart_vocabulary">Smart Vocabulary</string>
+    <string name="lecture_notes">Lecture Notes</string>
+    <string name="streaks">Streaks</string>
+    <string name="achievements">Achievements</string>
     
     <!-- API Settings -->
-    <string name="gemini_api_key">API ключ Gemini</string>
-    <string name="api_key_not_set">API ключ не установлен</string>
-    <string name="get_free_key">Получите бесплатный ключ на ai.google.dev</string>
-    <string name="bed_time">Время отхода ко сну</string>
-    <string name="auto_record_lectures">Автозапись уроков</string>
+    <string name="gemini_api_key">Gemini API Key</string>
+    <string name="api_key_not_set">API key not set</string>
+    <string name="get_free_key">Get free key at ai.google.dev</string>
+    <string name="bed_time">Bedtime</string>
+    <string name="auto_record_lectures">Auto-record lessons</string>
     
     <!-- Streaks -->
-    <string name="streak_homework">Домашние задания</string>
-    <string name="streak_grades">Хорошие оценки</string>
-    <string name="streak_study">Учёба</string>
-    <string name="current_streak">Текущий стрик</string>
-    <string name="longest_streak">Рекорд</string>
-    <string name="streak_lost">Стрик потерян</string>
-    <string name="days_in_row">дней подряд</string>
+    <string name="streak_homework">Homework</string>
+    <string name="streak_grades">Good Grades</string>
+    <string name="streak_study">Study</string>
+    <string name="current_streak">Current Streak</string>
+    <string name="longest_streak">Record</string>
+    <string name="streak_lost">Streak lost</string>
+    <string name="days_in_row">days in a row</string>
     
     <!-- Actions -->
-    <string name="ask_ai">Спросить AI</string>
-    <string name="scan_words">Сканировать слова</string>
-    <string name="record_lecture">Записать урок</string>
-    <string name="generate_plan">Сгенерировать план</string>
-    <string name="analyze_homework">Анализировать ДЗ</string>
+    <string name="ask_ai">Ask AI</string>
+    <string name="scan_words">Scan Words</string>
+    <string name="record_lecture">Record Lecture</string>
+    <string name="generate_plan">Generate Plan</string>
+    <string name="analyze_homework">Analyze Homework</string>
     
     <!-- Messages -->
-    <string name="ai_thinking">Думаю…</string>
-    <string name="generating_plan">Составляю план…</string>
-    <string name="scanning_image">Распознаю изображение…</string>
-    <string name="no_plan_today">Нет плана на сегодня</string>
-    <string name="ai_will_help">AI поможет составить персональный план</string>
+    <string name="ai_thinking">Thinking…</string>
+    <string name="generating_plan">Generating plan…</string>
+    <string name="scanning_image">Scanning image…</string>
+    <string name="no_plan_today">No plan for today</string>
+    <string name="ai_will_help">AI will help create a personal plan</string>
+    <string name="ai_features_description">Smart chat, homework analysis, personal plan, streaks</string>
+    <string name="ai_helper_disabled">AI assistant disabled</string>
+    <string name="enable_ai_helper_hint">Enable AI assistant in app settings</string>
+    <string name="streak_ai_usage_desc">Shows how many days in a row you use AI assistant. Smart assistant makes studying more effective!</string>
+    <string name="percent_hint">Percent (10-100)</string>
+    <string name="chat_n">Chat %d</string>
+    <string name="new_tab">New tab</string>
+    <string name="tab_settings_desc">Tab settings</string>
+    <string name="manage_tab_title">Manage tab \"%s\"</string>
+    <string name="rename">Rename</string>
+    <string name="duplicate">Duplicate</string>
+    <string name="copy_suffix"> (copy)</string>
+    <string name="export_history">Export history</string>
+    <string name="rename_chat">Rename chat</string>
+    <string name="name_field">Name</string>
+    <string name="main_chat">Main chat</string>
+    <string name="goal_days">Goal (days)</string>
+    <string name="reminders">Reminders</string>
+    <string name="goal_progress">Progress: %d / %d</string>
+    <string name="streak_homework_desc">Tracks how many days in a row you complete all homework. Helps to build a habit!</string>
+    <string name="streak_diary_desc">Counts days of diary usage. Regular use helps to stay organized!</string>
+    <string name="streak_default_desc">Tracks regularity of tasks. The longer the streak, the better your habits!</string>
+    <string name="day_1">day</string>
+    <string name="day_2_4">days</string>
+    <string name="day_many">days</string>
+    <string name="streak_fire_format">%1$d %2$s in a row 🔥</string>
+    <string name="loading">Loading...</string>
+    <string name="get_hint">Get hint</string>
+    <string name="screenshot_error">Screenshot error</string>
+    <string name="error_message">Error: %s</string>
+    <string name="ai_hint_title">💡 AI Hint</string>
+    <string name="ai_analyzing">AI is analyzing the task...</string>
+    <string name="get_new_hint">Get new hint</string>
+    <string name="hint_instructions">Press button to get a hint from AI</string>
+    <string name="hint_disclaimer">AI will not solve automatically, but only give direction</string>
 </resources>

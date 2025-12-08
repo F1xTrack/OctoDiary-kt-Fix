@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.bxkr.octodiary.LocalActivity
 import org.bxkr.octodiary.components.SwitchPreference
@@ -54,7 +55,7 @@ fun BatterySaverSettings() {
         
         // Заголовок секции
         Text(
-            "Режим экономии батареи",
+            stringResource(org.bxkr.octodiary.R.string.battery_saver),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -81,14 +82,14 @@ fun BatterySaverSettings() {
             ) {
                 Column(Modifier.weight(1f)) {
                     Text(
-                        "Текущий заряд",
+                        stringResource(org.bxkr.octodiary.R.string.current_battery),
                         style = MaterialTheme.typography.titleSmall
                     )
                     Text(
                         text = when {
-                            isCharging -> "Зарядка..."
-                            isBatterySaverActive -> "Режим экономии активен"
-                            else -> "Нормальный режим"
+                            isCharging -> stringResource(org.bxkr.octodiary.R.string.charging)
+                            isBatterySaverActive -> stringResource(org.bxkr.octodiary.R.string.battery_saver_active)
+                            else -> stringResource(org.bxkr.octodiary.R.string.normal_mode)
                         },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
@@ -126,8 +127,8 @@ fun BatterySaverSettings() {
         
         // Включение режима экономии
         SwitchPreference(
-            title = "Автоматический режим экономии",
-            description = "Включать при низком заряде батареи",
+            title = stringResource(org.bxkr.octodiary.R.string.auto_battery_saver),
+            description = stringResource(org.bxkr.octodiary.R.string.auto_battery_saver_desc),
             listenState = batterySaverEnabled
         ) {
             batterySaverEnabled.value = it
@@ -150,7 +151,7 @@ fun BatterySaverSettings() {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            "Порог включения",
+                            stringResource(org.bxkr.octodiary.R.string.threshold),
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Text(
@@ -172,7 +173,7 @@ fun BatterySaverSettings() {
                     )
                     
                     Text(
-                        "Режим экономии включится автоматически при заряде ниже ${batterySaverThreshold.intValue}%",
+                        stringResource(org.bxkr.octodiary.R.string.battery_saver_threshold_desc, batterySaverThreshold.intValue),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
@@ -182,14 +183,14 @@ fun BatterySaverSettings() {
                 
                 // Что делает режим экономии
                 Text(
-                    "Действия в режиме экономии",
+                    stringResource(org.bxkr.octodiary.R.string.battery_saver_actions),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
                 
                 SwitchPreference(
-                    title = "Упрощать анимации",
-                    description = "Уменьшить или отключить анимации переходов",
+                    title = stringResource(org.bxkr.octodiary.R.string.reduce_animations),
+                    description = stringResource(org.bxkr.octodiary.R.string.reduce_animations_desc),
                     listenState = reduceAnimations
                 ) {
                     reduceAnimations.value = it
@@ -197,8 +198,8 @@ fun BatterySaverSettings() {
                 }
                 
                 SwitchPreference(
-                    title = "Принудительная тёмная тема",
-                    description = "OLED экраны потребляют меньше энергии в темной теме",
+                    title = stringResource(org.bxkr.octodiary.R.string.force_dark_theme),
+                    description = stringResource(org.bxkr.octodiary.R.string.force_dark_theme_desc),
                     listenState = forceDarkTheme
                 ) {
                     forceDarkTheme.value = it
@@ -206,8 +207,8 @@ fun BatterySaverSettings() {
                 }
                 
                 SwitchPreference(
-                    title = "Уменьшить частоту синхронизации",
-                    description = "Реже обновлять данные с сервера",
+                    title = stringResource(org.bxkr.octodiary.R.string.reduce_sync),
+                    description = stringResource(org.bxkr.octodiary.R.string.reduce_sync_desc),
                     listenState = reduceSyncFrequency
                 ) {
                     reduceSyncFrequency.value = it
@@ -218,7 +219,7 @@ fun BatterySaverSettings() {
 
                 // Настройки автообновления для экономии энергии
                 Text(
-                    "Автоматическое обновление",
+                    stringResource(org.bxkr.octodiary.R.string.auto_update),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
@@ -234,7 +235,7 @@ fun BatterySaverSettings() {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            "Мин. уровень батареи",
+                            stringResource(org.bxkr.octodiary.R.string.min_battery),
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Text(
@@ -262,8 +263,8 @@ fun BatterySaverSettings() {
                 }
 
                 SwitchPreference(
-                    title = "Только по Wi-Fi",
-                    description = "Обновлять данные только при подключении к Wi-Fi",
+                    title = stringResource(org.bxkr.octodiary.R.string.wifi_only),
+                    description = stringResource(org.bxkr.octodiary.R.string.wifi_only_desc),
                     listenState = autoUpdateWifiOnly
                 ) {
                     autoUpdateWifiOnly.value = it
@@ -276,8 +277,8 @@ fun BatterySaverSettings() {
                 }
 
                 SwitchPreference(
-                    title = "Только при зарядке",
-                    description = "Обновлять данные только во время зарядки устройства",
+                    title = stringResource(org.bxkr.octodiary.R.string.charging_only),
+                    description = stringResource(org.bxkr.octodiary.R.string.charging_only_desc),
                     listenState = autoUpdateChargingOnly
                 ) {
                     autoUpdateChargingOnly.value = it
@@ -310,13 +311,13 @@ fun BatterySaverSettings() {
                 )
                 Column {
                     Text(
-                        "Об режиме экономии",
+                        stringResource(org.bxkr.octodiary.R.string.about_battery_saver),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.tertiary
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "Режим экономии батареи автоматически активируется при низком заряде. Он упрощает интерфейс и снижает фоновую активность для продления времени работы устройства. Режим отключится автоматически при зарядке выше ${batterySaverThreshold.intValue + 5}%.",
+                        stringResource(org.bxkr.octodiary.R.string.about_battery_saver_desc, batterySaverThreshold.intValue + 5),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                     )

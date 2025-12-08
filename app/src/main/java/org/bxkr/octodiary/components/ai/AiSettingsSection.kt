@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import org.bxkr.octodiary.R
 import org.bxkr.octodiary.ai.GeminiService
 
 /**
@@ -33,17 +35,17 @@ fun AiSettingsSection() {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            "AI Помощник",
+            stringResource(R.string.ai_helper),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         
         // API ключ
         ListItem(
-            headlineContent = { Text("API ключ Gemini") },
+            headlineContent = { Text(stringResource(R.string.gemini_api_key)) },
             supportingContent = {
                 Text(
-                    if (apiKey.isEmpty()) "Не установлен" else "Установлен"
+                    if (apiKey.isEmpty()) stringResource(R.string.api_key_not_set) else stringResource(R.string.api_key_set)
                 )
             },
             leadingContent = {
@@ -52,7 +54,7 @@ fun AiSettingsSection() {
             modifier = Modifier.fillMaxWidth(),
             trailingContent = {
                 TextButton(onClick = { showApiKeyDialog = true }) {
-                    Text("Изменить")
+                    Text(stringResource(R.string.change))
                 }
             }
         )
@@ -61,8 +63,8 @@ fun AiSettingsSection() {
         
         // Время сна
         ListItem(
-            headlineContent = { Text("Время отхода ко сну") },
-            supportingContent = { Text("Для составления плана") },
+            headlineContent = { Text(stringResource(R.string.bed_time)) },
+            supportingContent = { Text(stringResource(R.string.bed_time_desc)) },
             leadingContent = {
                 Icon(Icons.Rounded.Bedtime, null)
             },
@@ -76,8 +78,8 @@ fun AiSettingsSection() {
         
         // Автозапись лекций
         ListItem(
-            headlineContent = { Text("Автозапись уроков") },
-            supportingContent = { Text("Создавать конспекты автоматически") },
+            headlineContent = { Text(stringResource(R.string.auto_record_lectures)) },
+            supportingContent = { Text(stringResource(R.string.auto_record_desc)) },
             leadingContent = {
                 Icon(Icons.Rounded.Mic, null)
             },
@@ -113,7 +115,7 @@ fun AiSettingsSection() {
             }
 
             ListItem(
-                headlineContent = { Text("Мин. уровень батареи") },
+                headlineContent = { Text(stringResource(R.string.min_battery)) },
                 supportingContent = { Text("${batteryLevel}%") },
                 leadingContent = {
                     Icon(Icons.Rounded.BatteryStd, null)
@@ -122,21 +124,21 @@ fun AiSettingsSection() {
                 trailingContent = {
                     var showBatteryDialog by remember { mutableStateOf(false) }
                     TextButton(onClick = { showBatteryDialog = true }) {
-                        Text("Изменить")
+                        Text(stringResource(R.string.change))
                     }
 
                     if (showBatteryDialog) {
                         var newBatteryLevel by remember { mutableStateOf(batteryLevel.toString()) }
                         AlertDialog(
                             onDismissRequest = { showBatteryDialog = false },
-                            title = { Text("Мин. уровень батареи") },
+                            title = { Text(stringResource(R.string.min_battery)) },
                             text = {
                                 OutlinedTextField(
                                     value = newBatteryLevel,
                                     onValueChange = {
                                         newBatteryLevel = it.filter { char -> char.isDigit() }
                                     },
-                                    label = { Text("Процент (10-100)") },
+                                    label = { Text(stringResource(R.string.percent_hint)) },
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             },
@@ -147,12 +149,12 @@ fun AiSettingsSection() {
                                         .edit().putInt("auto_record_min_battery", level).apply()
                                     showBatteryDialog = false
                                 }) {
-                                    Text("Сохранить")
+                                    Text(stringResource(R.string.save))
                                 }
                             },
                             dismissButton = {
                                 TextButton(onClick = { showBatteryDialog = false }) {
-                                    Text("Отмена")
+                                    Text(stringResource(R.string.cancel))
                                 }
                             }
                         )
@@ -161,8 +163,8 @@ fun AiSettingsSection() {
             )
 
             ListItem(
-                headlineContent = { Text("Требуется зарядка") },
-                supportingContent = { Text("Записывать только при зарядке") },
+                headlineContent = { Text(stringResource(R.string.charging_only)) },
+                supportingContent = { Text(stringResource(R.string.charging_only_desc)) },
                 leadingContent = {
                     Icon(Icons.Rounded.Power, null)
                 },
@@ -186,15 +188,15 @@ fun AiSettingsSection() {
         
         AlertDialog(
             onDismissRequest = { showApiKeyDialog = false },
-            title = { Text("API ключ Gemini") },
+            title = { Text(stringResource(R.string.gemini_api_key)) },
             text = {
                 Column {
-                    Text("Получите бесплатный ключ на ai.google.dev")
+                    Text(stringResource(R.string.get_free_key))
                     Spacer(Modifier.height(16.dp))
                     OutlinedTextField(
                         value = newKey,
                         onValueChange = { newKey = it },
-                        label = { Text("API ключ") },
+                        label = { Text(stringResource(R.string.gemini_api_key)) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -206,12 +208,12 @@ fun AiSettingsSection() {
                     apiKey = newKey
                     showApiKeyDialog = false
                 }) {
-                    Text("Сохранить")
+                    Text(stringResource(R.string.save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showApiKeyDialog = false }) {
-                    Text("Отмена")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )

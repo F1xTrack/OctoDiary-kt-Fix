@@ -24,6 +24,8 @@ import java.util.UUID
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.res.stringResource
+import org.bxkr.octodiary.R
 
 /**
  * Вкладка чата
@@ -76,24 +78,25 @@ fun GeneralAiChatDialog(
         topBar = {
             Column {
                 TopAppBar(
-                    title = { Text("🤖 AI Помощник") },
+                    title = { Text(stringResource(R.string.general_ai_assistant)) },
                     actions = {
                         // Кнопка новой вкладки
+                        val newChatTitle = stringResource(R.string.chat_n, tabs.size + 1)
                         IconButton(onClick = {
                             Log.d("GeneralAiChatDialog", "Adding new tab")
                             val newTab = ChatTab(
                                 id = UUID.randomUUID().toString(),
-                                name = "Чат ${tabs.size + 1}"
+                                name = newChatTitle
                             )
                             tabs = tabs + newTab
                             saveChatTabs(context, tabs)
                             selectedTabIndex = tabs.size - 1
                             Log.d("GeneralAiChatDialog", "New tab added: ${newTab.name}, selectedTabIndex set to $selectedTabIndex")
                         }) {
-                            Icon(Icons.Rounded.Add, "Новая вкладка")
+                            Icon(Icons.Rounded.Add, stringResource(R.string.new_tab))
                         }
                         IconButton(onClick = onDismiss) {
-                            Icon(Icons.Rounded.Close, "Закрыть")
+                            Icon(Icons.Rounded.Close, stringResource(R.string.close))
                         }
                     }
                 )
@@ -135,7 +138,7 @@ fun GeneralAiChatDialog(
                                      ) {
                                          Icon(
                                              Icons.Rounded.Settings,
-                                             contentDescription = "Настройки вкладки",
+                                             contentDescription = stringResource(R.string.tab_settings_desc),
                                              modifier = Modifier.size(16.dp)
                                          )
                                      }
@@ -148,6 +151,8 @@ fun GeneralAiChatDialog(
 
                  // Диалог настроек вкладки
                  if (showTabSettingsDialog && selectedTabForSettings != null) {
+                     val newChatTitle = stringResource(R.string.chat_n, tabs.size + 1)
+                     val copySuffix = stringResource(R.string.copy_suffix)
                      TabSettingsDialog(
                          currentTab = selectedTabForSettings!!,
                          tabsCount = tabs.size,
@@ -174,7 +179,7 @@ fun GeneralAiChatDialog(
                          onCreateNew = {
                              val newTab = ChatTab(
                                  id = UUID.randomUUID().toString(),
-                                 name = "Чат ${tabs.size + 1}"
+                                 name = newChatTitle
                              )
                              tabs = tabs + newTab
                              saveChatTabs(context, tabs)
@@ -185,7 +190,7 @@ fun GeneralAiChatDialog(
                          onDuplicate = { tab: ChatTab ->
                              val duplicatedTab = ChatTab(
                                  id = UUID.randomUUID().toString(),
-                                 name = "${tab.name} (копия)"
+                                 name = "${tab.name}$copySuffix"
                              )
                              tabs = tabs + duplicatedTab
                              saveChatTabs(context, tabs)
@@ -251,7 +256,7 @@ fun TabSettingsDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Управление вкладкой \"${currentTab?.name ?: ""}\"") },
+        title = { Text(stringResource(R.string.manage_tab_title, currentTab?.name ?: "")) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 if (currentTab != null) {
@@ -264,7 +269,7 @@ fun TabSettingsDialog(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(Icons.Rounded.Edit, null, modifier = Modifier.size(16.dp))
-                            Text("Переименовать")
+                            Text(stringResource(R.string.rename))
                         }
                     }
 
@@ -277,7 +282,7 @@ fun TabSettingsDialog(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(Icons.Rounded.ContentCopy, null, modifier = Modifier.size(16.dp))
-                            Text("Дублировать")
+                            Text(stringResource(R.string.duplicate))
                         }
                     }
 
@@ -290,7 +295,7 @@ fun TabSettingsDialog(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(Icons.Rounded.FileDownload, null, modifier = Modifier.size(16.dp))
-                            Text("Экспорт истории")
+                            Text(stringResource(R.string.export_history))
                         }
                     }
 
@@ -307,7 +312,7 @@ fun TabSettingsDialog(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(Icons.Rounded.Delete, null, modifier = Modifier.size(16.dp))
-                                Text("Удалить")
+                                Text(stringResource(R.string.delete))
                             }
                         }
                     }
@@ -322,7 +327,7 @@ fun TabSettingsDialog(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(Icons.Rounded.Add, null, modifier = Modifier.size(16.dp))
-                        Text("Новая вкладка")
+                        Text(stringResource(R.string.new_tab))
                     }
                 }
             }
@@ -330,7 +335,7 @@ fun TabSettingsDialog(
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Закрыть")
+                Text(stringResource(R.string.close))
             }
         }
     )
@@ -346,12 +351,12 @@ private fun RenameTabDialog(
     
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Переименовать чат") },
+        title = { Text(stringResource(R.string.rename_chat)) },
         text = {
             OutlinedTextField(
                 value = newName,
                 onValueChange = { newName = it },
-                label = { Text("Название") },
+                label = { Text(stringResource(R.string.name_field)) },
                 singleLine = true
             )
         },
@@ -360,12 +365,12 @@ private fun RenameTabDialog(
                 onClick = { onRename(newName) },
                 enabled = newName.isNotBlank()
             ) {
-                Text("Сохранить")
+                Text(stringResource(R.string.save))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Отмена")
+                Text(stringResource(R.string.cancel))
             }
         }
     )
@@ -380,16 +385,16 @@ private fun loadChatTabs(context: Context): List<ChatTab> {
     return if (json != null) {
         try {
             val type = object : TypeToken<List<ChatTab>>() {}.type
-            val loadedTabs = Gson().fromJson(json, type) ?: getDefaultTabs()
+            val loadedTabs = Gson().fromJson(json, type) ?: getDefaultTabs(context)
             Log.d("GeneralAiChatDialog", "Loaded tabs: ${loadedTabs.size} tabs")
             loadedTabs
         } catch (e: Exception) {
             Log.w("GeneralAiChatDialog", "Failed to load tabs, using defaults: ${e.message}")
-            getDefaultTabs()
+            getDefaultTabs(context)
         }
     } else {
         Log.d("GeneralAiChatDialog", "No saved tabs, using defaults")
-        getDefaultTabs()
+        getDefaultTabs(context)
     }
 }
 
@@ -400,6 +405,6 @@ private fun saveChatTabs(context: Context, tabs: List<ChatTab>) {
     Log.d("GeneralAiChatDialog", "Saved tabs to prefs: ${tabs.size} tabs, json length=${json.length}")
 }
 
-private fun getDefaultTabs() = listOf(
-    ChatTab("default", "Основной чат")
+private fun getDefaultTabs(context: Context) = listOf(
+    ChatTab("default", context.getString(R.string.main_chat))
 )

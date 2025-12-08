@@ -1,6 +1,0 @@
-/sdcard/screen.png: 1 file pulled, 0 skipped. 39.5 MB/s (180703 bytes in 0.004s)
-/sdcard/screen.png: 1 file pulled, 0 skipped. 41.4 MB/s (180703 bytes in 0.004s)
-/sdcard/screen.png: 1 file pulled, 0 skipped. 18.7 MB/s (180994 bytes in 0.009s)
-/sdcard/screen.png: 1 file pulled, 0 skipped. 36.3 MB/s (180994 bytes in 0.005s)
-/sdcard/screen.png: 1 file pulled, 0 skipped. 33.9 MB/s (180994 bytes in 0.005s)
-/sdcard/screen.png: 1 file pulled, 0 skipped. 20.7 MB/s (180994 bytes in 0.008s)

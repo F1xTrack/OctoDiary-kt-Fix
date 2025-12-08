@@ -10,6 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.res.stringResource
+import org.bxkr.octodiary.R
 import org.bxkr.octodiary.DataService
 import org.bxkr.octodiary.models.homeworks2.Homework
 import org.bxkr.octodiary.models.marklistsubject.Mark
@@ -119,11 +121,11 @@ fun HomeworkAiChatDialog(
         // AI отключён - показываем сообщение
         AlertDialog(
             onDismissRequest = onDismiss,
-            title = { Text("AI помощник отключён") },
-            text = { Text("Включите AI помощник в настройках приложения") },
+            title = { Text(stringResource(R.string.ai_helper_disabled)) },
+            text = { Text(stringResource(R.string.enable_ai_helper_hint)) },
             confirmButton = {
                 TextButton(onClick = onDismiss) {
-                    Text("Понятно")
+                    Text(stringResource(R.string.ok))
                 }
             }
         )
@@ -143,7 +145,7 @@ fun HomeworkAiChatDialog(
                 TopAppBar(
                     title = { 
                         Column {
-                            Text("AI помощник")
+                            Text(stringResource(R.string.ai_helper))
                             Text(
                                 homework.subjectName,
                                 style = MaterialTheme.typography.bodySmall,
@@ -153,7 +155,7 @@ fun HomeworkAiChatDialog(
                     },
                     navigationIcon = {
                         IconButton(onClick = onDismiss) {
-                            Icon(Icons.Rounded.Close, "Закрыть")
+                            Icon(Icons.Rounded.Close, stringResource(R.string.close))
                         }
                     }
                 )

@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import org.bxkr.octodiary.R
 import org.bxkr.octodiary.Screen
 import org.bxkr.octodiary.navControllerLive
 
@@ -57,18 +59,18 @@ fun AiQuickAccessCard() {
                         tint = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        "AI Помощник",
+                        stringResource(R.string.ai_helper),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
                 TextButton(onClick = { nav?.navigate(Screen.AiDashboard.route) }) {
-                    Text("Открыть")
+                    Text(stringResource(R.string.open))
                 }
             }
             
             Text(
-                "Умный чат, анализ ДЗ, персональный план, серии",
+                stringResource(R.string.ai_features_description),
                 style = MaterialTheme.typography.bodySmall, // Back to small
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.padding(bottom = 4.dp),
@@ -93,7 +95,7 @@ fun AiQuickAccessCard() {
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Icon(Icons.Rounded.Book, null, Modifier.size(20.dp))
-                        Text("Словарь", style = MaterialTheme.typography.labelSmall)
+                        Text(stringResource(R.string.smart_vocabulary), style = MaterialTheme.typography.labelSmall)
                     }
                 }
                 FilledTonalButton(
@@ -106,7 +108,7 @@ fun AiQuickAccessCard() {
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Icon(Icons.Rounded.Description, null, Modifier.size(20.dp)) // Changed to Description icon
-                        Text("Конспекты", style = MaterialTheme.typography.labelSmall)
+                        Text(stringResource(R.string.lecture_notes), style = MaterialTheme.typography.labelSmall)
                     }
                 }
                 FilledTonalButton(
@@ -119,7 +121,7 @@ fun AiQuickAccessCard() {
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Icon(Icons.Rounded.Dashboard, null, Modifier.size(20.dp))
-                        Text("Сводка", style = MaterialTheme.typography.labelSmall)
+                        Text(stringResource(R.string.ai_dashboard), style = MaterialTheme.typography.labelSmall)
                     }
                 }
             }

@@ -166,6 +166,8 @@
     <string name="documents">Документы</string>
     <string name="representatives">Представители</string>
     <string name="expand">Развернуть</string>
+    <string name="phone_t" translatable="false">+7 %1$s</string>
+    <string name="phone_minimized_t" translatable="false">+7%1$s</string>
     <string name="next_week_homeworks_are_shown">показаны домашние задания на неделю вперёд</string>
     <string name="name_column">имя</string>
     <string name="rating_column">рейтинг</string>
@@ -205,12 +207,16 @@
     <string name="report_issue">Сообщить о проблеме</string>
     <string name="s_till_the_start">%s до начала</string>
     <string name="when_to_go">На учёбу %s в %s</string>
+    <string name="widget_lesson_desc_template" translatable="false">%s: %s - %s</string>
     <string name="widget_name">Состояние учёбы</string>
     <string name="widget_description">Самая важная информация об уроках на главном экране</string>
     <string name="error_occurred">Произошла ошибка!</string>
     <string name="fingerprint">Биометрическая авторизация</string>
-    <string name="no_account_found_please_log_in">Аккаунт не найден\nПожалуйста, авторизуйтесь</string>
+    <string name="no_account_found_please_log_in">Аккаунт не найден
+Пожалуйста, авторизуйтесь</string>
     <string name="today_lowercase">сегодня</string>
+    <string name="offline_mode">Offline mode</string>
+
     <string name="show_mark_value_in_notification">Показывать оценку в уведомлении</string>
     <string name="replacement">Замена</string>
     <string name="common">Общие</string>
@@ -223,6 +229,18 @@
     <string name="appearance_desc">Цветовые темы интерфейса</string>
     <string name="security_desc">Код-пароль и другое</string>
     <string name="about_desc">Разработчики, ссылки</string>
+    <string name="ai_autosolve">AI solving</string>
+    <string name="ai_provider">Provider</string>
+    <string name="ai_api_key">API key</string>
+    <string name="ai_model">Model</string>
+    <string name="ai_base_url">Custom endpoint (OpenAI-compatible)</string>
+    <string name="ai_model_desc">Model description: %1$s</string>
+    <string name="provider_disabled">Disabled</string>
+    <string name="provider_openai">OpenAI</string>
+    <string name="provider_gemini">Gemini</string>
+    <string name="provider_openrouter">OpenRouter</string>
+    <string name="provider_custom">Custom</string>
+
     <string name="show_lesson_numbers">Показывать номера уроков</string>
     <string name="show_only_plan">Скрывать дополнительные события</string>
     <string name="show_only_plan_desc">Оставить только основные уроки</string>
@@ -237,10 +255,18 @@
     <string name="other_octodiary_projects">Другие проекты OctoDiary</string>
     <string name="bot">Телеграм-бот</string>
     <string name="open">Открыть</string>
+    <string name="reshu_oge" translatable="false">РЕШУ ОГЭ</string>
+    <string name="reshu_ege" translatable="false">РЕШУ ЕГЭ</string>
+    <string name="ai_solve">Solve with AI</string>
+    <string name="ai_solution">AI solution</string>
+    <string name="ai_prev_solutions">Previous AI solutions</string>
+    <string name="ai_time_remaining">%1$s s remaining</string>
+
     <string name="bot_description">Уведомления и полезные данные прямо в чатах</string>
     <string name="python_lib">Python-библиотека</string>
     <string name="python_lib_description">Используйте API МЭШ в ваших Python-проектах напрямую</string>
     <string name="developers">Разработчики</string>
+
     <string name="migration">Миграция</string>
     <string name="migration_description">К сожалению, требуется повторная авторизация после обновления. Приносим свои извинения!</string>
     <string name="show_student_id">Показать ID ученика</string>
@@ -253,7 +279,6 @@
     <string name="menu">меню</string>
     <string name="log_in_by_token">Вход по токену</string>
     <string name="token_auth_warning">Авторизация будет активна до истечения срока действия токена</string>
-    <string name="token">Токен</string>
     <string name="invalid_token">Не является JWT токеном!</string>
     <string name="token_description">Система: %s\nАктивен до: %s</string>
     <string name="paste">Вставить</string>
@@ -266,10 +291,14 @@
     <string name="c26_finals_subtitle">Оценки за каждый период и за год</string>
     <string name="c26_widget_title">Виджет</string>
     <string name="c26_widget_subtitle">Показывает текущее состояние учёбы</string>
+    <string name="c26_version_shortname" translatable="false">v2.1.0</string>
+    <string name="c32_version_shortname" translatable="false">v2.1.6</string>
+    <string name="c26_description">• Новый вид расписания
+• Итоговые оценки
+• Виджет состояния учёбы</string>
+    <string name="c32_description">• Поздравляем с новым учебным годом!</string>
     <string name="c26_version_name">Версия 2.1.0</string>
     <string name="c32_version_name">Версия 2.1.6</string>
-    <string name="c26_description">• Новый вид расписания\n• Итоговые оценки\n• Виджет состояния учёбы</string>
-    <string name="c32_description">• Поздравляем с новым учебным годом!</string>
     <string name="back_exit">назад/выйти</string>
     <string name="close">Закрыть</string>
     <string name="background">Фон</string>
@@ -285,7 +314,7 @@
     <string name="mark_calculator">Калькулятор оценок</string>
     <string name="add_mark">Новые оценки</string>
     <string name="help">Помощь</string>
-    <string name="add_mark_help_keyboard">Вводите новые оценки через пробел, для указания веса используйте символ ^, например \"5^2 4 3\"</string>
+    <string name="add_mark_help_keyboard">Вводите новые оценки через пробел, для указания веса используйте символ ^, например "5^2 4 3"</string>
     <string name="remove_non_numeric_marks">Удалите нечисловые оценки</string>
     <string name="buttons">Кнопки</string>
     <string name="keyboard">Клавиатура</string>
@@ -339,4 +368,138 @@
     <string name="balance">Баланс</string>
     <string name="top_up">Пополнение</string>
     <string name="account_number">Лицевой счёт</string>
+    
+    <string name="nfc_card_emulation">NFC Card Emulation</string>
+    <string name="nfc_service_desc">Emulate access card</string>
+    <string name="nfc_aid_group_desc">Access card emulation</string>
+    <string name="nfc_not_available">NFC is not available or disabled on this device</string>
+    <string name="nfc_saved_card">Saved card</string>
+    <string name="nfc_no_card">No card saved. Scan your access card to clone it.</string>
+    <string name="nfc_scan_card">Scan card</string>
+    <string name="nfc_scanning">Scanning… Tap card</string>
+    <string name="nfc_clear_card">Clear saved card</string>
+    <string name="nfc_protected_card">Карта защищена или зашифрована. Эмуляция невозможна.</string>
+    <string name="nfc_scan_instruction">Hold your access card to the back of your phone</string>
+    <string name="nfc_emulation_info">After scanning, your phone will emulate the card when you tap it to a reader. Card emulation works in the background.</string>
+    <string name="general">General</string>
+    <string name="auto_update_enabled">Automatic data update</string>
+    <string name="access">Проход</string>
+    <string name="nfc_enable_instruction">Включите NFC в настройках устройства для сканирования карт</string>
+    <string name="open_nfc_settings">Открыть настройки NFC</string>
+    <string name="nfc_emulation_active">✓ Эмуляция активна. Приложите телефон к считывателю.</string>
+    <string name="nfc_no_card_scan">Карта не сохранена. Отсканируйте карту доступа ниже.</string>
+    <string name="nfc_waiting">Ожидание</string>
+    <string name="nfc_ready">Готово</string>
+    <string name="nfc_cancelled">Отменено</string>
+    <string name="start_destination">Start screen</string>
+    <string name="ai_custom_model">Custom model</string>
+    <string name="ai_custom_model_hint">e.g., gpt-4, claude-3-opus</string>
+
+    <string name="bell_schedule">Расписание звонков</string>
+    <string name="ai_settings_title">Настройки AI</string>
+    <string name="battery_saver">Экономия батареи</string>
+    <string name="accessibility">Специальные возможности</string>
+    <string name="bell_schedule_desc">Уведомления о начале/конце уроков с обратным отсчётом</string>
+    <string name="ai_settings_desc">AI помощник, выбор модели, персональный план</string>
+    <string name="battery_saver_desc">Автоматический режим экономии при низком заряде</string>
+    <string name="accessibility_desc">Режим дислексии, масштаб текста, контрастность</string>
+
+    <string name="schedule_type">Тип расписания</string>
+    <string name="not_selected">Не выбрано</string>
+    <string name="schedule_preview">Превью расписания</string>
+    <string name="and_more_lessons">И ещё %d уроков...</string>
+    <string name="notify_before_lesson">Напоминать перед уроком</string>
+    <string name="notify_before_desc">Уведомление за несколько минут до начала</string>
+    <string name="minutes_before">За сколько минут</string>
+    <string name="minutes_format">%d мин</string>
+    <string name="countdown">Обратный отсчёт</string>
+    <string name="countdown_desc">Показывать постоянное уведомление с таймером</string>
+    <string name="about_bell_schedule">О расписании звонков</string>
+    <string name="about_bell_schedule_desc">Уведомления помогут не опоздать на урок и узнать, сколько времени осталось до конца. Обратный отсчёт показывается в постоянном уведомлении во время урока. Вы можете выбрать один из трёх типов расписания или настроить своё.</string>
+
+    <string name="ai_assistant_title">AI помощник</string>
+    <string name="ai_assistant_desc">Умный чат, анализ ДЗ, персональный план учёбы</string>
+    <string name="local_gguf_model">Локальная GGUF модель</string>
+    <string name="model_selected">Модель выбрана: %s</string>
+    <string name="model_not_selected">Модель не выбрана. Нажмите "Выбрать" для загрузки GGUF файла.</string>
+    <string name="select_file">Выбрать файл</string>
+    <string name="local_inference_warning">⚠️ Локальный инференс работает напрямую на устройстве через llama.cpp. Требуется модель в формате GGUF (рекомендуется Q4_K_M для баланса скорости и качества).</string>
+    <string name="change">Изменить</string>
+    <string name="api_url">API URL</string>
+    <string name="not_set">Не задан</string>
+    <string name="custom_api_url">Кастомный API URL</string>
+    <string name="enter_api_url_hint">Введите полный URL вашего AI API (например, https://api.yourserver.com/v1)</string>
+    <string name="save">Сохранить</string>
+    <string name="api_key_set">API ключ установлен</string>
+    <string name="get_api_key_hint">Получите бесплатный ключ на ai.google.dev</string>
+    <string name="key_prefix">Ключ: %s...</string>
+    <string name="additional">Дополнительно</string>
+    <string name="bed_time_desc">Для составления персонального плана</string>
+    <string name="auto_record">Автозапись уроков</string>
+    <string name="auto_record_desc">Создавать конспекты автоматически (экспериментально)</string>
+    <string name="mic_permission_needed">Для автозаписи уроков требуется разрешение микрофона</string>
+    <string name="about_ai">О AI помощнике</string>
+    <string name="about_ai_desc">AI помощник использует Google Gemini для помощи с домашними заданиями, анализа успеваемости и составления персонального плана учёбы. Все данные обрабатываются через защищённое соединение.</string>
+    <string name="model_name_hint">Например: gemini-2.0-flash-exp, gemini-exp-1206</string>
+
+    <string name="your_stats">Твоя статистика</string>
+    <string name="generate">Сгенерировать</string>
+    <string name="quick_actions">Быстрые действия</string>
+    <string name="dictionary">Словарь</string>
+    <string name="extract_from_textbooks">🔍 Извлечение из учебников</string>
+    <string name="textbook_library">📚 Библиотека учебников</string>
+    <string name="extract_pdf">📄 Извлечь текст из PDF</string>
+    <string name="general_ai_assistant">🤖 Общий AI Помощник</string>
+    <string name="pdf_extracted_success">Текст успешно извлечен и сохранен в базу знаний</string>
+    <string name="pdf_extracted_error">Ошибка при извлечении текста: %s</string>
+    <string name="configure_api_key">Настройте API ключ</string>
+    <string name="api_key_required">Для работы AI требуется API ключ Google Gemini</string>
+
+    <string name="channel_name_bell_schedule">Расписание звонков</string>
+    <string name="channel_desc_bell_schedule">Уведомления о начале и конце уроков</string>
+    <string name="lesson_starts_in">Урок начнётся через %d мин</string>
+    <string name="lesson_info">Урок %d: %s - %s</string>
+    <string name="until_lesson_end">До конца урока %d</string>
+    <string name="until_lesson_start">До начала урока %d</string>
+    <string name="time_remaining_min_sec">%d мин %d сек</string>
+    <string name="time_remaining_sec">%d сек</string>
+
+    <string name="dyslexia_mode">Режим для дислексии</string>
+    <string name="dyslexia_mode_desc">Увеличенный интервал между буквами, жирный текст</string>
+    <string name="text_scale">Масштаб текста</string>
+    <string name="text_scale_desc">От 80% до 150%</string>
+    <string name="bold_text">Жирный текст</string>
+    <string name="bold_text_desc">Увеличенная толщина шрифта для лучшей читаемости</string>
+    <string name="high_contrast">Высокая контрастность</string>
+    <string name="high_contrast_desc">Усиленный контраст цветов</string>
+    <string name="simplified_nav">Упрощенная навигация</string>
+    <string name="simplified_nav_desc">Крупные элементы управления, меньше деталей</string>
+    <string name="large_buttons">Увеличенные кнопки</string>
+    <string name="large_buttons_desc">Большие области нажатия для удобства</string>
+    <string name="about_accessibility">О специальных возможностях</string>
+    <string name="about_accessibility_desc">Эти настройки помогают сделать приложение удобнее для людей с особенностями зрения, дислексией и другими потребностями. Все изменения применяются сразу после перезапуска приложения.</string>
+
+    <string name="current_battery">Текущий заряд</string>
+    <string name="charging">Зарядка...</string>
+    <string name="battery_saver_active">Режим экономии активен</string>
+    <string name="normal_mode">Нормальный режим</string>
+    <string name="auto_battery_saver">Автоматический режим экономии</string>
+    <string name="auto_battery_saver_desc">Включать при низком заряде батареи</string>
+    <string name="threshold">Порог включения</string>
+    <string name="battery_saver_threshold_desc">Режим экономии включится автоматически при заряде ниже %d%%</string>
+    <string name="battery_saver_actions">Действия в режиме экономии</string>
+    <string name="reduce_animations">Упрощать анимации</string>
+    <string name="reduce_animations_desc">Уменьшить или отключить анимации переходов</string>
+    <string name="force_dark_theme">Принудительная тёмная тема</string>
+    <string name="force_dark_theme_desc">OLED экраны потребляют меньше энергии в темной теме</string>
+    <string name="reduce_sync">Уменьшить частоту синхронизации</string>
+    <string name="reduce_sync_desc">Реже обновлять данные с сервера</string>
+    <string name="auto_update">Автоматическое обновление</string>
+    <string name="min_battery">Мин. уровень батареи</string>
+    <string name="wifi_only">Только по Wi-Fi</string>
+    <string name="wifi_only_desc">Обновлять данные только при подключении к Wi-Fi</string>
+    <string name="charging_only">Только при зарядке</string>
+    <string name="charging_only_desc">Обновлять данные только во время зарядки устройства</string>
+    <string name="about_battery_saver">О режиме экономии</string>
+    <string name="about_battery_saver_desc">Режим экономии батареи автоматически активируется при низком заряде. Он упрощает интерфейс и снижает фоновую активность для продления времени работы устройства. Режим отключится автоматически при зарядке выше %d%%.</string>
 </resources>

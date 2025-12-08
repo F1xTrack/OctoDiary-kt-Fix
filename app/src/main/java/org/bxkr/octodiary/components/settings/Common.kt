@@ -1,5 +1,6 @@
 package org.bxkr.octodiary.components.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -107,7 +109,8 @@ fun Common() {
                                 selected.value = section.route
                                 context.mainPrefs.save("start_destination" to section.route)
                             }
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .background(if (selected.value == section.route) MaterialTheme.colorScheme.primaryContainer else Color.Transparent), // Добавляем фон
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(

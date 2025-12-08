@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.bxkr.octodiary.LocalActivity
 import org.bxkr.octodiary.components.SwitchPreference
@@ -60,7 +61,7 @@ fun BellScheduleSettings() {
         
         // Заголовок
         Text(
-            "Расписание звонков",
+            stringResource(org.bxkr.octodiary.R.string.bell_schedule),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -68,8 +69,8 @@ fun BellScheduleSettings() {
         
         // Включение расписания
         SwitchPreference(
-            title = "Расписание звонков",
-            description = "Уведомления о начале и конце уроков с обратным отсчётом",
+            title = stringResource(org.bxkr.octodiary.R.string.bell_schedule),
+            description = stringResource(org.bxkr.octodiary.R.string.bell_schedule_desc),
             listenState = bellScheduleEnabled
         ) {
             bellScheduleEnabled.value = it
@@ -87,7 +88,7 @@ fun BellScheduleSettings() {
                 
                 // Тип расписания
                 Text(
-                    "Тип расписания",
+                    stringResource(org.bxkr.octodiary.R.string.schedule_type),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
@@ -100,7 +101,7 @@ fun BellScheduleSettings() {
                         .padding(horizontal = 16.dp)
                 ) {
                     OutlinedTextField(
-                        value = scheduleTypes.find { it.first == scheduleType.value }?.second ?: "Не выбрано",
+                        value = scheduleTypes.find { it.first == scheduleType.value }?.second ?: stringResource(org.bxkr.octodiary.R.string.not_selected),
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = scheduleExpanded) },
@@ -159,7 +160,7 @@ fun BellScheduleSettings() {
                 ) {
                     Column(Modifier.padding(16.dp)) {
                         Text(
-                            "Превью расписания",
+                            stringResource(org.bxkr.octodiary.R.string.schedule_preview),
                             style = MaterialTheme.typography.titleSmall
                         )
                         Spacer(Modifier.height(8.dp))
@@ -196,7 +197,7 @@ fun BellScheduleSettings() {
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    "${lesson.lessonNumber} урок",
+                                    stringResource(org.bxkr.octodiary.R.string.lesson_n, lesson.lessonNumber.toString()),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Text(
@@ -209,7 +210,7 @@ fun BellScheduleSettings() {
                         
                         if (schedule.size > 4) {
                             Text(
-                                "И ещё ${schedule.size - 4} уроков...",
+                                stringResource(org.bxkr.octodiary.R.string.and_more_lessons, schedule.size - 4),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                                 modifier = Modifier.padding(top = 4.dp)
@@ -222,14 +223,14 @@ fun BellScheduleSettings() {
                 
                 // Настройки уведомлений
                 Text(
-                    "Уведомления",
+                    stringResource(org.bxkr.octodiary.R.string.notifications),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
                 
                 SwitchPreference(
-                    title = "Напоминать перед уроком",
-                    description = "Уведомление за несколько минут до начала",
+                    title = stringResource(org.bxkr.octodiary.R.string.notify_before_lesson),
+                    description = stringResource(org.bxkr.octodiary.R.string.notify_before_desc),
                     listenState = notifyBefore
                 ) {
                     notifyBefore.value = it
@@ -243,11 +244,11 @@ fun BellScheduleSettings() {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                "За сколько минут",
+                                stringResource(org.bxkr.octodiary.R.string.minutes_before),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                             Text(
-                                "${minutesBefore.intValue} мин",
+                                stringResource(org.bxkr.octodiary.R.string.minutes_format, minutesBefore.intValue),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.primary
                             )
@@ -267,8 +268,8 @@ fun BellScheduleSettings() {
                 }
                 
                 SwitchPreference(
-                    title = "Обратный отсчёт",
-                    description = "Показывать постоянное уведомление с таймером",
+                    title = stringResource(org.bxkr.octodiary.R.string.countdown),
+                    description = stringResource(org.bxkr.octodiary.R.string.countdown_desc),
                     listenState = showCountdown
                 ) {
                     showCountdown.value = it
@@ -299,15 +300,13 @@ fun BellScheduleSettings() {
                         )
                         Column {
                             Text(
-                                "О расписании звонков",
+                                stringResource(org.bxkr.octodiary.R.string.about_bell_schedule),
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.primary
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
-                                "Уведомления помогут не опоздать на урок и узнать, сколько времени осталось до конца. " +
-                                "Обратный отсчёт показывается в постоянном уведомлении во время урока. " +
-                                "Вы можете выбрать один из трёх типов расписания или настроить своё.",
+                                stringResource(org.bxkr.octodiary.R.string.about_bell_schedule_desc),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                             )
