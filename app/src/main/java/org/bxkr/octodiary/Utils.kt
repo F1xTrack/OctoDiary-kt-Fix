@@ -268,8 +268,7 @@ inline fun <reified T> Call<T>.extendedEnqueue(
 
 fun DataService.baseErrorFunction(errorBody: ResponseBody, httpCode: Int, className: String?) {
     // AuthInterceptor теперь обрабатывает 401 и обновляет, нет необходимости вызывать tokenExpirationHandler здесь
-    // For 403, if token is valid but permission is denied, it's a different kind of error.
-    // For now, let's just log all errors not handled by AuthInterceptor.
+    // Если 403 если токен валидный, но доступ запрещён.
     println("Error in $className: ${errorBody.string()}")
 }
 
@@ -278,64 +277,64 @@ fun DataService.baseInternalExceptionFunction(t: Throwable, className: String?) 
     loadingStarted = false
 }
 
-/** Formats [Date] to yyyy-MM-dd format [String] **/
+/** Форматирует [Date] в yyyy-MM-dd формат [String] **/
 fun Date.formatToDay(): String = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT).format(this)
 
-/** Parses yyyy-MM-dd format [String] to [Date] **/
+/** Парсит yyyy-MM-dd формат [String] в [Date] **/
 fun String.parseFromDay(): Date = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT).parse(this)!!
 
-/** Formats [Date] to d MMMM format [String] **/
+/** Форматирует [Date] в d MMMM формат [String] **/
 @ReadOnlyComposable
 @Composable
 fun Date.formatToHumanDay(): String =
     SimpleDateFormat("d MMMM", LocalConfiguration.current.locales[0]).format(this)
 
-/** Formats [Date] to dd MMMM format [String] **/
+/** Форматирует [Date] в dd MMMM формат [String] **/
 @ReadOnlyComposable
 @Composable
 fun Date.formatToLongHumanDay(includeYear: Boolean = true): String =
     SimpleDateFormat("dd MMMM" + if (includeYear) " yyyy" else "", LocalConfiguration.current.locales[0]).format(this)
 
-/** Formats [Date] to dd.MM.yyyy format [String] **/
+/** Форматирует [Date] в dd.MM.yyyy формат [String] **/
 @ReadOnlyComposable
 @Composable
 fun Date.formatToHumanDate(): String =
     SimpleDateFormat("dd.MM.yyyy", LocalConfiguration.current.locales[0]).format(this)
 
-/** Formats [Date] to EEEE format [String] (takes context from composition) **/
+/** Форматирует [Date] в EEEE format [String] (берёт контекст из композиции) **/
 @ReadOnlyComposable
 @Composable
 fun Date.formatToWeekday(): String =
     SimpleDateFormat("EEEE", LocalConfiguration.current.locales[0]).format(this)
 
-/** Formats [Date] to EEEE format [String] (takes context as an argument) **/
+/** Форматирует [Date] в EEEE format [String] (берёт контекст за аргумент) **/
 fun Date.formatToWeekday(ctx: Context): String =
     SimpleDateFormat("EEEE", ctx.resources.configuration.locales[0]).format(this)
 
-/** Parses [String] of [OffsetDateTime] (very long with TZ) to [Date] **/
+/** Парсит [String] из [OffsetDateTime] (очень длинное с TZ) в [Date] **/
 fun String.parseLongDate(): Date =
     OffsetDateTime.parse(this).toInstant().toEpochMilli().let { Date(it) }
 
-/** Parses [String] of long date without TZ to [Date] **/
+/** Парсит [String] длинной даты без TZ в [Date] **/
 fun String.parseSimpleLongDate(): Date =
     SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ROOT).parse(this)!!
 
-/** Formats [Date] to human time [String] **/
+/** Форматирует [Date] в человеческое время [String] **/
 fun Date.formatToTime(): String = SimpleDateFormat("HH:mm", Locale.ROOT).format(this)
 
-/** Formats [Date] to human date [String] **/
+/** Форматирует [Date] в человеческую дату [String] **/
 @ReadOnlyComposable
 @Composable
 fun Date.formatToLongHumanDate(): String =
     SimpleDateFormat("d MMMM yyyy H:mm", LocalConfiguration.current.locales[0]).format(this)
 
-/** Formats [Date] to human date [String] without time **/
+/** Форматирует [Date] в человеческую дату [String] без времени **/
 @ReadOnlyComposable
 @Composable
 fun Date.formatToLongHumanDateNoTime(): String =
     SimpleDateFormat("d MMMM yyyy", LocalConfiguration.current.locales[0]).format(this)
 
-/** Formats [Date] to human date [String] with joiner **/
+/** Форматирует [Date] в человеческую дату [String] с joiner **/
 @ReadOnlyComposable
 @Composable
 fun Date.formatToLongHumanDate(joiner: String): String =
@@ -343,7 +342,7 @@ fun Date.formatToLongHumanDate(joiner: String): String =
         this
     )
 
-/** Parses [String] of long date without TZ and then formats it to human date [String] **/
+/** Парсит [String] из длинной даты без TZ, а потом форматирует в человеческую дату [String] **/
 @ReadOnlyComposable
 @Composable
 fun parseSimpleLongAndFormatToLong(toFormat: String, joiner: String): String =
