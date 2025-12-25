@@ -1,5 +1,5 @@
-## API Description
-Explanation of an API of Moscow Electronic School and its regional implementations.
+## API МЭШ
+Объяснение работы МЭШ и МояШкола API
 ### API Paths
 |Method|HTTP|`mos.ru`|`mosreg.ru`|Common path|Spec link|
 |--|--|--|--|--|--|
