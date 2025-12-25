@@ -56,9 +56,3 @@ OctoDiary — это многокомпонентная система, разр
 *   [`screens/navsections/homeworks/`](app/src/main/java/org/bxkr/octodiary/screens/navsections/homeworks/) — список домашних заданий и экран `HomeworkDetailScreen`.
 *   [`DataService.kt`](app/src/main/java/org/bxkr/octodiary/DataService.kt) — загрузка данных, кэширование и бизнес-операции.
 *   [`NetworkService.kt`](app/src/main/java/org/bxkr/octodiary/network/NetworkService.kt) — конструкторы API Retrofit.
-
-## Лицензии и торговые марки
-
-## Копилефт
-
-Google Play и логотип Google Play являются товарными знаками корпорации Google LLC.
