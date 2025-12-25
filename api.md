@@ -1,7 +1,7 @@
 ## API МЭШ
 Объяснение работы МЭШ и МояШкола API
-### API Paths
-|Method|HTTP|`mos.ru`|`mosreg.ru`|Common path|Spec link|
+### Пути API
+|Метод|HTTP|`mos.ru`|`mosreg.ru`|Путь|Спец ссылка|
 |--|--|--|--|--|--|
 |userId|![get]|dnevnik|myschool|`/acl/api/users/profile_info`|[![rsp]][rsp.userId][![rq]][rq.userId]|
 |sessionUser|![post]|school|myschool|`/lms/api/sessions`|[![rsp]][rsp.sessionUser][![rq]][rq.sessionUser]|
@@ -16,7 +16,7 @@
 |mealBalance|![get]|dnevnik|*|`/api/meals/v1/clients`|[![rsp]][rsp.mealBalance][![rq]][rq.mealBalance]|
 |schoolInfo|![get]|school/api|api.myschool|`/family/mobile/v1/schoolInfo`|[![rsp]][rsp.schoolInfo][![rq]][rq.schoolInfo]|
 
-_\* \- unavailable in this region_
+_\* \- недоступно в данном регионе_
 
 [rsp]: https://img.shields.io/badge/rsp-important?style=for-the-badge
 [rq]: https://img.shields.io/badge/rq-informational?style=for-the-badge
