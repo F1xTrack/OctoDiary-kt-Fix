@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.delay
 
 /**
- * Решение задания от AI
+ * Решение задания от ИИ
  */
 data class AiTaskSolution(
     @SerializedName("short_solution")
@@ -50,12 +50,12 @@ data class TaskStep(
 )
 
 /**
- * Сервис автоматического решения заданий через AI
+ * Сервис авторешения заданий через ИИ
  */
 object AiTaskSolver {
     
     /**
-     * Получить решение задания от AI на основе скриншота
+     * Получить решение задания от ИИ на основе скриншота
      */
     suspend fun solveTaskFromScreenshot(
         context: Context,
@@ -98,7 +98,7 @@ object AiTaskSolver {
     }
     
     /**
-     * Получить решение задания от AI (устаревший метод)
+     * Получить решение задания от ИИ (устаревший метод)
      */
     suspend fun solveTask(
         context: Context,
@@ -108,7 +108,7 @@ object AiTaskSolver {
         return try {
             val prompt = buildPrompt(taskUrl, taskContent)
             
-            // Отправляем запрос к AI
+            // Отправляем запрос к ИИ
             val result = GeminiService.sendMessage(context, prompt)
             
             result.mapCatching { response ->
@@ -130,7 +130,7 @@ object AiTaskSolver {
     }
     
     /**
-     * Построить промпт для AI на основе скриншота
+     * Построить промпт для ИИ на основе скриншота
      */
     private fun buildPromptForScreenshot(taskUrl: String, width: Int, height: Int): String {
         return """
@@ -142,7 +142,7 @@ object AiTaskSolver {
             
             **Твоя задача**:
             1. Проанализируй ВЕСЬ видимый контент на скриншоте
-            2. Найди ВСЕ поля ввода, кнопки, чекбоксы, радиокнопки на ТЕКУЩЕЙ видимой части
+            2. Найди ВСЕ поля ввода, кнопки, чекбоксы, радиокнопки и подобное на ТЕКУЩЕЙ видимой части
             3. Определи ТОЧНЫЕ координаты (X, Y) ЦЕНТРА каждого элемента
             4. Для КАЖДОГО поля ввода создай ДВА действия: TAP (клик) → INPUT (ввод текста)
             5. **КРИТИЧЕСКИ ВАЖНО**: После ответа на видимые вопросы ОБЯЗАТЕЛЬНО добавь SCROLL вниз
@@ -150,7 +150,7 @@ object AiTaskSolver {
             7. В конце найди и нажми кнопку "Отправить" / "Сохранить" / "Далее"
             
             Верни результат строго в формате JSON:
-            ```json
+            ```
             {
               "short_solution": "Задача 1: 42, Задача 2: ответ, Задача 3: выбран вариант А",
               "detailed_solution": "Задача 1: правильный ответ 42, потому что... Задача 2: ответ, потому что...",
@@ -186,7 +186,7 @@ object AiTaskSolver {
             - КАЖДОЕ поле ввода = 2 действия: tap + input
             - Координаты tap и input ОДИНАКОВЫЕ
             - Между разными полями можно добавить scroll если нужно
-            - В конце обязательно нажать кнопку "Отправить" / "Сохранить"
+            - В конце обязательно нажать кнопку "Отправить" / "Сохранить" / "Ответить"
             
             **ФОРМАТ ПОЛЕЙ**:
             - tap: только "action", "x", "y" (без selector, value, duration)
@@ -242,7 +242,7 @@ object AiTaskSolver {
             **Пример решения длинной страницы**:
             
             Итерация 1 (видим вопросы 1-2, нужен scroll):
-            ```json
+            ```
             {
               "short_solution": "Задача 1: ответ1, Задача 2: ответ2",
               "steps": [
@@ -258,7 +258,7 @@ object AiTaskSolver {
             ```
             
             Итерация 2 (после scroll, видим вопросы 3-4):
-            ```json
+            ```
             {
               "short_solution": "Задача 3: ответ3, Задача 4: ответ4",
               "steps": [
@@ -274,7 +274,7 @@ object AiTaskSolver {
             ```
             
             Итерация 3 (финальная проверка и отправка):
-            ```json
+            ```
             {
               "short_solution": "Проверка: все ответы на месте",
               "steps": [
@@ -315,7 +315,7 @@ object AiTaskSolver {
     }
     
     /**
-     * Построить промпт для AI (устаревший метод)
+     * Построить промпт для ИИ (устаревший метод)
      */
     private fun buildPrompt(taskUrl: String, taskContent: String): String {
         return """
@@ -328,7 +328,7 @@ object AiTaskSolver {
             **ВАЖНО**: Проанализируй HTML код выше и найди РЕАЛЬНЫЕ CSS селекторы элементов (input, button, radio, checkbox и т.д.)
             
             Верни результат строго в формате JSON:
-            ```json
+            ```
             {
               "short_solution": "Ответы: 1-A, 2-B, 3-C",
               "detailed_solution": "1. Вопрос 1: правильный ответ A, потому что...",
@@ -446,7 +446,7 @@ object AiTaskSolver {
                 "tap" -> {
                     if (step.x != null && step.y != null) {
                         // НАСТОЯЩИЙ клик по координатам через MotionEvent (как автокликер)
-                        Log.d("AiTaskSolver", "Tap по координатам: (${step.x}, ${step.y})")
+                        Log.d("AiTaskSolver", "Тап по координатам: (${step.x}, ${step.y})")
                         
                         val downTime = android.os.SystemClock.uptimeMillis()
                         val eventTime = android.os.SystemClock.uptimeMillis()
