@@ -294,11 +294,11 @@ object DataService {
                     return@launch
                 }
             }
-            if (profile.value?.children.isNullOrEmpty()) { // Check if profile is initialized
+            if (profile.value?.children.isNullOrEmpty()) { // Проверка инициализации профиля
                 onUpdated()
                 return@launch
             }
-            val studentId = profile.value?.children?.get(currentProfile.value)?.studentId // Add studentId here
+            val studentId = profile.value?.children?.get(currentProfile.value)?.studentId // Добавляет studentId
             if (studentId == null) {
                 onUpdated()
                 return@launch
@@ -603,7 +603,7 @@ object DataService {
                 onUpdated()
                 return@launch
             }
-            val contractId = profile.value?.children?.get(currentProfile.value)?.contractId ?: 0 // handle null properly
+            val contractId = profile.value?.children?.get(currentProfile.value)?.contractId ?: 0 // держит null
             if (contractId == 0L) {
                  onUpdated()
                  return@launch
@@ -665,7 +665,7 @@ object DataService {
                     return@launch
                 }
             }
-            if (profile.value?.children.isNullOrEmpty()) { // Check if profile is initialized
+            if (profile.value?.children.isNullOrEmpty()) { // Проверка инициализации профиля
                 onUpdated()
                 return@launch
             }
@@ -1479,3 +1479,10 @@ object DataService {
             ).bufferedReader(Charsets.UTF_8).use { it.readText() }
         }
 }
+
+
+
+
+
+
+// ААААААААА ПАСХАЛКА ПАСХАЛКА ПАСХАЛОЧКАААААААА
