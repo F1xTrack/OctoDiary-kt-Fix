@@ -152,12 +152,11 @@ class MainActivity : FragmentActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         // Обработка изменения ориентации экрана
-        // При необходимости можно добавить логику для адаптации UI
     }
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Временный отладочный Toast для проверки запуска активности
+        // Временный отладочный Toast для проверки запуска Main Activity
         android.widget.Toast.makeText(
             this,
             "MainActivity.onCreate() - Debug Check",
@@ -192,13 +191,13 @@ class MainActivity : FragmentActivity() {
         // Запускаем MCP Server Service
         startService(Intent(this, McpServerService::class.java))
 
-        // Запускаем автоматическую запись лекций если включена в настройках
+        // Запускаем автоматическую запись уроков если включена в настройках
         val aiPrefs = getSharedPreferences("ai_prefs", Context.MODE_PRIVATE)
         if (aiPrefs.getBoolean("auto_record_lectures", false)) {
             org.bxkr.octodiary.audio.AutomaticLectureRecordingService.startAutomaticRecording(this)
         }
 
-        // Запускаем сервис автоматического обновления данных, если включено в настройках
+        // Запускаем сервис автообновления данных, если включено в настройках
         if (mainPrefs.get<Boolean>("auto_update_enabled") != false) {
             startService(Intent(this, AutoUpdateService::class.java))
         }
@@ -220,8 +219,8 @@ class MainActivity : FragmentActivity() {
             val colorScheme by colorSchemeLive.collectAsState(-1)
             val darkTheme by darkThemeLive.collectAsState(isSystemInDarkTheme())
             /**
-             * When `colorScheme == -1`, it uses dynamic colors **if available**.
-             * If not, it uses default (yellow).
+             * Когда `colorScheme == -1`, использует динамические цвета, **если доступны**.
+             * Если нет, использует по умолчанию (жёлтый).
              **/
             val themeStartTime = System.currentTimeMillis()
             val animationStartTime = System.currentTimeMillis()
@@ -347,7 +346,7 @@ class MainActivity : FragmentActivity() {
             Log.d("Performance", "Optimized navigation listener removed - using derivedStateOf instead")
         }
 
-        // var localLoadedState by remember { mutableStateOf(false) }
+        // var localLoadedState от remember { mutableStateOf(false) }
         var settingsShown by remember { mutableStateOf(false) }
 
         val intentData = intent.dataString
