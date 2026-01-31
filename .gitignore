@@ -57,3 +57,17 @@ yarn.lock
 /.cache/
 /.turbo/
 .vscode-test/
+.gemini/
+gha-creds-*.json
+
+# Local Environment & Tools
+android_sdk/
+.vs/
+temp_downloads/
+GEMINI.md
+
+# Logs
+endpoint_test_results.log
+logcat_dump.txt
+emulator_out.log
+emulator_err.log

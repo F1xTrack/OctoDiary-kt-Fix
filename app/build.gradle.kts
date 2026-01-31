@@ -7,14 +7,14 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-val gitLatestCommit: String = ByteArrayOutputStream().use { outputStream ->
-    project.exec {
-        executable("git")
-        args("log", "--oneline", "-1", "--format=format:%h", ".")
-        standardOutput = outputStream
-    }
-    outputStream.toString()
-}
+// val gitLatestCommit: String = ByteArrayOutputStream().use { outputStream ->
+//     project.exec {
+//         executable("git")
+//         args("log", "--oneline", "-1", "--format=format:%h", ".")
+//         standardOutput = outputStream
+//     }
+//     outputStream.toString()
+// }
 
 android {
     namespace = "org.bxkr.octodiary"
@@ -26,7 +26,7 @@ android {
         targetSdk = 35
         versionCode = 32
         versionName = "2.1.6"
-        archivesName = gitLatestCommit
+        archivesName = "octodiary-debug"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
